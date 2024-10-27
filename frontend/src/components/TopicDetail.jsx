@@ -1,23 +1,23 @@
 // TopicDetail.jsx
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useParams } from 'react-router-dom'; // Import useParams to access URL parameters
+import axiosInstance from '../service/axiosInstance';
+import { useParams } from 'react-router-dom'; 
 
 const TopicDetail = () => {
-  const { topicId } = useParams(); // Get the topic ID from the URL
+  const { id } = useParams();
   const [topic, setTopic] = useState(null);
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/api/v1/topics/${topicId}`)
+    axiosInstance.get(`/topics/${id}`)
       .then(response => {
         setTopic(response.data);
       })
       .catch(error => {
         console.error('Error fetching topic details:', error);
       });
-  }, [topicId]); // Dependency array includes topicId to refetch if it changes
+  }, [id]);
 
-  if (!topic) return <div>Loading...</div>; // Handle loading state
+  if (!topic) return <div>Topic not found</div>; 
 
   return (
     <div>

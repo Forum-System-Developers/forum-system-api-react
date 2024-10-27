@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link } from 'react-router-dom';
 import './topics.css';
 
 const Topics = () => {
@@ -18,7 +18,6 @@ const Topics = () => {
 
   return (
     <div>
-      <h1>Topics</h1>
       <ul>
         {topics.map((topic) => (
           <li key={topic.id}>
