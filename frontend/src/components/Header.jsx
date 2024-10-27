@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import UserDropdown from './UserDropdown';
+import Search from './Search';
 
 const Header = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -11,13 +12,7 @@ const Header = () => {
     return (
         <header className="header">
             <button className="home-button">Home</button>
-            <input
-                type="text"
-                placeholder="Search..."
-                value={searchTerm}
-                onChange={handleSearchChange}
-                className="search-bar"
-            />
+            <Search />
             <UserDropdown />
         </header>
     );

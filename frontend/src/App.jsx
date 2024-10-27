@@ -36,6 +36,9 @@ import React from 'react';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import Topics from './components/Topics';
+import CategoryDetail from './components/CategoryDetail';
+import Login from './components/login';
+import TopicDetail from './components/TopicDetail';
 import './App.css'; 
 
 const App = () => {
@@ -45,10 +48,12 @@ const App = () => {
             <div className="main-content">
                 <Sidebar />
                 <Routes>
-                    {/* <Route path="/topic/:id" component={Topics} /> Route for individual topic */}
                     <Route path="/" exact>
                       {/* Topics Route */}
                       <Route path="/" element={<Topics />} />
+                      <Route path='/login' element={<Login />} />
+                      <Route path="/category/:id" element={<CategoryDetail />} />
+                      <Route path="/topic/:id" element={<TopicDetail />} />
                     </Route>
                 </Routes>
             </div>

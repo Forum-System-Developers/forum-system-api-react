@@ -17,24 +17,12 @@ const Topics = () => {
             })
     }, []);
 
-//     return (
-//         <main className="topics">
-//             <h2>Topics</h2>
-//             <ul>
-//                 {topics.map(topic => (
-//                     <li key={topic.id}>{topic.title}</li>
-//                 ))}
-//             </ul>
-//         </main>
-//     );
-// };
-
         return (
             <div className='topics'>
             <ul>
                 {topics.map((topic) => (
                 <li key={topic.id}>
-                    <Link to={`/topic/${topic.id}`}> {/* Link to the topic detail page */}
+                    <Link to={`/topic/${topic.id}`}>
                     <h2>{topic.title}</h2>
                     </Link>
                     <ul>
