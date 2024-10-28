@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import "./topics.css";
+// import './topics.css';
 
-const Topics = () => {
+const HomeElement = () => {
   const [topics, setTopics] = useState([]);
 
   useEffect(() => {
@@ -18,13 +18,11 @@ const Topics = () => {
   }, []);
 
   return (
-    <div>
+    <div className="topics">
       <ul>
         {topics.map((topic) => (
           <li key={topic.id}>
             <Link to={`/topic/${topic.id}`}>
-              {" "}
-              {/* Link to the topic detail page */}
               <h2>{topic.title}</h2>
             </Link>
             <ul>
@@ -39,4 +37,4 @@ const Topics = () => {
   );
 };
 
-export default Topics;
+export default HomeElement;

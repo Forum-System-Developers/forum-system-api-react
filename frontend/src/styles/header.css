@@ -1,0 +1,140 @@
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: linear-gradient(to right, #a28a08, #108b7b, #0a4f4d); 
+    height: 60px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+
+}
+
+.header ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+}
+
+.header li {
+    position: relative;
+}
+
+.tooltip-text,
+.tooltip-text-category,
+.tooltip-text-user {
+    visibility: hidden;
+    position: absolute;
+    bottom: -23px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 10;
+}
+
+.home-button:hover .tooltip-text,
+.categories-button:hover .tooltip-text-category,
+.user-button:hover .tooltip-text-user {
+    visibility: visible;
+}
+
+.home-button,
+.categories-button,
+.user-button {
+    color: white;
+    background-color: transparent;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: color 0.3s;
+    background: none;
+    border: none;
+    cursor: pointer;    
+    position: relative;
+}
+
+.home-button:hover,
+.categories-button:hover {
+    color: #ffd700;
+}
+.user-button:hover {
+    color: #4387a0;
+}
+
+.search-bar {
+    flex-grow: 1;
+    max-width: 300px;
+    margin: 0 20px;
+}
+
+
+.user-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+
+.dropdown-menu {
+    display: flex;
+    gap: 10px;
+    background-color: #fff;
+    padding: 8px;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    z-index: 1000;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 8px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    position: relative;
+}
+
+.dropdown-item:hover {
+    background-color: #f0f0f0;
+}
+
+.dropdown-item[title]::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%; 
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    font-size: 12px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease;
+    margin-bottom: 6px;
+}
+
+.dropdown-item:hover[title]::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+.dropdown-item .MuiSvgIcon-root {
+    font-size: 1.1rem; 
+}
