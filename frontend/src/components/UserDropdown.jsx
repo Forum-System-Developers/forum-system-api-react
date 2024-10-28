@@ -9,7 +9,6 @@ const UserDropdown = () => {
 
     const handleLogout = () => {
         console.log("Logout clicked");
-        // Add logout functionality here
     };
 
     return (
@@ -17,7 +16,7 @@ const UserDropdown = () => {
             <button onClick={toggleDropdown}>User</button>
             {isOpen && (
                 <div className="dropdown-menu">
-                    <div>Messages</div>
+                    <button>Messages</button>
                     <button onClick={handleLogout}>Logout</button>
                 </div>
             )}

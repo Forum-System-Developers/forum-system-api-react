@@ -29,7 +29,7 @@ def create_category(
     user: User = Depends(require_admin_role),
 ) -> CategoryResponse:
     return category_service.create_category(data, db)
- 
+
 
 @category_router.get(
         "/", 

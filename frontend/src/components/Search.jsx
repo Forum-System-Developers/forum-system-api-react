@@ -64,7 +64,12 @@ export default function FreeSoloCreateOption() {
       sx={{ width: 300 }}
       freeSolo
       renderInput={(params) => (
-        <TextField {...params} label="Search categories" />
+        <TextField {...params} label="Search categories" 
+          sx= {{ 
+            borderRadius: '45px',
+            marginLeft: '3.5vh',
+          }}
+        />
       )}
     />
   );
