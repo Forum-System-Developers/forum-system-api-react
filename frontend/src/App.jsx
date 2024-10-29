@@ -1,5 +1,12 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+  useNavigate,
+  Navigate,
+} from "react-router-dom";
+import React, { useEffect } from "react";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import Topics from "./components/Home";
@@ -21,7 +28,7 @@ const App = () => {
           <Route path="/" element={<HomeElement />} exact />
           <Route path="/topics/public" element={<HomeElement />} />
           <Route path="/categories" element={<Categories />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<ProtectedLogin />} />
           <Route path="/register" element={<Register />} />
           <Route path="/category/:id" element={<CategoryDetail />} />
           <Route path="/topic/:id" element={<TopicDetail />} />
@@ -29,6 +36,23 @@ const App = () => {
       </div>
     </div>
   );
+};
+
+const isAuthenticated = () => {
+  return localStorage.getItem("token") !== null;
+};
+
+const ProtectedLogin = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (isAuthenticated()) {
+      navigate("/", { replace: true });
+    }
+  }, [navigate]);
+
+  return !isAuthenticated() ? <Login /> : null;
 };
 
 export default App;
