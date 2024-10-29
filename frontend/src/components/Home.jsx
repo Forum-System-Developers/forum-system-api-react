@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-// import './topics.css';
+import "../styles/Home.css";
 
 const HomeElement = () => {
   const [topics, setTopics] = useState([]);
@@ -18,21 +18,23 @@ const HomeElement = () => {
   }, []);
 
   return (
-    <div className="topics">
-      <ul>
-        {topics.map((topic) => (
-          <li key={topic.id}>
-            <Link to={`/topic/${topic.id}`}>
-              <h2>{topic.title}</h2>
-            </Link>
-            <ul>
-              {topic.replies.map((reply) => (
-                <li key={reply.id}>{reply.content}</li>
-              ))}
-            </ul>
-          </li>
-        ))}
-      </ul>
+    <div className="home-container">
+      <div className="topics">
+        <ul>
+          {topics.map((topic) => (
+            <li key={topic.id}>
+              <Link to={`/topic/${topic.id}`}>
+                <h2>{topic.title}</h2>
+              </Link>
+              <ul>
+                {topic.replies.map((reply) => (
+                  <li key={reply.id}>{reply.content}</li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

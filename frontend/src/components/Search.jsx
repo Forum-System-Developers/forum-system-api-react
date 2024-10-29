@@ -1,5 +1,7 @@
 import * as React from "react";
 import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
+import SearchIcon from "@mui/icons-material/Search";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -28,13 +30,11 @@ export default function FreeSoloCreateOption() {
       value={value}
       onChange={(event, newValue) => {
         if (newValue && typeof newValue !== "string" && newValue.id) {
-          // Navigate to the selected category by ID
           navigate(`/category/${newValue.id}`);
         }
         setValue(newValue);
       }}
       filterOptions={(options, params) => {
-        // Only filter existing options, don't add a new option
         return filter(options, params);
       }}
       selectOnFocus
@@ -43,15 +43,9 @@ export default function FreeSoloCreateOption() {
       id="free-solo-with-text-demo"
       options={categories}
       getOptionLabel={(option) => {
-        // Value selected with enter, right from the input
         if (typeof option === "string") {
           return option;
         }
-        // Add "xxx" option created dynamically
-        if (option.inputValue) {
-          return option.inputValue;
-        }
-        // Regular option
         return option.name;
       }}
       renderOption={(props, option) => {
@@ -62,16 +56,22 @@ export default function FreeSoloCreateOption() {
           </li>
         );
       }}
-      sx={{ width: 300 }}
-      freeSolo
+      sx={{
+        borderRadius: "20px",
+        width: "300px",
+        height: "40px",
+        padding: "13px",
+        marginBottom: "10px",
+        marginLeft: "4vh",
+        "& .MuiOutlinedInput-root": {
+          borderRadius: "25px",
+        },
+      }}
       renderInput={(params) => (
         <TextField
           {...params}
           label="Search categories"
-          sx={{
-            borderRadius: "45px",
-            marginLeft: "3.5vh",
-          }}
+          SearchIcon={SearchIcon}
         />
       )}
     />
