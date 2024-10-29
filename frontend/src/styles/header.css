@@ -85,13 +85,13 @@
 .dropdown-menu {
     display: flex;
     gap: 10px;
-    background-color: #fff;
+    background-color: #ffffffad;
     padding: 8px;
     position: absolute;
     top: 100%;
     right: 0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    border-radius: 4px;
+    border-radius: 5px;
     z-index: 1000;
 }
 
