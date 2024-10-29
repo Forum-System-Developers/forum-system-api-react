@@ -19,6 +19,34 @@ function Register() {
       setError("Please fill in all fields");
       return false;
     }
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordPattern =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,30}$/;
+
+    if (!emailPattern.test(email)) {
+      setError("Please enter a valid email address");
+      return false;
+    }
+
+    if (username.length < 3) {
+      setError("Username must be at least 4 characters long");
+      return false;
+    }
+
+    if (password.length < 8 || !passwordPattern.test(password)) {
+      setError(
+        "Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number and one special character"
+      );
+      return false;
+    }
+
+    const namePattern = /^[A-Za-z]+$/;
+    if (!namePattern.test(firstName) || !namePattern.test(lastName)) {
+      setError("First and last name should contain only letters");
+      return false;
+    }
+
     setError("");
     return true;
   };
