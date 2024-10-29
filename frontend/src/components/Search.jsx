@@ -1,7 +1,5 @@
 import * as React from "react";
 import TextField from "@mui/material/TextField";
-import InputAdornment from "@mui/material/InputAdornment";
-import SearchIcon from "@mui/icons-material/Search";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -68,11 +66,7 @@ export default function FreeSoloCreateOption() {
         },
       }}
       renderInput={(params) => (
-        <TextField
-          {...params}
-          label="Search categories"
-          SearchIcon={SearchIcon}
-        />
+        <TextField {...params} label="Search categories" />
       )}
     />
   );
