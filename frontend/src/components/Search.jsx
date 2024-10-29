@@ -14,7 +14,7 @@ export default function FreeSoloCreateOption() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/v1/categories")
+      .get("http://localhost:8000/api/v1/categories/")
       .then((response) => {
         setCategories(response.data);
       })

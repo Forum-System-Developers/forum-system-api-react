@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import "../styles/home.css";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -17,17 +18,17 @@ const Categories = () => {
   }, []);
 
   return (
-    <div className="categories">
-      <ul>
+    <div className="categories-container">
+      <div className="categories">
         {categories.map((category) => (
-          <li key={category.id}>
+          <div key={category.id} className="category-box">
             <Link to={`/category/${category.id}`}>
-              <h2>{category.name}</h2>
+              <h2 className="category-name">{category.name}</h2>
             </Link>
             <p>{category.topic_count} topics in this category</p>
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

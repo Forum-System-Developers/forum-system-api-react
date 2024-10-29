@@ -7,12 +7,9 @@ const SearchAutocomplete = () => {
   const [filteredCategories, setFilteredCategories] = useState([]);
 
   useEffect(() => {
-    // Fetch categories using .then() syntax
     axios
       .get("http://127.0.0.1:8000/api/v1/categories/")
       .then((response) => {
-        console.log("API Response:", response.data); // Log the API response
-        // Check if response is an array
         if (Array.isArray(response.data)) {
           setCategories(response.data);
         } else {
@@ -25,10 +22,9 @@ const SearchAutocomplete = () => {
   }, []);
 
   useEffect(() => {
-    // Filter categories based on the search term
     const filtered = searchTerm
       ? categories.filter((category) =>
-          category.name.toLowerCase().includes(searchTerm.toLowerCase()),
+          category.name.toLowerCase().includes(searchTerm.toLowerCase())
         )
       : [];
 

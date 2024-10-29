@@ -80,71 +80,73 @@ function Register() {
   };
 
   return (
-    <div className="register-container">
-      <h2 className="register-message">Sign up</h2>
-      <form className="register-form" onSubmit={handleSubmit}>
-        <div className="name-group">
+    <div className="main-content">
+      <div className="register-container">
+        <h2 className="register-message">Sign up</h2>
+        <form className="register-form" onSubmit={handleSubmit}>
+          <div className="name-group">
+            <div className="form-group">
+              <label htmlFor="firstName">First Name</label>
+              <input
+                type="text"
+                id="firstName"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="lastName">Last Name</label>
+              <input
+                type="text"
+                id="lastName"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                required
+              />
+            </div>
+          </div>
+
           <div className="form-group">
-            <label htmlFor="firstName">First Name</label>
+            <label htmlFor="email">Email</label>
             <input
-              type="text"
-              id="firstName"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
+
           <div className="form-group">
-            <label htmlFor="lastName">Last Name</label>
+            <label htmlFor="username">Username</label>
             <input
               type="text"
-              id="lastName"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
             />
           </div>
-        </div>
 
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
 
-        <div className="form-group">
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
+          {error && <div className="error-message">{error}</div>}
 
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-
-        {error && <div className="error-message">{error}</div>}
-
-        <button type="submit" className="register-button" disabled={loading}>
-          {loading ? "Registering..." : "Sign up"}
-        </button>
-      </form>
+          <button type="submit" className="register-button" disabled={loading}>
+            {loading ? "Registering..." : "Sign up"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

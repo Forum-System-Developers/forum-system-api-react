@@ -1,13 +1,24 @@
- 
+.main-content {
+    display: flex;
+    padding: 2vh;
+    width: auto;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+}
+
+
 .login-container {
     display: flex;
     width: 30%;
-    height: 70%;
+    height: 50%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-left: 6vh;
     margin-top: 7vh;
+    margin-bottom: 20%;
     opacity: 0.7;
     padding: 5vh 7vh;
     background: linear-gradient(to right, #a28b08, #108b7b, #0a4f4d);
@@ -28,6 +39,7 @@
     align-items: center;
     margin-left: 6vh;
     margin-top: 1vh;
+    margin-bottom: 7%;
     opacity: 0.7;
     padding: 5%;
     background: linear-gradient(to right, #a28b08, #108b7b, #0a4f4d);
