@@ -8,6 +8,7 @@ import CategoryDetail from "./components/CategoryDetail";
 import Login from "./components/login";
 import TopicDetail from "./components/TopicDetail";
 import "./App.css";
+import Register from "./components/Register";
 import HomeElement from "./components/Home";
 
 const App = () => {
@@ -21,6 +22,7 @@ const App = () => {
           <Route path="/topics/public" element={<HomeElement />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/category/:id" element={<CategoryDetail />} />
           <Route path="/topic/:id" element={<TopicDetail />} />
         </Routes>

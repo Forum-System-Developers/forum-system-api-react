@@ -3,6 +3,7 @@ import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
 import PermIdentityRoundedIcon from "@mui/icons-material/PermIdentityRounded";
+import AppRegistrationRoundedIcon from "@mui/icons-material/AppRegistrationRounded";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../service/axiosInstance";
 
@@ -38,6 +39,10 @@ const UserDropdown = () => {
     navigate("/login");
   };
 
+  const handleRegisterRedirect = () => {
+    navigate("/register");
+  };
+
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setIsOpen(false);
@@ -61,14 +66,24 @@ const UserDropdown = () => {
       {isOpen && (
         <div className="dropdown-menu">
           {!isLoggedIn ? (
-            <button
-              onClick={handleLoginRedirect}
-              title="Login"
-              className="dropdown-item"
-            >
-              <LoginIcon fontSize="small" />
-              <span>Login</span>
-            </button>
+            <>
+              <button
+                onClick={handleLoginRedirect}
+                title="Login"
+                className="dropdown-item"
+              >
+                <LoginIcon fontSize="small" />
+                <span>Login</span>
+              </button>
+              <button
+                onClick={handleRegisterRedirect}
+                title="Sign Up"
+                className="dropdown-item"
+              >
+                <AppRegistrationRoundedIcon fontSize="small" />
+                <span>Register</span>
+              </button>
+            </>
           ) : (
             <>
               <button className="dropdown-item" title="Messages">

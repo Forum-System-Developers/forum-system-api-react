@@ -5,11 +5,8 @@
     justify-content: space-between;
     padding: 10px 20px;
     background: linear-gradient(to right, #a28a08, #108b7b, #0a4f4d); 
-    /* background:
-            linear-gradient(135deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.1) 75%, transparent 75%, transparent),
-            linear-gradient(to right, #a28a08, #108b7b, #0a4f4d); */
     height: 60px;
-    box-shadow: 0 4px 8px rgba(228, 228, 228, 0.222), instet;
+    box-shadow: 0 4px 8px rgba(228, 228, 228, 0.222), inset;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border-radius: 2px;
@@ -83,7 +80,7 @@
 
 
 .dropdown-menu {
-    display: flex;
+    display: block;
     gap: 10px;
     background-color: #ffffffad;
     padding: 8px;
@@ -110,6 +107,7 @@
 
 .dropdown-item:hover {
     background-color: #f0f0f0;
+    width: 100%;
 }
 
 .dropdown-item[title]::after {

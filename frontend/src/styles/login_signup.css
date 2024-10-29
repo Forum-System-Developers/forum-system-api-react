@@ -1,0 +1,98 @@
+.register-container {
+    display: flex;
+    width: 30%;
+    height: 70%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 7vh;
+    opacity: 0.7;
+    padding: 5%;
+    background: linear-gradient(to right, #a28b08, #108b7b, #0a4f4d);
+    background-color: transparent;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 0 10px rgba(167, 167, 167, 0.4);
+    border-radius: 14px;
+    transform: translateY(-10px);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.register-container:hover {
+    transform: translateY(0);
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.error-message {
+    color: rgba(255, 0, 0, 0.778);
+    font-size: large;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.name-group {
+    display: flex;
+    width: 100%;
+    gap: 27px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #fff;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-size: 16px;
+    transition: background 0.3s, box-shadow 0.3s;
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.register-message {
+    font-size: 24px;
+    text-align: center;
+    position: relative;
+    margin-top: 2px;
+    margin-bottom: 20px;
+    color: #fff;
+    width: 100%;
+    font-weight: bold;
+}
+
+.register-message::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -5px;
+    width: 50%;
+    height: 2px;
+    background-color: #fff;
+    transform: translateX(-50%);
+    border-radius: 5px;
+}

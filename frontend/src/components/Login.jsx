@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../service/axiosInstance";
+import "../styles/login_signup.css";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -49,10 +50,8 @@ function Login() {
 
   return (
     <div className="login-container">
+      <h2 className="login-message">Login</h2>
       <form className="login-form" onSubmit={handleSubmit}>
-        <h2>Login</h2>
-        {error && <div className="error-message">{error}</div>}
-
         <div className="form-group">
           <label htmlFor="username">Username</label>
           <input
@@ -74,6 +73,7 @@ function Login() {
             required
           />
         </div>
+        {error && <div className="error-message">{error}</div>}
 
         <button type="submit" className="login-button" disabled={loading}>
           {loading ? "Logging in..." : "Login"}
