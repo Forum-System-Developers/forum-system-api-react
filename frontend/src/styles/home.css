@@ -1,0 +1,9 @@
+.topics {
+    background-color: #e5e7d8;
+}
+
+.home-container {
+    display: flex;
+    padding: 7vh;
+    height: 100%;
+}

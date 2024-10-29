@@ -5,9 +5,15 @@
     justify-content: space-between;
     padding: 10px 20px;
     background: linear-gradient(to right, #a28a08, #108b7b, #0a4f4d); 
+    /* background:
+            linear-gradient(135deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.1) 75%, transparent 75%, transparent),
+            linear-gradient(to right, #a28a08, #108b7b, #0a4f4d); */
     height: 60px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-
+    box-shadow: 0 4px 8px rgba(228, 228, 228, 0.222), instet;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 2px;
+    border-bottom: 2px solid rgba(222, 222, 222, 0.2);
 }
 
 .header ul {
@@ -67,12 +73,6 @@
 }
 .user-button:hover {
     color: #4387a0;
-}
-
-.search-bar {
-    flex-grow: 1;
-    max-width: 300px;
-    margin: 0 20px;
 }
 
 

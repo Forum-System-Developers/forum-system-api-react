@@ -48,7 +48,7 @@
 
 #root {
   width: 100%;
-  background-color: #e5e7d8;
+  background-color: #e6e6daa1;
 }
 
 a {
@@ -69,7 +69,8 @@ a:hover {
 
 .main-content {
   display: flex;
-  height: calc(100vh - 50px); 
+  height: calc(100vh - 60px); 
+  flex-direction: column;
 }
 
 .sidebar {
@@ -77,11 +78,4 @@ a:hover {
   width: 200px;
   padding: 10px;
 }
-
-.topics {
-  background-color: #e5e7d8;
-  flex: 1;
-  padding: 10px;
-}
-
 
