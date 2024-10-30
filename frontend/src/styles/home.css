@@ -3,10 +3,12 @@
     display: flex;
     padding: 7vh;
     height: 100%;
+    flex: 1;
 }
 
 
 .categories-container {
+    flex: 1;
     display: grid;
     padding: 3vh;
     align-items: center;

@@ -56,6 +56,7 @@ export default function FreeSoloCreateOption() {
       }}
       sx={{
         borderRadius: "20px",
+        borderColor: "white",
         width: "300px",
         height: "40px",
         padding: "13px",
