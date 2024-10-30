@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import "../styles/topics.css";
+import "../styles/home.css";
+import axiosInstance from "../service/axiosInstance";
+import { isAuthenticated } from "../service/auth";
 
-const HomeElement = () => {
+const Topics = () => {
   const [topics, setTopics] = useState([]);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8000/api/v1/topics/public")
+    axiosInstance
+      .get("/topics/")
       .then((response) => {
         setTopics(response.data);
       })
@@ -40,4 +43,4 @@ const HomeElement = () => {
   );
 };
 
-export default HomeElement;
+export default Topics;

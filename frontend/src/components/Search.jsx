@@ -61,7 +61,6 @@ export default function FreeSoloCreateOption() {
         height: "40px",
         padding: "13px",
         marginBottom: "10px",
-        marginLeft: "4vh",
         "& .MuiOutlinedInput-root": {
           borderRadius: "25px",
         },
