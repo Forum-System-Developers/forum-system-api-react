@@ -22,13 +22,20 @@ const CategoryDetail = () => {
           setTopics(response.data);
         })
         .catch((error) => {
-          console.error("Error fetching category details:", error);
-          setError("An error occurred while fetching category details");
+          if (error.response && error.response.status === 403) {
+            console.error(
+              "Error 403: Forbidden - You do not have permission to access this resource."
+            );
+            setError("You do not have permission to view this category.");
+          } else {
+            console.error("Error fetching category details:", error);
+            setError("An error occurred while fetching category details");
+          }
         });
     };
 
     viewCategory();
-  });
+  }, [id]);
 
   if (error) {
     return (
@@ -48,7 +55,7 @@ const CategoryDetail = () => {
         <ul>
           {topics.map((topic) => (
             <li key={topic.id}>
-              <Link to="/topic/:id" className="topic-link">
+              <Link to={`/topic/${topic.id}`} className="topic-link">
                 {topic.title}
               </Link>
               <p>{topic.content}</p>

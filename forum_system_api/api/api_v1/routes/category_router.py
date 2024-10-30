@@ -18,10 +18,10 @@ category_router = APIRouter(prefix="/categories", tags=["categories"])
 
 
 @category_router.post(
-        "/", 
-        response_model=CategoryResponse, 
-        status_code=201, 
-        description="Create a new category"
+    "/",
+    response_model=CategoryResponse,
+    status_code=201,
+    description="Create a new category",
 )
 def create_category(
     data: CreateCategory,
@@ -32,26 +32,24 @@ def create_category(
 
 
 @category_router.get(
-        "/", 
-        response_model=list[CategoryResponse], 
-        description="Get all categories"
+    "/", response_model=list[CategoryResponse], description="Get all categories"
 )
 def get_categories(db: Session = Depends(get_db)) -> CategoryResponse:
     return category_service.get_all(db)
 
 
 @category_router.get(
-        "/{category_id}/topics", 
-        response_model=list[TopicResponse], 
-        description="Get all topics in a category"
+    "/{category_id}/topics",
+    response_model=list[TopicResponse],
+    description="Get all topics in a category",
 )
 def view_category(
     category_id: UUID = Path(..., description="The unique identifier of the category"),
     filter_params: FilterParams = Depends(),
     db: Session = Depends(get_db),
-    user = Depends(get_current_user)
+    user=Depends(get_current_user),
 ) -> list[TopicResponse]:
-    topics = topic_service.get_all(filter_params=filter_params, user=user, db=db)
+    topics = topic_service.get_topics_for_category(category_id, user, db)
     return [
         TopicResponse.create(
             topic=topic,
@@ -63,13 +61,16 @@ def view_category(
 
 
 @category_router.put(
-        "/{category_id}/private", 
-        response_model=CategoryResponse, 
-        description="Make a category private or public"
+    "/{category_id}/private",
+    response_model=CategoryResponse,
+    description="Make a category private or public",
 )
 def make_category_private_or_public(
     category_id: UUID = Path(..., description="The unique identifier of the category"),
-    is_private: bool = Query(..., description="True if the category should be private, False if it should be public"),
+    is_private: bool = Query(
+        ...,
+        description="True if the category should be private, False if it should be public",
+    ),
     db: Session = Depends(get_db),
     user: User = Depends(require_admin_role),
 ) -> CategoryResponse:
@@ -77,13 +78,16 @@ def make_category_private_or_public(
 
 
 @category_router.put(
-        "/{category_id}/lock", 
-        response_model=CategoryResponse, 
-        description="Lock or unlock a category"
+    "/{category_id}/lock",
+    response_model=CategoryResponse,
+    description="Lock or unlock a category",
 )
 def lock_or_unlock_category(
     category_id: UUID = Path(..., description="The unique identifier of the category"),
-    is_locked: bool = Query(..., description="True if the category should be locked, False if it should be unlocked"),
+    is_locked: bool = Query(
+        ...,
+        description="True if the category should be locked, False if it should be unlocked",
+    ),
     db: Session = Depends(get_db),
     user: User = Depends(require_admin_role),
 ) -> CategoryResponse:
