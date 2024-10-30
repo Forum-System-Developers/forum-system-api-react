@@ -22,7 +22,7 @@ const App = () => {
   return (
     <div className="app-container">
       <Header />
-      <div className="main-content">
+      <div className="app-content">
         {/* <Sidebar /> */}
         <Routes>
           <Route path="/" element={<HomeElement />} exact />

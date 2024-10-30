@@ -1,13 +1,28 @@
- 
+.main-content {
+    display: flex;
+    padding: 2vh;
+    width: auto;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+    flex: 1;
+    background-color: #e3e3e3cb;
+}
+
+
 .login-container {
     display: flex;
     width: 30%;
-    height: 70%;
+    min-width: fit-content;
+    height: 50%;
+    min-height: fit-content;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-left: 6vh;
     margin-top: 7vh;
+    margin-bottom: 20%;
     opacity: 0.7;
     padding: 5vh 7vh;
     background: linear-gradient(to right, #a28b08, #108b7b, #0a4f4d);
@@ -20,16 +35,20 @@
 
 .register-container {
     display: flex;
-    width: 30%;
+    width: 30wh;
+    min-width: fit-content;
     height: 70%;
+    min-height: fit-content;
     max-height: 60vh;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-left: 6vh;
+    margin-left: 4vw;
     margin-top: 1vh;
+    margin-bottom: 7vh;
     opacity: 0.7;
-    padding: 5%;
+    padding: 4vw 6vh;
+    padding-top: 5vh;
     background: linear-gradient(to right, #a28b08, #108b7b, #0a4f4d);
     background-color: transparent;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 0 10px rgba(167, 167, 167, 0.4);

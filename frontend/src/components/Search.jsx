@@ -14,7 +14,7 @@ export default function FreeSoloCreateOption() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/v1/categories")
+      .get("http://localhost:8000/api/v1/categories/")
       .then((response) => {
         setCategories(response.data);
       })
@@ -56,6 +56,7 @@ export default function FreeSoloCreateOption() {
       }}
       sx={{
         borderRadius: "20px",
+        borderColor: "white",
         width: "300px",
         height: "40px",
         padding: "13px",
