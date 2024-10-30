@@ -1,0 +1,94 @@
+.home-container {
+    display: flex;
+    padding: 7vh;
+    height: 100%;
+    flex-direction: column;
+    flex: 1;
+}
+
+.error-message {
+    color: rgba(255, 0, 0, 0.666);
+    display: block;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-top: 12vh;
+    text-align: center;
+}
+
+.error-container {
+    display: flex;
+    justify-content: center;
+}
+
+.home-container {
+    display: flex;
+    justify-content: flex-start;
+    padding: 20px;
+    background-color: #f9f9f9;
+    min-height: 100vh;
+}
+
+.topics {
+    width: 100wh;
+    min-height: fit-content;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.topic-link {
+    font-size: 1.4rem;
+    color: #5a5a5a;
+    font-weight: bold;
+    margin: 10px 0 15px;
+    text-align: center;
+}
+
+.topics ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.topics li {
+    background-color: #fbfbfb;
+    padding: 15px 20px;
+    margin: 10px 0;
+    border: solid 1px #f0f0f0;
+    border-radius: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.topics li:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Link styling for topic title */
+.topics .topic-title {
+    font-size: 1.1rem;
+    color: #ff6b6b;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.topics .topic-title:hover {
+    text-decoration: underline;
+    color: #ff4040;
+}
+
+/* Topic content styling */
+.topics p {
+    font-size: 1rem;
+    color: #666;
+    margin: 5px 0 0;
+}
+
+.reply-count {
+    font-size: 0.9em;
+    color: #999;
+    margin-top: 8px;
+    font-style: italic;
+}
+

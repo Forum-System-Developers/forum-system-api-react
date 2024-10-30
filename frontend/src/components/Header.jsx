@@ -17,7 +17,7 @@ const Header = () => {
     <header className="header">
       <ul>
         <li>
-          <Link to="/topics/public" className="home-button">
+          <Link to="/topics/" className="home-button">
             <HomeRoundedIcon sx={{ fontSize: 38 }} />
             <span className="tooltip-text">Home</span>
           </Link>
