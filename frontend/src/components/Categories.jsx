@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import auth from "../service/auth";
+import { isAdmin } from "../service/auth";
 import "../styles/home.css";
 
 const Categories = () => {
