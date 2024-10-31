@@ -68,9 +68,7 @@ function Register() {
         last_name: lastName,
         email,
       });
-      localStorage.setItem("token", response.data.access_token);
-      localStorage.setItem("refresh_token", response.data.refresh_token);
-      navigate("/");
+      navigate("/login");
     } catch (error) {
       console.error("Registration error:", error);
       setError("Failed to register. Please try again.");

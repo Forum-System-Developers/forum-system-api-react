@@ -1,4 +1,3 @@
-// TopicDetail.jsx
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../service/axiosInstance";
 import { useParams } from "react-router-dom";
@@ -19,6 +18,10 @@ const TopicDetail = () => {
   }, [id]);
 
   if (!topic) return <div>Topic not found</div>;
+
+  const isLocked = () => {
+    return topic.locked ? true : false;
+  };
 
   return (
     <div>

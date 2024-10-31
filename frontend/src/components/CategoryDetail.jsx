@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axiosInstance from "../service/axiosInstance";
 import "../styles/topics.css";
+import AddIcon from "@mui/icons-material/Add";
 
 const CategoryDetail = () => {
   const { id } = useParams();
@@ -50,7 +51,15 @@ const CategoryDetail = () => {
 
   return (
     <div className="home-container">
-      <h2 className="topic-title">Showing topics in this category</h2>
+      <div className="category-header">
+        <h2 className="topic-title">Showing topics in this category</h2>
+        <div className="button">
+          <Link to="/topics/new" className="add-button">
+            <AddIcon sx={{ fontSize: 38 }} />
+            <span className="button-text">Create new</span>
+          </Link>
+        </div>
+      </div>
       <div className="topics">
         <ul>
           {topics.map((topic) => (
