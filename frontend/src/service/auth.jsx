@@ -1,19 +1,21 @@
-// import { jwtDecode } from "jwt-decode";
+import jwtDecode from "jwt-decode";
 
-// export const isAdmin = () => {
-//   const token = localStorage.getItem("token");
-//   if (!token) return false;
+const isAdmin = () => {
+  const token = localStorage.getItem("token");
+  if (!token) return false;
 
-//   try {
-//     const { default: jwtDecode } = require("jwt-decode");
-//     const payload = jwtDecode(token);
-//     return payload.role === "admin";
-//   } catch (error) {
-//     console.error("Invalid token:", error);
-//     return false;
-//   }
-// };
+  try {
+    const decoded = jwtDecode(token);
+    console.log("What's in token:", decoded);
+    return decoded.admin === "true";
+  } catch (error) {
+    console.error("Token error:", error);
+    return false;
+  }
+};
 
-export const isAuthenticated = () => {
+const isAuthenticated = () => {
   return localStorage.getItem("token") !== null;
 };
+
+export default { isAdmin, isAuthenticated };

@@ -1,83 +1,87 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../service/axiosInstance";
 import "../styles/topics.css";
 
 function CreateTopic() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const { category_id } = useParams();
+  const navigate = useNavigate();
+
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
-
   const validateForm = () => {
-    if (!username || !password) {
-      setError("Username and password are required");
+    if (!title || !content) {
+      setError("Both title and content are required");
       return false;
     }
     setError("");
     return true;
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
+  const handleCreateTopic = async (event) => {
     if (!validateForm()) {
       return;
     }
 
+    event.preventDefault();
     setLoading(true);
+    setError("");
 
     try {
-      const response = await axiosInstance.post(
-        "/auth/login",
-        { username: username, password: password },
-        {
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        }
-      );
-      localStorage.setItem("token", response.data.access_token);
-      localStorage.setItem("refresh_token", response.data.refresh_token);
-      navigate("/");
+      const response = await axiosInstance.post(`/topics/${category_id}/`, {
+        title,
+        content,
+      });
+      const newTopicId = response.data.id;
+      navigate(`/topic/${newTopicId}`);
     } catch (error) {
-      console.error("Login error:", error);
-      setError("Invalid username or password");
+      console.error("Error creating topic:", error);
+      setError("An error ocurred");
+      setLoading(true);
+      redirect(`/category/${category_id}`);
     } finally {
       setLoading(false);
+      navigate(`/topic/${newTopicId}`);
     }
   };
 
   return (
-    <div className="main-content">
-      <div className="login-container">
-        <h2 className="login-message">Login</h2>
-        <form className="login-form" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="username">Username</label>
-            <input
+    <div className="main-form-content">
+      <div className="topic-create-container">
+        <h2 className="create-topic-title">Create New Topic</h2>
+        <form className="topic-form" onSubmit={handleCreateTopic}>
+          <div className="form-group-topic">
+            <label htmlFor="title">Title</label>
+            <textarea
               type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              id="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               required
             />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+          <div className="form-group-topic">
+            <label htmlFor="content">Content</label>
+            <textarea
+              id="content"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
               required
-            />
+            ></textarea>
           </div>
+
           {error && <div className="error-message">{error}</div>}
 
-          <button type="submit" className="login-button" disabled={loading}>
-            {loading ? "Logging in..." : "Login"}
+          <button
+            type="submit"
+            className="create-topic-button"
+            disabled={loading}
+          >
+            {loading ? "Creating..." : "Create Topic"}
           </button>
         </form>
       </div>

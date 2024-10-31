@@ -38,7 +38,7 @@ def get_public(db=Depends(get_db)) -> list[TopicResponse]:
     "/",
     response_model=list[TopicResponse],
     status_code=200,
-    description="Get a list of all topics available to the currect user, along with their replies",
+    description="Get a list of all topics available to the user, along with their replies",
 )
 def get_all(
     filter_query: TopicFilterParams = Depends(),
@@ -74,14 +74,18 @@ def get_by_id(
 
 
 @topic_router.post(
-    "/", response_model=TopicResponse, status_code=201, description="Create a new topic"
+    "/{category_id}/",
+    response_model=TopicResponse,
+    status_code=201,
+    description="Create a new topic",
 )
 def create(
+    category_id: UUID,
     topic: TopicCreate,
     user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ) -> TopicResponse:
-    topic = topic_service.create(topic=topic, user=user, db=db)
+    topic = topic_service.create(category_id=category_id, topic=topic, user=user, db=db)
     return TopicResponse.create(topic=topic, replies=[])
 
 

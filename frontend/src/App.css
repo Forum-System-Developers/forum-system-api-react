@@ -18,7 +18,8 @@ a {
 }
 
 a:hover {
-  color: rgb(255, 255, 255);
+  color: rgb(111, 111, 111);
+  text-decoration: underline;
 }
 
 .app-content {
@@ -40,4 +41,3 @@ a:hover {
   width: 200px;
   padding: 10px;
 }
-

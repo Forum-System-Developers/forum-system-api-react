@@ -5,7 +5,7 @@ import "../styles/topics.css";
 import AddIcon from "@mui/icons-material/Add";
 
 const CategoryDetail = () => {
-  const { id } = useParams();
+  const { category_id } = useParams();
   const [topics, setTopics] = useState([]);
   const [error, setError] = useState("");
 
@@ -18,7 +18,7 @@ const CategoryDetail = () => {
       }
 
       axiosInstance
-        .get(`/categories/${id}/topics`)
+        .get(`/categories/${category_id}/topics`)
         .then((response) => {
           setTopics(response.data);
         })
@@ -36,7 +36,7 @@ const CategoryDetail = () => {
     };
 
     viewCategory();
-  }, [id]);
+  }, [category_id]);
 
   if (error) {
     return (
@@ -46,15 +46,21 @@ const CategoryDetail = () => {
     );
   }
 
-  if (!Array.isArray(topics) || topics.length === 0)
-    return <p>No topics found in this category.</p>;
-
   return (
     <div className="home-container">
       <div className="category-header">
-        <h2 className="topic-title">Showing topics in this category</h2>
+        {topics.length === 0 ? (
+          <h2 className="topic-title">
+            No topics found in this category, be the first to create one!
+          </h2>
+        ) : (
+          <h2 className="topic-title">Topics in this category</h2>
+        )}
         <div className="button">
-          <Link to="/topics/new" className="add-button">
+          <Link
+            to={`/category/${category_id}/topics/new`}
+            className="add-button"
+          >
             <AddIcon sx={{ fontSize: 38 }} />
             <span className="button-text">Create new</span>
           </Link>

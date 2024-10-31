@@ -32,9 +32,12 @@ const App = () => {
           <Route path="/categories" element={<Categories />} />
           <Route path="/login" element={<ProtectedLogin />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/category/:id" element={<CategoryDetail />} />
-          <Route path="/topic/:id" element={<TopicDetail />} />
-          <Route path="/category/:id/topic/new" element={<CreateTopic />} />
+          <Route path="/category/:category_id" element={<CategoryDetail />} />
+          <Route path="/topic/:topic_id" element={<TopicDetail />} />
+          <Route
+            path="/category/:category_id/topics/new"
+            element={<CreateTopic />}
+          />
         </Routes>
       </div>
     </div>
