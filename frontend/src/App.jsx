@@ -12,6 +12,7 @@ import Sidebar from "./components/Sidebar";
 import Topics from "./components/Topics";
 import Categories from "./components/Categories";
 import CategoryDetail from "./components/CategoryDetail";
+import CreateTopic from "./components/CreateTopic";
 import Login from "./components/login";
 import TopicDetail from "./components/TopicDetail";
 import "./App.css";
@@ -33,6 +34,7 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/category/:id" element={<CategoryDetail />} />
           <Route path="/topic/:id" element={<TopicDetail />} />
+          <Route path="/category/:id/topic/new" element={<CreateTopic />} />
         </Routes>
       </div>
     </div>

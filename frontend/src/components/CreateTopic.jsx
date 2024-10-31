@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../service/axiosInstance";
-import "../styles/login_signup.css";
+import "../styles/topics.css";
 
-function Login() {
+function CreateTopic() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -85,4 +85,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default CreateTopic;
