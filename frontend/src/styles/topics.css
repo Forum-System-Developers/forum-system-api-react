@@ -71,6 +71,7 @@
 .add-button:hover {
     border-color: #4387a0;
     color: #4387a0;
+    text-decoration: none;
 }
 
 .add-button:hover .button-text {
@@ -81,7 +82,7 @@
     width: 100wh;
     min-height: fit-content;
     background-color: #ffffff;
-    padding: 20px;
+    padding: 1%;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
@@ -90,7 +91,7 @@
     font-size: 1.4rem;
     color: #5a5a5a;
     font-weight: bold;
-    margin: 10px 0 15px;
+    margin: 3% 0 3%;
     text-align: center;
 }
 
@@ -102,8 +103,8 @@
 
 .topics li {
     background-color: #fbfbfb;
-    padding: 15px 20px;
-    margin: 10px 0;
+    padding: 1.5% 1.5%;
+    margin: 1% 0;
     border: solid 1px #f0f0f0;
     border-radius: 8px;
     transition: transform 0.2s, box-shadow 0.2s;
@@ -114,19 +115,19 @@
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
 }
 
-.topics .topic-title {
+.topic-title {
     font-size: 1.1rem;
-    color: #ff6b6b;
-    text-decoration: none;
     font-weight: bold;
-}
-
-.topics .topic-title:hover {
-    text-decoration: underline;
-    color: #ff4040;
+    color: #666;
 }
 
 .topics p {
+    font-size: 1rem;
+    color: #666;
+    margin: 5px 0 0;
+}
+
+.message {
     font-size: 1rem;
     color: #666;
     margin: 5px 0 0;
@@ -139,3 +140,117 @@
     font-style: italic;
 }
 
+.main-form-content {
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+}
+
+.topic-create-container {
+    background-color: #ffffffad;
+    min-height: fit-content;
+    min-width: fit-content;
+    width: 50vw;
+    max-height: 90vh;
+    padding: 3%;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: 14px;
+    transform: translateY(-10px);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.create-topic-title {
+    color: #747474;
+    margin-top: 1%;
+    font-size: 24px;
+    text-align: start;
+    position: relative;
+    margin-bottom: 3%;
+    width: 100%;
+    font-weight: bold;
+}
+
+.create-topic-title::after {
+    content: "";
+    position: absolute;
+    left: 14%;
+    bottom: -5px;
+    width: 28%;
+    height: 2px;
+    background-color: #747474;
+    transform: translateX(-50%);
+    border-radius: 5px;
+}
+
+.topic-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-group-topic {
+    margin-bottom: 3%;
+    width: 100%;
+}
+
+.form-group-topic label {
+    color: #747474;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.263);
+    font-size: 16px;
+    box-shadow: 0 5px 7px rgba(185, 185, 185, 0.4), inset 0 0 1px rgba(167, 167, 167, 0.4);
+    transition: background 0.3s, box-shadow 0.3s;
+}
+
+textarea#content {
+    height: 200px;
+
+}
+
+textarea::placeholder {
+    color: rgba(129, 129, 129, 0.6);
+}
+
+textarea:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.836);
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+
+}
+
+.create-topic-button {
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #0a4f4d;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.create-topic-button:hover {
+    background-color: #108b7b;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.error-message {
+    color: rgba(255, 0, 0, 0.666);
+    font-size: large;
+    font-weight: 600;
+    margin-bottom: 10px;
+}

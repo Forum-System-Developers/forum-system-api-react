@@ -49,14 +49,15 @@ def view_category(
     db: Session = Depends(get_db),
     user=Depends(get_current_user),
 ) -> list[TopicResponse]:
-    topics = topic_service.get_topics_for_category(category_id, user, db)
+    topics = topic_service.get_topics_for_category(
+        category_id=category_id, user=user, db=db
+    )
     return [
         TopicResponse.create(
             topic=topic,
             replies=topic_service.get_replies(topic_id=topic.id, db=db),
         )
         for topic in topics
-        if topic.category_id == category_id
     ]
 
 

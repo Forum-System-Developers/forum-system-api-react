@@ -9,6 +9,7 @@ from jose import jwt, JWTError
 from forum_system_api.services import user_service
 from forum_system_api.persistence.database import get_db
 from forum_system_api.persistence.models.user import User
+from forum_system_api.services.user_service import is_admin
 from forum_system_api.services.utils.password_utils import verify_password
 from forum_system_api.config import (
     SECRET_KEY,
@@ -89,11 +90,10 @@ def create_access_and_refresh_tokens(user: User, db: Session) -> dict:
         dict: A dictionary containing the access token, refresh token, and token type.
     """
     token_version = update_token_version(user=user, db=db)
-    is_admin = user_service.is_admin(user_id=user.id, db=db)
     token_data = {
         "sub": str(user.id),
         "token_version": str(token_version),
-        "role": "admin" if is_admin else "user",
+        "admin": "true" if is_admin(user_id=user.id, db=db) else "false",
     }
     access_token = create_access_token(token_data)
     refresh_token = create_refresh_token(token_data)

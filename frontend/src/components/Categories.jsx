@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-// import isAdmin from "../service/auth";
+import { isAdmin } from "../service/auth";
 import "../styles/home.css";
 
 const Categories = () => {
@@ -20,7 +20,7 @@ const Categories = () => {
 
   return (
     <div className="categories-container">
-      {/* {isAdmin ? <div className="add-category"></div> : <></>} */}
+      {isAdmin ? <div className="add-category"></div> : <></>}
       <div className="categories">
         {categories.map((category) => (
           <div key={category.id} className="category-box">

@@ -9,8 +9,10 @@ import axiosInstance from "../service/axiosInstance";
 
 const UserDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef(null);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const dropdownRef = useRef(null);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const isLoggedIn = Boolean(token);
@@ -21,17 +23,20 @@ const UserDropdown = () => {
 
   const handleLogout = async () => {
     setIsOpen(false);
+    setLoading(true);
+
     try {
       const response = await axiosInstance.post("/auth/logout");
       localStorage.removeItem("token");
       localStorage.removeItem("refresh_token");
-      navigate("/");
     } catch (error) {
       console.error("Logout error:", error);
       setError(
         "An error occurred while logging out, redirecting to login page..."
       );
+    } finally {
       navigate("/login");
+      setLoading(false);
     }
   };
 

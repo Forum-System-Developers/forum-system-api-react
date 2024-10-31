@@ -3,19 +3,27 @@ import axiosInstance from "../service/axiosInstance";
 import { useParams } from "react-router-dom";
 
 const TopicDetail = () => {
-  const { id } = useParams();
+  const { topic_id } = useParams();
   const [topic, setTopic] = useState(null);
 
   useEffect(() => {
     axiosInstance
-      .get(`/topics/${id}`)
+      .get(`/topics/${topic_id}`)
       .then((response) => {
         setTopic(response.data);
       })
       .catch((error) => {
-        console.error("Error fetching topic details:", error);
+        if (error.response && error.response.status === 403) {
+          console.error(
+            "Error 403: Forbidden - You do not have permission to access this resource."
+          );
+          setError("You do not have permission to view this topic.");
+        } else {
+          console.error("Error fetching topic details:", error);
+          setError("An error occurred while fetching topic details");
+        }
       });
-  }, [id]);
+  }, [topic_id]);
 
   if (!topic) return <div>Topic not found</div>;
 
