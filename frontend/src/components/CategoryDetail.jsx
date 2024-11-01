@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import axiosInstance from "../service/axiosInstance";
 import "../styles/topics.css";
 import AddIcon from "@mui/icons-material/Add";
+import { formatDistanceToNow, parseISO } from "date-fns";
 
 const CategoryDetail = () => {
   const { category_id } = useParams();
@@ -50,11 +51,11 @@ const CategoryDetail = () => {
     <div className="home-container">
       <div className="category-header">
         {topics.length === 0 ? (
-          <h2 className="topic-title">
+          <h2 className="description">
             No topics found in this category, be the first to create one!
           </h2>
         ) : (
-          <h2 className="topic-title">Topics in this category</h2>
+          <h2 className="description">Topics in this category</h2>
         )}
         <div className="button">
           <Link
@@ -70,11 +71,20 @@ const CategoryDetail = () => {
         <ul>
           {topics.map((topic) => (
             <li key={topic.id}>
-              <Link to={`/topic/${topic.id}`} className="topic-link">
-                {topic.title}
-              </Link>
-              <p>{topic.content}</p>
-              <p className="reply-count">Replies: {topic.replies.length}</p>
+              <div className="post-header">
+                <Link to={`/topic/${topic.id}`}>
+                  <h2 className="topic-title">{topic.title}</h2>
+                </Link>
+                <p className="post-description">
+                  Posted{" "}
+                  {formatDistanceToNow(parseISO(topic.created_at), {
+                    addSuffix: true,
+                  })}{" "}
+                  | {topic.replies.length}{" "}
+                  {topic.replies.length === 1 ? "reply" : "replies"}
+                </p>
+              </div>
+              <h3 className="topic-content">{topic.content}</h3>
             </li>
           ))}
         </ul>

@@ -88,10 +88,9 @@
 }
 
 .topic-link {
-    font-size: 1.4rem;
-    color: #5a5a5a;
+    font-size: 1.3rem;
+    color: #4b4b4b;
     font-weight: bold;
-    margin: 3% 0 3%;
     text-align: center;
 }
 
@@ -102,23 +101,60 @@
 }
 
 .topics li {
-    background-color: #fbfbfb;
-    padding: 1.5% 1.5%;
+    background-color: #fbfbfb88;
+    padding: 0% 1%;
     margin: 1% 0;
-    border: solid 1px #f0f0f0;
+    height: fit-content;
+    border: solid 1px #f0f0f0bc;
     border-radius: 8px;
     transition: transform 0.2s, box-shadow 0.2s;
+    width: 97%;
 }
 
 .topics li:hover {
-    transform: translateY(-3px);
+    transform: translateY(-2px);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
 }
 
-.topic-title {
-    font-size: 1.1rem;
+.description {
+    font-size: 0.9rem;
     font-weight: bold;
     color: #666;
+    margin-bottom: 1%;
+}
+
+.post-description {
+    font-size: 0.7rem;
+    font-weight: 400;
+    color: #969696;
+    padding-left: 2%;
+}
+
+.post-header {
+    display: flex;
+    height: fit-content;
+    padding: 1%;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.topic-content {
+    font-size: 0.9rem;
+    margin-left: 2%;
+    margin-top: 0;
+    font-weight: 400;
+    color: #535353;
+}
+
+.topic-title {
+    color: #197769e0;
+    margin-top: 1%;
+    font-size: 22px;
+    text-align: start;
+    position: relative;
+    margin-bottom: 3%;
+    width: 100%;
+    font-weight: bold;
 }
 
 .topics p {

@@ -29,13 +29,13 @@ const UserDropdown = () => {
       const response = await axiosInstance.post("/auth/logout");
       localStorage.removeItem("token");
       localStorage.removeItem("refresh_token");
+      navigate("/login");
     } catch (error) {
       console.error("Logout error:", error);
       setError(
         "An error occurred while logging out, redirecting to login page..."
       );
     } finally {
-      navigate("/login");
       setLoading(false);
     }
   };
