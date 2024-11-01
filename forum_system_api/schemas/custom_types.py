@@ -2,7 +2,7 @@ from pydantic import constr
 
 
 Username = constr(
-    min_length=3, max_length=30, strip_whitespace=True, pattern=r"^[a-zA-Z0-9]+$"
+    min_length=3, max_length=30, strip_whitespace=True, pattern=r"^[a-zA-Z0-9_ ]+$"
 )
 
 Name = constr(

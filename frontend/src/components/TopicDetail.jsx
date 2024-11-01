@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 const TopicDetail = () => {
   const { topic_id } = useParams();
   const [topic, setTopic] = useState(null);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     axiosInstance

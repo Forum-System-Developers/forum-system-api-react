@@ -9,7 +9,7 @@ import {
 import React, { useEffect } from "react";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
-import TopicsForUser from "./components/Topics";
+import TopicsForUser from "./components/TopicsForUser";
 import Categories from "./components/Categories";
 import CategoryDetail from "./components/CategoryDetail";
 import CreateTopic from "./components/CreateTopic";
@@ -18,7 +18,7 @@ import Login from "./components/login";
 import TopicDetail from "./components/TopicDetail";
 import "./App.css";
 import Register from "./components/Register";
-import PublicTopics from "./components/Home";
+import PublicTopics from "./components/PublicTopics";
 import { isAuthenticated } from "./service/auth";
 
 const App = () => {
