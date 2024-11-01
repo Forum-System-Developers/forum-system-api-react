@@ -22,11 +22,12 @@ function CreateTopic() {
   };
 
   const handleCreateTopic = async (event) => {
+    event.preventDefault();
+
     if (!validateForm()) {
       return;
     }
 
-    event.preventDefault();
     setLoading(true);
     setError("");
 
@@ -41,10 +42,9 @@ function CreateTopic() {
       console.error("Error creating topic:", error);
       setError("An error ocurred");
       setLoading(true);
-      redirect(`/category/${category_id}`);
+      navigate(`/category/${category_id}`);
     } finally {
       setLoading(false);
-      navigate(`/topic/${newTopicId}`);
     }
   };
 
