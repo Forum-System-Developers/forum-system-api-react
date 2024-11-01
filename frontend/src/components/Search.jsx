@@ -4,6 +4,7 @@ import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../styles/header.css";
 
 const filter = createFilterOptions();
 
@@ -55,18 +56,35 @@ export default function FreeSoloCreateOption() {
         );
       }}
       sx={{
-        borderRadius: "20px",
-        borderColor: "white",
         width: "300px",
         height: "40px",
         padding: "13px",
         marginBottom: "10px",
         "& .MuiOutlinedInput-root": {
           borderRadius: "25px",
+          "& fieldset": {
+            borderColor: "#f0f0f0",
+          },
+          "&:hover fieldset": {
+            borderColor: "lightgray",
+          },
+          "&.Mui-focused fieldset": {
+            borderColor: "white",
+          },
         },
       }}
       renderInput={(params) => (
-        <TextField {...params} label="Search categories" />
+        <TextField
+          {...params}
+          label="Search categories"
+          InputLabelProps={{
+            style: { color: "#f0f0f0" },
+          }}
+          inputProps={{
+            ...params.inputProps,
+            style: { color: "#1A1A1A" }, // Change input text color to white
+          }}
+        />
       )}
     />
   );

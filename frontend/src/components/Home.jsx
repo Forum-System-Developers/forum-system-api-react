@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import "../styles/topics.css";
 
-const HomeElement = () => {
+const PublicTopics = () => {
   const [topics, setTopics] = useState([]);
 
   useEffect(() => {
@@ -40,4 +40,4 @@ const HomeElement = () => {
   );
 };
 
-export default HomeElement;
+export default PublicTopics;

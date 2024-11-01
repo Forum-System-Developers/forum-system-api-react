@@ -146,8 +146,8 @@
     margin-top: 60px;
 }
 
-.topic-create-container {
-    background-color: #ffffffad;
+.topic-create-container{
+    background-color: #ffffff96;
     min-height: fit-content;
     min-width: fit-content;
     width: 50vw;
@@ -165,7 +165,7 @@
 }
 
 .create-topic-title {
-    color: #747474;
+    color: #136966;
     margin-top: 1%;
     font-size: 24px;
     text-align: start;
@@ -182,7 +182,7 @@
     bottom: -5px;
     width: 28%;
     height: 2px;
-    background-color: #747474;
+    background-color: #136966;
     transform: translateX(-50%);
     border-radius: 5px;
 }
@@ -201,13 +201,14 @@
 }
 
 .form-group-topic label {
-    color: #747474;
+    color: #136966;
 }
 
 textarea {
-    width: 100%;
+    width: 97%;
     padding: 10px;
     border: none;
+    color: #747474;
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.263);
     font-size: 16px;
@@ -217,7 +218,10 @@ textarea {
 
 textarea#content {
     height: 200px;
+}
 
+textarea#title {
+    height: 30px;
 }
 
 textarea::placeholder {
@@ -226,7 +230,7 @@ textarea::placeholder {
 
 textarea:focus {
     outline: none;
-    background: rgba(255, 255, 255, 0.836);
+    background: rgba(255, 255, 255, 0.481);
     box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
 
 }
@@ -234,11 +238,11 @@ textarea:focus {
 .create-topic-button {
     border: none;
     border-radius: 8px;
-    padding: 10px 20px;
-    font-size: 16px;
+    padding: 10px 12px;
+    font-size: 17px;
     font-weight: bold;
-    color: #fff;
-    background-color: #0a4f4d;
+    color: #ffffffe1;
+    background-color: #136966;
     cursor: pointer;
     transition: background-color 0.3s, box-shadow 0.3s;
 }

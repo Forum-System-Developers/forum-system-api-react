@@ -5,7 +5,7 @@ import "../styles/home.css";
 import axiosInstance from "../service/axiosInstance";
 import { isAuthenticated } from "../service/auth";
 
-const Topics = () => {
+const TopicsForUser = () => {
   const [topics, setTopics] = useState([]);
   const token = localStorage.getItem("token");
 
@@ -43,4 +43,4 @@ const Topics = () => {
   );
 };
 
-export default Topics;
+export default TopicsForUser;
