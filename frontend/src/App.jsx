@@ -26,7 +26,6 @@ const App = () => {
     <div className="app-container">
       <Header />
       <div className="app-content">
-        {/* <Sidebar /> */}
         <Routes>
           <Route path="/" element={<HomeElement />} exact />
           <Route path="/topics" element={<HomeElement />} />

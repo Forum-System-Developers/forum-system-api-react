@@ -31,7 +31,6 @@ const UserDropdown = () => {
       localStorage.removeItem("refresh_token");
       navigate("/login");
     } catch (error) {
-      console.error("Logout error:", error);
       setError(
         "An error occurred while logging out, redirecting to login page..."
       );
