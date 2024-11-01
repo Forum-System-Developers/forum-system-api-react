@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
 import "../styles/topics.css";
+import TopicList from "./TopicsList";
 import axiosInstance from "../service/axiosInstance";
-import { formatDistanceToNow, parseISO } from "date-fns";
 
 const TopicsForUser = () => {
   const [topics, setTopics] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [error, setError] = useState("");
   const [order, setOrder] = useState("desc");
   const [orderBy, setOrderBy] = useState("created_at");
   const [limit] = useState(10);
@@ -28,9 +27,17 @@ const TopicsForUser = () => {
       setTopics(fetchedTopics);
       setHasMore(fetchedTopics.length === limit);
     } catch (error) {
-      console.error("Error fetching topics:", error);
+      setError(`Error fetching topics: ${error.message}`);
     }
   };
+
+  if (error) {
+    return (
+      <div className="error-container">
+        <p className="error-message">{error}</p>;
+      </div>
+    );
+  }
 
   useEffect(() => {
     fetchTopics(currentPage);
@@ -81,29 +88,7 @@ const TopicsForUser = () => {
             </select>
           </label>
         </div>
-
-        <div className="topics">
-          <ul>
-            {topics.map((topic) => (
-              <li key={topic.id}>
-                <div className="post-header">
-                  <Link to={`/topic/${topic.id}`}>
-                    <h2 className="topic-title">{topic.title}</h2>
-                  </Link>
-                  <h4 className="post-description">
-                    Posted{" "}
-                    {formatDistanceToNow(parseISO(topic.created_at), {
-                      addSuffix: true,
-                    })}{" "}
-                    | {topic.replies.length}{" "}
-                    {topic.replies.length === 1 ? "reply" : "replies"}
-                  </h4>
-                </div>
-                <h3 className="topic-content">{topic.content}</h3>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <TopicList topics={topics} />
       </div>
 
       <div className="pagination-controls">
