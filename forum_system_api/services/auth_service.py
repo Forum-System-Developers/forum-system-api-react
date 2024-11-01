@@ -93,7 +93,7 @@ def create_access_and_refresh_tokens(user: User, db: Session) -> dict:
     token_data = {
         "sub": str(user.id),
         "token_version": str(token_version),
-        "admin": "true" if is_admin(user_id=user.id, db=db) else "false",
+        "is_admin": "true" if is_admin(user_id=user.id, db=db) else "false",
     }
     access_token = create_access_token(token_data)
     refresh_token = create_refresh_token(token_data)
