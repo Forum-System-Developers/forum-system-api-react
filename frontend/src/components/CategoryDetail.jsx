@@ -28,10 +28,6 @@ const CategoryDetail = () => {
     }
   };
 
-  useEffect(() => {
-    fetchTopics();
-  }, [category_id]);
-
   if (error) {
     return (
       <div className="error-container">
@@ -39,6 +35,10 @@ const CategoryDetail = () => {
       </div>
     );
   }
+
+  useEffect(() => {
+    fetchTopics();
+  }, [category_id]);
 
   return (
     <div className="home-container">
