@@ -5,8 +5,8 @@ import axiosInstance from "../service/axiosInstance";
 
 const TopicsForUser = () => {
   const [topics, setTopics] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const [error, setError] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   const [order, setOrder] = useState("desc");
   const [orderBy, setOrderBy] = useState("created_at");
   const [limit] = useState(10);

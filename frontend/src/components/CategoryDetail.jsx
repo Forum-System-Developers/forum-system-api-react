@@ -4,7 +4,6 @@ import axiosInstance from "../service/axiosInstance";
 import "../styles/topics.css";
 import AddIcon from "@mui/icons-material/Add";
 import TopicList from "./TopicsList";
-import { formatDistanceToNow, parseISO } from "date-fns";
 
 const CategoryDetail = () => {
   const { category_id } = useParams();
@@ -20,6 +19,8 @@ const CategoryDetail = () => {
     } catch (error) {
       if (error.response && error.response.status === 403) {
         setError("You do not have permission to view this category.");
+      } else if (error.response && error.response.status === 401) {
+        setError("You need to be logged in to view this page");
       } else {
         setError(
           `Error fetching category details: ${error.message || "Unknown error"}`

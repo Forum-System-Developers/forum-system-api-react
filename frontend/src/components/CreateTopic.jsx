@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { redirect, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../service/axiosInstance";
 import "../styles/topics.css";
 
@@ -39,7 +39,6 @@ function CreateTopic() {
       const newTopicId = response.data.id;
       navigate(`/topic/${newTopicId}`);
     } catch (error) {
-      console.error("Error creating topic:", error);
       setError("An error ocurred");
       setLoading(true);
       navigate(`/category/${category_id}`);

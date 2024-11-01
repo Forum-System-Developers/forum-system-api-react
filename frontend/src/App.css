@@ -39,3 +39,7 @@ a:hover {
   flex-direction: column;
   background-color: #dcdcdca1;
 }
+
+button:focus {
+  outline: none;
+}
