@@ -75,14 +75,14 @@ const CategoryDetail = () => {
                 <Link to={`/topic/${topic.id}`}>
                   <h2 className="topic-title">{topic.title}</h2>
                 </Link>
-                <p className="post-description">
+                <h4 className="post-description">
                   Posted{" "}
                   {formatDistanceToNow(parseISO(topic.created_at), {
                     addSuffix: true,
                   })}{" "}
                   | {topic.replies.length}{" "}
                   {topic.replies.length === 1 ? "reply" : "replies"}
-                </p>
+                </h4>
               </div>
               <h3 className="topic-content">{topic.content}</h3>
             </li>
