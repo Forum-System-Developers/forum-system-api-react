@@ -31,14 +31,6 @@ const TopicsForUser = () => {
     }
   };
 
-  if (error) {
-    return (
-      <div className="error-container">
-        <p className="error-message">{error}</p>;
-      </div>
-    );
-  }
-
   useEffect(() => {
     fetchTopics(currentPage);
   }, [currentPage, order, orderBy]);
@@ -65,8 +57,21 @@ const TopicsForUser = () => {
     setCurrentPage(1);
   };
 
+  if (error) {
+    return (
+      <div className="error-container">
+        <p className="error-message">{error}</p>;
+      </div>
+    );
+  }
+
   return (
     <div className="home-container">
+      {/* {error && (
+        <div className="error-container">
+          <p className="error-message">{error}</p>
+        </div>
+      )} */}
       <div className="category-header">
         <h2 className="description">Latest posts</h2>
       </div>

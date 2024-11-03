@@ -47,7 +47,6 @@ const App = () => {
 
 const ProtectedLogin = () => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
     if (isAuthenticated()) {

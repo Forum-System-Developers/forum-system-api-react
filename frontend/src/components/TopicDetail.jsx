@@ -6,7 +6,8 @@ import { formatDistanceToNow, parseISO } from "date-fns";
 const TopicDetail = () => {
   const { topic_id } = useParams();
   const [topic, setTopic] = useState(null);
-  const [error, setError] = useState("");
+  const [fetchError, setFetchError] = useState("");
+  const [replyError, setReplyError] = useState("");
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -16,12 +17,14 @@ const TopicDetail = () => {
       const response = await axiosInstance.get(`/topics/${topic_id}`);
       setTopic(response.data);
     } catch (error) {
-      if (error.response && error.response.status === 403) {
-        setError("You do not have permission to view this topic.");
-      } else if (error.response && error.response.status === 401) {
-        setError("You need to be logged in in order to access topics.");
+      if (error.response) {
+        if (error.response.status == 403) {
+          setFetchError("You do not have permission to view this topic.");
+        } else if (error.response.status == 401) {
+          setFetchError("You need to be logged in in order to access topics.");
+        }
       } else {
-        setError(`Error fetching topic details: ${error.message}`);
+        setFetchError(`Error fetching topic details: ${error.message}`);
       }
     }
   };
@@ -30,26 +33,18 @@ const TopicDetail = () => {
     fetchTopicDetails();
   }, [topic_id]);
 
-  // if (error) {
-  //   return (
-  //     <div className="error-container">
-  //       <p className="error-message">{error}</p>;
-  //     </div>
-  //   );
-  // }
-
   const validateForm = () => {
     if (!content) {
-      setError("Content is required");
+      setReplyError("Content is required");
       return false;
     }
-    setError("");
+    setReplyError("");
     return true;
   };
 
   const openTextField = () => {
     setIsOpen((prev) => !prev);
-    setError("");
+    setReplyError("");
   };
 
   const createReply = async (event) => {
@@ -61,7 +56,7 @@ const TopicDetail = () => {
 
     setIsOpen(false);
     setLoading(true);
-    setError("");
+    setReplyError("");
 
     try {
       const response = await axiosInstance.post(`/replies/${topic_id}`, {
@@ -74,7 +69,7 @@ const TopicDetail = () => {
       setContent("");
       setIsOpen(false);
     } catch (error) {
-      setError(`An error ocurred: ${error.message}`);
+      setReplyError(`An error ocurred: ${error.message}`);
       setLoading(true);
       navigate(`/topic/${topic_id}`);
     } finally {
@@ -83,9 +78,19 @@ const TopicDetail = () => {
   };
 
   if (!topic) return <div>Topic not found</div>;
-  // const isLocked = () => {
-  //   return topic.locked ? true : false;
-  // };
+
+  if (fetchError) {
+    console.log(fetchError);
+    return (
+      <div className="error-container">
+        <p className="error-message">{fetchError}</p>
+      </div>
+    );
+  }
+
+  const isLocked = () => {
+    return topic.locked ? true : false;
+  };
 
   return (
     <div className="home-container">
@@ -131,7 +136,9 @@ const TopicDetail = () => {
               placeholder="Write your reply here"
               required
             />
-            {error && <div className="error-message-reply">{error}</div>}
+            {replyError && (
+              <div className="error-message-reply">{replyError}</div>
+            )}
           </div>
         )}
 
