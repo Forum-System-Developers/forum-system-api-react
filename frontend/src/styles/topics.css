@@ -400,6 +400,14 @@ textarea:focus {
     margin-bottom: 0.8rem;
 }
 
+.best-reply-title {
+    font-size: 1rem;
+    margin-top: 0;
+    margin-bottom: 1%;
+    color: #2c726ed3;
+    padding: 1%;
+}
+
 .replies-list {
     list-style-type: none;
     padding: 0;
@@ -411,6 +419,32 @@ textarea:focus {
     border: #b1b1b158 1px solid;
     border-radius: 1px;
     margin-bottom: 1%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 0.7rem;
+    color: #333;
+}
+
+.best-reply-item {
+    background-color: #f9f9f9;
+    padding: 10px;
+    margin-bottom: 1%;
+    padding-left: 2%;
+    list-style-type: none;
+    font-size: 0.9rem;
+    color: #737373;
+}
+
+
+.best-reply {
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    padding: 1%;
+    margin-top: 3%;
+    justify-content: center ;
+    border: #b1b1b158 1px solid;
+    border-radius: 19px;
+    /* margin-bottom: 1%; */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     font-size: 0.7rem;
     color: #333;

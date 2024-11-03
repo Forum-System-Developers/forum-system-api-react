@@ -6,9 +6,11 @@ import { formatDistanceToNow, parseISO } from "date-fns";
 const TopicDetail = () => {
   const { topic_id } = useParams();
   const [topic, setTopic] = useState(null);
-  const [error, setError] = useState("");
+  const [bestReply, setBestReply] = useState("");
+  const [fetchError, setFetchError] = useState("");
+  const [replyError, setReplyError] = useState("");
   const [content, setContent] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
 
   const fetchTopicDetails = async () => {
@@ -16,13 +18,17 @@ const TopicDetail = () => {
       const response = await axiosInstance.get(`/topics/${topic_id}`);
       setTopic(response.data);
     } catch (error) {
-      if (error.response && error.response.status === 403) {
-        setError("You do not have permission to view this topic.");
-      } else if (error.response && error.response.status === 401) {
-        setError("You need to be logged in in order to access topics.");
+      if (error.response) {
+        if (error.response.status === 403) {
+          setFetchError("You do not have permission to view this topic.");
+        } else if (error.response.status === 401) {
+          setFetchError("You need to be logged in to access topics.");
+        }
       } else {
-        setError(`Error fetching topic details: ${error.message}`);
+        setFetchError(`Error fetching topic details: ${error.message}`);
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -30,26 +36,35 @@ const TopicDetail = () => {
     fetchTopicDetails();
   }, [topic_id]);
 
-  // if (error) {
-  //   return (
-  //     <div className="error-container">
-  //       <p className="error-message">{error}</p>;
-  //     </div>
-  //   );
-  // }
+  // const fetchBestReply = async () => {
+  //   try {
+  //     const response = await axiosInstance.get(
+  //       `/replies/${topic.best_reply_id}`
+  //     );
+  //     setBestReply(response.data);
+  //   } catch (error) {
+  //     setFetchError(`Error fetching best reply: ${error.message}`);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (topic && topic.best_reply_id) {
+  //     fetchBestReply();
+  //   }
+  // }, [topic]);
 
   const validateForm = () => {
     if (!content) {
-      setError("Content is required");
+      setReplyError("Content is required");
       return false;
     }
-    setError("");
+    setReplyError("");
     return true;
   };
 
   const openTextField = () => {
     setIsOpen((prev) => !prev);
-    setError("");
+    setReplyError("");
   };
 
   const createReply = async (event) => {
@@ -61,7 +76,7 @@ const TopicDetail = () => {
 
     setIsOpen(false);
     setLoading(true);
-    setError("");
+    setReplyError("");
 
     try {
       const response = await axiosInstance.post(`/replies/${topic_id}`, {
@@ -74,7 +89,7 @@ const TopicDetail = () => {
       setContent("");
       setIsOpen(false);
     } catch (error) {
-      setError(`An error ocurred: ${error.message}`);
+      setReplyError(`An error ocurred: ${error.message}`);
       setLoading(true);
       navigate(`/topic/${topic_id}`);
     } finally {
@@ -82,10 +97,42 @@ const TopicDetail = () => {
     }
   };
 
-  if (!topic) return <div>Topic not found</div>;
+  const handleVote = async (replyId, isUpvote) => {
+    try {
+      const response = await axiosInstance.patch(`/replies/${replyId}`, {
+        reaction: isUpvote,
+      });
+      const updatedReply = response.data;
+      setTopic((prevTopic) => {
+        const newReplies = prevTopic.replies.map((reply) =>
+          reply.id === replyId ? updatedReply : reply
+        );
+        return {
+          ...prevTopic,
+          replies: newReplies,
+        };
+      });
+
+      setLoading(true);
+    } catch (error) {
+      console.error("Error voting reply:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // const isLocked = () => {
   //   return topic.locked ? true : false;
   // };
+
+  if (loading) return <div>Loading...</div>;
+
+  if (fetchError)
+    return (
+      <div className="error-container">
+        <p className="error-message">{fetchError}</p>
+      </div>
+    );
 
   return (
     <div className="home-container">
@@ -131,19 +178,53 @@ const TopicDetail = () => {
               placeholder="Write your reply here"
               required
             />
-            {error && <div className="error-message-reply">{error}</div>}
+            {replyError && (
+              <div className="error-message-reply">{replyError}</div>
+            )}
           </div>
         )}
 
+        {topic.best_reply_id && bestReply && (
+          <>
+            <div className="best-reply">
+              <h6 className="best-reply-title">Featured reply:</h6>
+              <li className="best-reply-item">{bestReply.content}</li>
+            </div>
+          </>
+        )}
+
         <h5 className="replies-title">
-          {topic.replies.length}{" "}
-          {topic.replies.length === 1 ? "reply" : "replies"}
+          {topic?.replies?.length || 0}{" "}
+          {topic?.replies?.length === 1 ? "reply" : "replies"}
         </h5>
 
         <ul className="replies-list">
-          {topic.replies.map((reply) => (
+          {topic?.replies?.map((reply) => (
             <li key={reply.id} className="reply-item">
+              {reply.id === topic.best_reply_id && (
+                <span
+                  className="best-reply-icon"
+                  role="img"
+                  aria-label="Best Reply"
+                >
+                  ⭐
+                </span>
+              )}
               {reply.content}
+              <div className="votes">
+                <span
+                  className="upvotes"
+                  onClick={() => handleVote(reply.id, true)}
+                >
+                  👍 {reply.upvotes}
+                </span>
+                <span
+                  className="downvotes"
+                  onClick={() => handleVote(reply.id, false)}
+                >
+                  👎 {reply.downvotes}
+                </span>
+              </div>
             </li>
           ))}
         </ul>
