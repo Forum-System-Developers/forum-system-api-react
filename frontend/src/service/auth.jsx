@@ -6,7 +6,7 @@ export const isAdmin = () => {
 
   try {
     const decoded = jwtDecode(token);
-    return decoded.admin == "true";
+    return decoded.admin === true;
   } catch (error) {
     console.error("Token error:", error);
     return false;
