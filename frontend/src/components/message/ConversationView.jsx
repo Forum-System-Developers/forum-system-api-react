@@ -11,7 +11,7 @@ import ContactListItem from "./ContactListItem";
 import MessageInputField from "./MessageInputField";
 
 
-export default function MessageView() {
+export default function ConversationView() {
     const [contacts, setContacts] = useState([]);
     const [messages, setMessages] = useState([]);
     const [receiver, setReceiver] = useState('');
