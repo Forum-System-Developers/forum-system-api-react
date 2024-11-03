@@ -18,6 +18,18 @@ conversation_router = APIRouter(prefix="/conversations", tags=["conversations"])
 
 
 @conversation_router.get(
+        "/contacts", 
+        response_model=list[UserResponse], 
+        description="Get all users with whom the current user has conversations"
+)
+def get_users_with_conversations_route(
+    user: User = Depends(get_current_user), 
+    db: Session = Depends(get_db)
+) -> list[UserResponse]:
+    return get_users_from_conversations(db, user)
+
+
+@conversation_router.get(
         "/{conversation_id}", 
         response_model=list[MessageResponse], 
         description="Read messages in a conversation"
@@ -28,15 +40,3 @@ def read_messages_in_conversation(
     db: Session = Depends(get_db),
 ) -> list[MessageResponse]:
     return get_messages_in_conversation(db, conversation_id)
-
-
-@conversation_router.get(
-        "/{user}/contacts", 
-        response_model=list[UserResponse], 
-        description="Get all users with whom the current user has conversations"
-)
-def get_users_with_conversations_route(
-    user: User = Depends(get_current_user), 
-    db: Session = Depends(get_db)
-) -> list[UserResponse]:
-    return get_users_from_conversations(db, user)
