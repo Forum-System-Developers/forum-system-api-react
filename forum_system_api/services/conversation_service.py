@@ -57,25 +57,6 @@ def get_messages_in_conversation(db: Session, conversation_id: UUID) -> list[Mes
     return [message for message in messages]
 
 
-def get_conversations_for_user(db: Session, user: User) -> list[Conversation]:
-    """
-    Retrieve all conversations for a given user.
-
-    Args:
-        db (Session): The database session to use for the query.
-        user (User): The user for whom to retrieve conversations.
-    Returns:
-        list[Conversation]: A list of Conversation objects involving the user.
-    """
-    conversations = (
-        db.query(Conversation)
-        .filter((Conversation.user1_id == user.id) | (Conversation.user2_id == user.id))
-        .all()
-    )
-
-    return conversations
-
-
 def get_users_from_conversations(db: Session, user: User) -> list[UserResponse]:
     """
     Retrieve a list of users who have had conversations with the given user.
@@ -89,20 +70,13 @@ def get_users_from_conversations(db: Session, user: User) -> list[UserResponse]:
     Raises:
         HTTPException: If no users are found who have exchanged messages with the given user.
     """
-    conversations = get_conversations_for_user(db, user)
+    conversations = user.conversations
 
-    user_ids = set()
+    users = set()
     for conversation in conversations:
         if conversation.user1_id != user.id:
-            user_ids.add(conversation.user1_id)
+            users.add(conversation.user1)
         if conversation.user2_id != user.id:
-            user_ids.add(conversation.user2_id)
-
-    users = db.query(User).filter(User.id.in_(user_ids)).all()
-
-    if not users:
-        raise HTTPException(
-            status_code=404, detail="No users found with exchanged messages"
-        )
-
-    return [user for user in users]
+            users.add(conversation.user2)
+    
+    return users
