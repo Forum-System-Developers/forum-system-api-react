@@ -1,5 +1,6 @@
 import re
 from datetime import datetime
+from uuid import UUID
 
 from pydantic import BaseModel, EmailStr, field_validator
 
@@ -35,6 +36,7 @@ class UserCreate(UserBase):
 
 
 class UserResponse(UserBase):
+    id: UUID
     created_at: datetime
 
 
