@@ -6,10 +6,11 @@ import { formatDistanceToNow, parseISO } from "date-fns";
 const TopicDetail = () => {
   const { topic_id } = useParams();
   const [topic, setTopic] = useState(null);
+  const [bestReply, setBestReply] = useState("");
   const [fetchError, setFetchError] = useState("");
   const [replyError, setReplyError] = useState("");
   const [content, setContent] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
 
   const fetchTopicDetails = async () => {
@@ -18,20 +19,39 @@ const TopicDetail = () => {
       setTopic(response.data);
     } catch (error) {
       if (error.response) {
-        if (error.response.status == 403) {
+        if (error.response.status === 403) {
           setFetchError("You do not have permission to view this topic.");
-        } else if (error.response.status == 401) {
-          setFetchError("You need to be logged in in order to access topics.");
+        } else if (error.response.status === 401) {
+          setFetchError("You need to be logged in to access topics.");
         }
       } else {
         setFetchError(`Error fetching topic details: ${error.message}`);
       }
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchTopicDetails();
   }, [topic_id]);
+
+  // const fetchBestReply = async () => {
+  //   try {
+  //     const response = await axiosInstance.get(
+  //       `/replies/${topic.best_reply_id}`
+  //     );
+  //     setBestReply(response.data);
+  //   } catch (error) {
+  //     setFetchError(`Error fetching best reply: ${error.message}`);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (topic && topic.best_reply_id) {
+  //     fetchBestReply();
+  //   }
+  // }, [topic]);
 
   const validateForm = () => {
     if (!content) {
@@ -77,20 +97,42 @@ const TopicDetail = () => {
     }
   };
 
-  if (!topic) return <div>Topic not found</div>;
+  const handleVote = async (replyId, isUpvote) => {
+    try {
+      const response = await axiosInstance.patch(`/replies/${replyId}`, {
+        reaction: isUpvote,
+      });
+      const updatedReply = response.data;
+      setTopic((prevTopic) => {
+        const newReplies = prevTopic.replies.map((reply) =>
+          reply.id === replyId ? updatedReply : reply
+        );
+        return {
+          ...prevTopic,
+          replies: newReplies,
+        };
+      });
 
-  if (fetchError) {
-    console.log(fetchError);
+      setLoading(true);
+    } catch (error) {
+      console.error("Error voting reply:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // const isLocked = () => {
+  //   return topic.locked ? true : false;
+  // };
+
+  if (loading) return <div>Loading...</div>;
+
+  if (fetchError)
     return (
       <div className="error-container">
         <p className="error-message">{fetchError}</p>
       </div>
     );
-  }
-
-  const isLocked = () => {
-    return topic.locked ? true : false;
-  };
 
   return (
     <div className="home-container">
@@ -142,15 +184,47 @@ const TopicDetail = () => {
           </div>
         )}
 
+        {topic.best_reply_id && bestReply && (
+          <>
+            <div className="best-reply">
+              <h6 className="best-reply-title">Featured reply:</h6>
+              <li className="best-reply-item">{bestReply.content}</li>
+            </div>
+          </>
+        )}
+
         <h5 className="replies-title">
-          {topic.replies.length}{" "}
-          {topic.replies.length === 1 ? "reply" : "replies"}
+          {topic?.replies?.length || 0}{" "}
+          {topic?.replies?.length === 1 ? "reply" : "replies"}
         </h5>
 
         <ul className="replies-list">
-          {topic.replies.map((reply) => (
+          {topic?.replies?.map((reply) => (
             <li key={reply.id} className="reply-item">
+              {reply.id === topic.best_reply_id && (
+                <span
+                  className="best-reply-icon"
+                  role="img"
+                  aria-label="Best Reply"
+                >
+                  ⭐
+                </span>
+              )}
               {reply.content}
+              <div className="votes">
+                <span
+                  className="upvotes"
+                  onClick={() => handleVote(reply.id, true)}
+                >
+                  👍 {reply.upvotes}
+                </span>
+                <span
+                  className="downvotes"
+                  onClick={() => handleVote(reply.id, false)}
+                >
+                  👎 {reply.downvotes}
+                </span>
+              </div>
             </li>
           ))}
         </ul>

@@ -67,11 +67,6 @@ const TopicsForUser = () => {
 
   return (
     <div className="home-container">
-      {/* {error && (
-        <div className="error-container">
-          <p className="error-message">{error}</p>
-        </div>
-      )} */}
       <div className="category-header">
         <h2 className="description">Latest posts</h2>
       </div>
