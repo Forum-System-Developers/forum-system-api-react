@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../service/axiosInstance";
-import { useParams } from "react-router-dom";
+import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
+import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
+import { useParams, useNavigate } from "react-router-dom";
 import { formatDistanceToNow, parseISO } from "date-fns";
 
 const TopicDetail = () => {
@@ -12,6 +14,8 @@ const TopicDetail = () => {
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
+
+  const navigate = useNavigate();
 
   const fetchTopicDetails = async () => {
     try {
@@ -58,6 +62,12 @@ const TopicDetail = () => {
       setReplyError("Content is required");
       return false;
     }
+
+    if (content.length > 20) {
+      setReplyError("Reply cannot be longer than 20 characters");
+      return false;
+    }
+
     setReplyError("");
     return true;
   };
@@ -75,7 +85,6 @@ const TopicDetail = () => {
     }
 
     setIsOpen(false);
-    setLoading(true);
     setReplyError("");
 
     try {
@@ -88,6 +97,7 @@ const TopicDetail = () => {
       }));
       setContent("");
       setIsOpen(false);
+      setLoading(true);
     } catch (error) {
       setReplyError(`An error ocurred: ${error.message}`);
       setLoading(true);
@@ -103,6 +113,7 @@ const TopicDetail = () => {
         reaction: isUpvote,
       });
       const updatedReply = response.data;
+
       setTopic((prevTopic) => {
         const newReplies = prevTopic.replies.map((reply) =>
           reply.id === replyId ? updatedReply : reply
@@ -184,50 +195,67 @@ const TopicDetail = () => {
           </div>
         )}
 
-        {topic.best_reply_id && bestReply && (
+        {/* {topic.best_reply_id && bestReply && (
           <>
             <div className="best-reply">
               <h6 className="best-reply-title">Featured reply:</h6>
               <li className="best-reply-item">{bestReply.content}</li>
             </div>
           </>
-        )}
+        )} */}
 
         <h5 className="replies-title">
           {topic?.replies?.length || 0}{" "}
           {topic?.replies?.length === 1 ? "reply" : "replies"}
         </h5>
 
-        <ul className="replies-list">
-          {topic?.replies?.map((reply) => (
-            <li key={reply.id} className="reply-item">
-              {reply.id === topic.best_reply_id && (
-                <span
-                  className="best-reply-icon"
-                  role="img"
-                  aria-label="Best Reply"
-                >
-                  ⭐
-                </span>
-              )}
-              {reply.content}
-              <div className="votes">
-                <span
-                  className="upvotes"
-                  onClick={() => handleVote(reply.id, true)}
-                >
-                  👍 {reply.upvotes}
-                </span>
-                <span
-                  className="downvotes"
-                  onClick={() => handleVote(reply.id, false)}
-                >
-                  👎 {reply.downvotes}
-                </span>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <div className="replies">
+          <ul className="replies-list">
+            {topic?.replies?.map((reply) => (
+              <li key={reply.id} className="reply-item">
+                <div className="reply-with-votes">
+                  {reply.id === topic.best_reply_id && (
+                    <span
+                      className="best-reply-icon"
+                      role="img"
+                      aria-label="Best Reply"
+                    >
+                      ⭐
+                    </span>
+                  )}
+                  {reply.content}
+                  <div className="votes">
+                    <span
+                      className="upvotes"
+                      onClick={() => handleVote(reply.id, true)}
+                    >
+                      <ThumbUpOutlinedIcon sx={{ fontSize: 18 }} />
+                      <span className="vote-count">{reply.upvotes}</span>
+                    </span>
+                    <span
+                      className="downvotes"
+                      onClick={() => handleVote(reply.id, false)}
+                    >
+                      <ThumbDownOutlinedIcon sx={{ fontSize: 18 }} />{" "}
+                      <span
+                        className="vote-count"
+                        // style={{ marginRight: 1 + "em" }}
+                      >
+                        {reply.downvotes}
+                      </span>
+                    </span>
+                  </div>
+                </div>
+                <h4 className="post-description">
+                  Posted{" "}
+                  {formatDistanceToNow(parseISO(topic.created_at), {
+                    addSuffix: true,
+                  })}
+                </h4>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );
