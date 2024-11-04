@@ -35,15 +35,15 @@ const Categories = () => {
   return (
     <div className="categories-container">
       <div className="button-header">
-        {isAdmin() ? (
-          <div className="button">
-            <Link to="/category/create" className="add-button">
-              <AddIcon sx={{ fontSize: 38 }} />
-              <span className="button-text">Create new</span>
-            </Link>
-          </div>
-        ) : (
-          <></>
+        {isAdmin() && (
+          <>
+            <div className="button">
+              <Link to="/category/create" className="add-button">
+                <AddIcon sx={{ fontSize: 38 }} />
+                <span className="button-text">Create new</span>
+              </Link>
+            </div>
+          </>
         )}
       </div>
       <div className="categories">

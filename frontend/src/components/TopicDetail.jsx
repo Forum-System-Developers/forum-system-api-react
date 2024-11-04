@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axiosInstance from "../service/axiosInstance";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
 import StarBorderRoundedIcon from "@mui/icons-material/StarBorderRounded";
+import MapsUgcRoundedIcon from "@mui/icons-material/MapsUgcRounded";
 import HttpsRoundedIcon from "@mui/icons-material/HttpsRounded";
+import Face5RoundedIcon from "@mui/icons-material/Face5Rounded";
 import { useParams, useNavigate } from "react-router-dom";
 import { formatDistanceToNow, parseISO } from "date-fns";
-import { isAdmin } from "../service/auth";
+import { currentUser, isAdmin } from "../service/auth";
 
 const TopicDetail = () => {
   const { topic_id } = useParams();
@@ -16,6 +18,9 @@ const TopicDetail = () => {
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
+  const [userDropdown, setUserDropdown] = useState(false);
+
+  const dropdownRef = useRef(null);
 
   const navigate = useNavigate();
 
@@ -42,6 +47,20 @@ const TopicDetail = () => {
     fetchTopicDetails();
   }, [topic_id]);
 
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setUserDropdown(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const selectBestReply = async (replyId) => {
     try {
       const response = await axiosInstance.patch(
@@ -57,6 +76,10 @@ const TopicDetail = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const toggleDropdown = () => {
+    setUserDropdown((prev) => !prev);
   };
 
   const validateForm = () => {
@@ -179,14 +202,39 @@ const TopicDetail = () => {
 
       <div className="topic-detail-container">
         <div className="topic-container">
-          <h2 className="topic-title">{topic.title}</h2>
-          <h3 className="topic-content">{topic.content}</h3>
-          <h4 className="post-description">
-            Posted{" "}
-            {formatDistanceToNow(parseISO(topic.created_at), {
-              addSuffix: true,
-            })}
-          </h4>
+          <div className="author-container">
+            <Face5RoundedIcon
+              sx={{
+                fontSize: 24,
+              }}
+              onClick={toggleDropdown}
+              className="user-icon-button"
+            />
+
+            <div className="user-dropdown-x" ref={dropdownRef}>
+              {userDropdown && (
+                <div className="user-dropdown-menu">
+                  <button className="message-button">
+                    <span>Message</span>
+                    <MapsUgcRoundedIcon sx={{ fontSize: 18 }} />
+                    <span className="tooltip-text">Message User</span>
+                  </button>
+                </div>
+              )}
+            </div>
+
+            <span className="author-name">{topic.author}</span>
+          </div>
+          <div className="topic-main">
+            <h2 className="topic-title">{topic.title}</h2>
+            <h3 className="topic-content">{topic.content}</h3>
+            <h4 className="post-description">
+              Posted{" "}
+              {formatDistanceToNow(parseISO(topic.created_at), {
+                addSuffix: true,
+              })}
+            </h4>
+          </div>
         </div>
 
         <div className="reply-buttons-container">
@@ -265,16 +313,18 @@ const TopicDetail = () => {
                       addSuffix: true,
                     })}
                   </h4>
-                  <div
-                    className="best-reply-star"
-                    onClick={() => selectBestReply(reply.id)}
-                  >
-                    <StarBorderRoundedIcon
-                      className={`best-reply-star ${reply.id === topic.best_reply_id ? "gold-star" : ""}`}
-                      sx={{ fontSize: 24 }}
-                    />
-                    <span className="tooltip">Select Best Reply</span>
-                  </div>
+                  {currentUser() === topic.author_id && (
+                    <div
+                      className="best-reply-star"
+                      onClick={() => selectBestReply(reply.id)}
+                    >
+                      <StarBorderRoundedIcon
+                        className={`best-reply-star ${reply.id === topic.best_reply_id ? "gold-star" : ""}`}
+                        sx={{ fontSize: 24 }}
+                      />
+                      <span className="tooltip">Select Best Reply</span>
+                    </div>
+                  )}
                 </div>
               </li>
             ))}

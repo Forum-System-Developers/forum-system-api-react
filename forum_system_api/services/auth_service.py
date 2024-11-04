@@ -115,7 +115,9 @@ def refresh_access_token(refresh_token: str, db: Session) -> str:
     token_version = payload.get("token_version")
     is_admin = payload.get("is_admin")
 
-    return create_access_token({"sub": user_id, "token_version": token_version, "is_admin": is_admin})
+    return create_access_token(
+        {"sub": user_id, "token_version": token_version, "is_admin": is_admin}
+    )
 
 
 def verify_token(token: str, db: Session) -> dict:
@@ -231,7 +233,7 @@ def create_token_data(user: User, db: Session) -> dict:
     token_data = {
         "sub": str(user.id),
         "token_version": str(token_version),
-        "is_admin": is_admin(user_id=user.id, db=db)
+        "is_admin": is_admin(user_id=user.id, db=db),
     }
 
     return token_data

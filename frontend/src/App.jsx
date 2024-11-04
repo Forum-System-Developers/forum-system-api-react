@@ -37,7 +37,7 @@ const App = () => {
           <Route path="/topic/:topic_id" element={<TopicDetail />} />
           <Route
             path="/category/:category_id/topics/new"
-            element={<CreateTopic />}
+            element={<ProtectedTopicCreate />}
           />
         </Routes>
       </div>
@@ -62,3 +62,15 @@ const HomeElement = () => {
 };
 
 export default App;
+
+const ProtectedTopicCreate = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      navigate("/login", { replace: true });
+    }
+  }, [navigate]);
+
+  return isAuthenticated() ? <CreateTopic /> : null;
+};
