@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import axiosInstance from "../service/axiosInstance";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
+import StarBorderRoundedIcon from "@mui/icons-material/StarBorderRounded";
+import HttpsRoundedIcon from "@mui/icons-material/HttpsRounded";
 import { useParams, useNavigate } from "react-router-dom";
 import { formatDistanceToNow, parseISO } from "date-fns";
+import { isAdmin } from "../service/auth";
 
 const TopicDetail = () => {
   const { topic_id } = useParams();
   const [topic, setTopic] = useState(null);
-  const [bestReply, setBestReply] = useState("");
   const [fetchError, setFetchError] = useState("");
   const [replyError, setReplyError] = useState("");
   const [content, setContent] = useState("");
@@ -40,22 +42,22 @@ const TopicDetail = () => {
     fetchTopicDetails();
   }, [topic_id]);
 
-  // const fetchBestReply = async () => {
-  //   try {
-  //     const response = await axiosInstance.get(
-  //       `/replies/${topic.best_reply_id}`
-  //     );
-  //     setBestReply(response.data);
-  //   } catch (error) {
-  //     setFetchError(`Error fetching best reply: ${error.message}`);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (topic && topic.best_reply_id) {
-  //     fetchBestReply();
-  //   }
-  // }, [topic]);
+  const selectBestReply = async (replyId) => {
+    try {
+      const response = await axiosInstance.patch(
+        `/topics/${topic.id}/replies/${replyId}/best`
+      );
+      setTopic((prevTopic) => ({
+        ...prevTopic,
+        best_reply_id: replyId,
+      }));
+      setLoading(true);
+    } catch (error) {
+      setFetchError(`Error fetching best reply: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const validateForm = () => {
     if (!content) {
@@ -107,6 +109,25 @@ const TopicDetail = () => {
     }
   };
 
+  const handleLockTopic = async () => {
+    const isLocked = !topic.is_locked;
+
+    try {
+      await axiosInstance.patch(`/topics/${topic_id}/lock`, {
+        is_locked: isLocked,
+      });
+      setTopic((prevTopic) => ({
+        ...prevTopic,
+        is_locked: isLocked,
+      }));
+      setLoading(true);
+    } catch (error) {
+      setFetchError(`Error locking topic: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleVote = async (replyId, isUpvote) => {
     try {
       const response = await axiosInstance.patch(`/replies/${replyId}`, {
@@ -132,9 +153,9 @@ const TopicDetail = () => {
     }
   };
 
-  // const isLocked = () => {
-  //   return topic.locked ? true : false;
-  // };
+  const isLocked = () => {
+    return topic.is_locked ? true : false;
+  };
 
   if (loading) return <div>Loading...</div>;
 
@@ -147,6 +168,15 @@ const TopicDetail = () => {
 
   return (
     <div className="home-container">
+      {isAdmin() && (
+        <div className="lock-topic">
+          <span className="lock-icon" onClick={handleLockTopic}>
+            <HttpsRoundedIcon sx={{ fontSize: 24 }} />
+          </span>
+          <span>{topic.is_locked ? "Unlock Topic" : "Lock Topic"}</span>
+        </div>
+      )}
+
       <div className="topic-detail-container">
         <div className="topic-container">
           <h2 className="topic-title">{topic.title}</h2>
@@ -160,13 +190,15 @@ const TopicDetail = () => {
         </div>
 
         <div className="reply-buttons-container">
-          <button
-            className="add-reply-button"
-            onClick={openTextField}
-            title={isOpen ? "Cancel" : "Add reply"}
-          >
-            {isOpen ? "Cancel" : "Add reply"}
-          </button>
+          {!isLocked() && (
+            <button
+              className="add-reply-button"
+              onClick={openTextField}
+              title={isOpen ? "Cancel" : "Add reply"}
+            >
+              {isOpen ? "Cancel" : "Add reply"}
+            </button>
+          )}
 
           {isOpen && (
             <button
@@ -195,15 +227,6 @@ const TopicDetail = () => {
           </div>
         )}
 
-        {/* {topic.best_reply_id && bestReply && (
-          <>
-            <div className="best-reply">
-              <h6 className="best-reply-title">Featured reply:</h6>
-              <li className="best-reply-item">{bestReply.content}</li>
-            </div>
-          </>
-        )} */}
-
         <h5 className="replies-title">
           {topic?.replies?.length || 0}{" "}
           {topic?.replies?.length === 1 ? "reply" : "replies"}
@@ -212,17 +235,11 @@ const TopicDetail = () => {
         <div className="replies">
           <ul className="replies-list">
             {topic?.replies?.map((reply) => (
-              <li key={reply.id} className="reply-item">
+              <li
+                key={reply.id}
+                className={`reply-item ${reply.id === topic.best_reply_id ? "best-reply-item" : ""}`}
+              >
                 <div className="reply-with-votes">
-                  {reply.id === topic.best_reply_id && (
-                    <span
-                      className="best-reply-icon"
-                      role="img"
-                      aria-label="Best Reply"
-                    >
-                      ⭐
-                    </span>
-                  )}
                   {reply.content}
                   <div className="votes">
                     <span
@@ -237,21 +254,28 @@ const TopicDetail = () => {
                       onClick={() => handleVote(reply.id, false)}
                     >
                       <ThumbDownOutlinedIcon sx={{ fontSize: 18 }} />{" "}
-                      <span
-                        className="vote-count"
-                        // style={{ marginRight: 1 + "em" }}
-                      >
-                        {reply.downvotes}
-                      </span>
+                      <span className="vote-count">{reply.downvotes}</span>
                     </span>
                   </div>
                 </div>
-                <h4 className="post-description">
-                  Posted{" "}
-                  {formatDistanceToNow(parseISO(topic.created_at), {
-                    addSuffix: true,
-                  })}
-                </h4>
+                <div className="description-star">
+                  <h4 className="post-description">
+                    Posted{" "}
+                    {formatDistanceToNow(parseISO(topic.created_at), {
+                      addSuffix: true,
+                    })}
+                  </h4>
+                  <div
+                    className="best-reply-star"
+                    onClick={() => selectBestReply(reply.id)}
+                  >
+                    <StarBorderRoundedIcon
+                      className={`best-reply-star ${reply.id === topic.best_reply_id ? "gold-star" : ""}`}
+                      sx={{ fontSize: 24 }}
+                    />
+                    <span className="tooltip">Select Best Reply</span>
+                  </div>
+                </div>
               </li>
             ))}
           </ul>
