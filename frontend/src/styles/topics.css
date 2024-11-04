@@ -3,7 +3,7 @@
     display: block;
     border-radius: 4px;
     font-weight: bold;
-    margin-top: 12vh;
+    margin-top: 2%;
     text-align: center;
 }
 
@@ -123,7 +123,10 @@
 
 .post-description {
     font-size: 13px;
+    min-width: fit-content;
+    margin-right: 3%;
     font-weight: 300;
+    align-items: center;
     color: #b9b9b9;
     padding-left: 2%;
 }
@@ -415,6 +418,7 @@ textarea:focus {
 .reply-item {
     display: flex;
     flex-direction: row;
+    min-width: fit-content;
     justify-content: space-between;
     align-items: center;
     background-color: #f9f9f9;
@@ -456,7 +460,7 @@ textarea:focus {
 .reply-with-votes {
     margin-left: 1%;
     padding-top: 1%;
-    min-width: fit-content;
+    /* min-width: fit-content; */
     word-wrap: break-word;
     max-width: 100%;
     overflow-x: hidden;
@@ -464,6 +468,7 @@ textarea:focus {
 
 .votes {
     font-size: 0.8rem;
+    min-width: 100px;
     padding: 2% 2%;
     display: flex;
     gap: 10px;
@@ -513,6 +518,21 @@ textarea:focus {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+.author-container {
+    display: flex;
+    flex-direction: row;
+    font-size: 13px;
+    font-weight: 300;
+    color: #b0b0b0;
+    justify-content: flex-start;
+    /* gap: 0.5%; */
+    align-items: center;
+    padding: 1%;
+}
+
+.topic-main {
+    margin-left: 2%;
+}
 
 .form-create-reply {
     margin-bottom: 3%;
@@ -617,6 +637,7 @@ textarea#reply {
     min-width: fit-content;
     display: flex;
     align-items: center;
+    margin-right: 1%;
     flex-direction: row;
 }
 
@@ -628,13 +649,11 @@ textarea#reply {
 
 .star-icon {
     color: #ccc;
-    /* Color for the unselected star */
     transition: color 0.3s;
 }
 
 .star-icon:hover {
     color: gold;
-    /* Color for hover effect on the star */
 }
 
 .tooltip {
@@ -662,4 +681,61 @@ textarea#reply {
 
 .gold-star {
     color: gold;
+}
+
+.user-dropdown-x {
+    position: relative;
+    display: inline-block;
+}
+
+.user-dropdown-menu {
+    display: block;
+    background-color: #ffffffa1;
+    padding: 8px;
+    position: absolute;
+    top: 110%;
+    left: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+    z-index: 1000;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0.9;
+    transform: translateY(10px) translateX(-10px);
+    min-width: fit-content;
+}
+
+
+.user-icon-button {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 8px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    width: fit-content;
+    position: relative;
+        
+}
+
+.user-icon-button:hover {
+    background-color: #f0f0f0;
+}
+
+.message-button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 8px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    width: fit-content;
+    position: relative;
+    font-weight: 400;
 }

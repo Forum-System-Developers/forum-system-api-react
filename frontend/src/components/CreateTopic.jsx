@@ -17,6 +17,17 @@ function CreateTopic() {
       setError("Both title and content are required");
       return false;
     }
+
+    if (title.length > 50 || title.length < 5) {
+      setError("Title must be between 50 and 50 characters");
+      return false;
+    }
+
+    if (content.length > 999 || content.length < 5) {
+      setError("Content must be between 5 and 999 characters");
+      return false;
+    }
+
     setError("");
     return true;
   };
@@ -39,9 +50,14 @@ function CreateTopic() {
       const newTopicId = response.data.id;
       navigate(`/topic/${newTopicId}`);
     } catch (error) {
-      setError("An error ocurred");
-      setLoading(true);
-      navigate(`/category/${category_id}`);
+      if (error.response && error.response.status === 409) {
+        setError("Topic with this title already exists");
+      } else if (error.response && error.response.status === 403) {
+        setError("You don't have permission to post in this category");
+      } else {
+        setError("An error ocurred");
+        setLoading(true);
+      }
     } finally {
       setLoading(false);
     }

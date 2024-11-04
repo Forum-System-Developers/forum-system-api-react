@@ -29,6 +29,7 @@ class TopicCreate(BaseModel):
 
 
 class TopicResponse(BaseTopic):
+    author_id: UUID
     is_locked: bool
     replies: list[ReplyResponse]
 
@@ -42,6 +43,7 @@ class TopicResponse(BaseTopic):
         return cls(
             title=topic.title,
             content=topic.content,
+            author_id=topic.author_id,
             author=topic.author.username,
             created_at=topic.created_at,
             id=topic.id,
