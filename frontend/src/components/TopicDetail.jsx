@@ -132,9 +132,9 @@ const TopicDetail = () => {
     }
   };
 
-  // const isLocked = () => {
-  //   return topic.locked ? true : false;
-  // };
+  const isLocked = () => {
+    return topic.is_locked ? true : false;
+  };
 
   if (loading) return <div>Loading...</div>;
 
@@ -160,13 +160,15 @@ const TopicDetail = () => {
         </div>
 
         <div className="reply-buttons-container">
-          <button
-            className="add-reply-button"
-            onClick={openTextField}
-            title={isOpen ? "Cancel" : "Add reply"}
-          >
-            {isOpen ? "Cancel" : "Add reply"}
-          </button>
+          {!isLocked() && (
+            <button
+              className="add-reply-button"
+              onClick={openTextField}
+              title={isOpen ? "Cancel" : "Add reply"}
+            >
+              {isOpen ? "Cancel" : "Add reply"}
+            </button>
+          )}
 
           {isOpen && (
             <button
@@ -212,7 +214,10 @@ const TopicDetail = () => {
         <div className="replies">
           <ul className="replies-list">
             {topic?.replies?.map((reply) => (
-              <li key={reply.id} className="reply-item">
+              <li
+                key={reply.id}
+                className={`reply-item ${reply.id === topic.best_reply_id ? "best-reply-item" : ""}`}
+              >
                 <div className="reply-with-votes">
                   {reply.id === topic.best_reply_id && (
                     <span

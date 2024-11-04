@@ -421,7 +421,7 @@ textarea:focus {
     padding: 10px;
     border: #b1b1b158 1px solid;
     border-radius: 1px;
-    margin-bottom: 2%;
+    margin-bottom: 1%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     font-size: 0.9rem;
     color: #4d4d4d;
@@ -429,9 +429,10 @@ textarea:focus {
 
 .best-reply-item {
     background-color: #f9f9f9;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
     padding: 10px;
+    border: #c2b4198b 2px solid;
     margin-bottom: 1%;
-    padding-left: 2%;
     list-style-type: none;
     font-size: 0.9rem;
     color: #737373;
