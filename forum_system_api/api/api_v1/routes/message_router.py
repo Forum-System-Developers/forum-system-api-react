@@ -26,7 +26,7 @@ async def create_message(
     db: Session = Depends(get_db)
 ) -> MessageResponse:
     message = send_message(db=db, message_data=message_data, user=user)
-    websocket_manager.send_message_as_json(
+    await websocket_manager.send_message_as_json(
         message=MessageResponse.model_validate(message), 
         receiver_id=message_data.receiver_id
     )

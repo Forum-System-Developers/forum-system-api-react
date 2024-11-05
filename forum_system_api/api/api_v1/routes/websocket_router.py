@@ -6,7 +6,7 @@ from forum_system_api.services import auth_service
 from forum_system_api.services.websocket_manager import websocket_manager
 
 
-websocket_router = APIRouter('/ws')
+websocket_router = APIRouter(prefix='/ws')
 
 
 @websocket_router.websocket('/connect')
