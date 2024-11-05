@@ -50,11 +50,14 @@ export default function ConversationView() {
             }
         };
     }, []);
+
+    useEffect(() => {
+        receiverRef.current = receiver;
+    }, [receiver]);
     
     useEffect(() => { 
-        receiverRef.current = receiver;
         chatEndRef.current?.scrollIntoView({ behavior: "auto" });
-    }, [receiver]);
+    }, [messages]);
     
     const handleUserSelect = (user) => {
         if (user.id === receiver.id) {
