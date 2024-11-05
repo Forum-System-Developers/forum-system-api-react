@@ -90,7 +90,11 @@ const UserDropdown = () => {
             </>
           ) : (
             <>
-              <button className="dropdown-item" title="Messages">
+              <button 
+                className="dropdown-item" 
+                title="Messages"
+                onClick={() => navigate("/conversations")}
+              >
                 <MailOutlineIcon fontSize="small" />
                 <span>Messages</span>
               </button>
