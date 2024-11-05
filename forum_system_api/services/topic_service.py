@@ -139,7 +139,12 @@ def create(category_id: UUID, topic: TopicCreate, user: User, db: Session) -> To
             detail="Topic with this title already exists, please select a new title",
         )
 
-    new_topic = Topic(author_id=user.id, category_id=category_id, **topic.model_dump())
+    new_topic = Topic(
+        author_id=user.id,
+        category_id=category_id,
+        is_locked=False,
+        **topic.model_dump(),
+    )
     db.add(new_topic)
     db.commit()
     db.refresh(new_topic)
@@ -241,7 +246,7 @@ def select_best_reply(user: User, topic_id: UUID, reply_id: UUID, db: Session) -
     """
 
     topic = _validate_topic_access(topic_id=topic_id, user=user, db=db)
-    reply = get_reply_by_id(reply_id=reply_id, db=db)
+    reply = get_reply_by_id(user=user, reply_id=reply_id, db=db)
 
     topic.best_reply_id = reply_id
     db.commit()
@@ -273,8 +278,10 @@ def get_topics_for_category(category_id: UUID, user: User, db: Session) -> list[
             status_code=status.HTTP_404_NOT_FOUND, detail="Category not found"
         )
 
-    if category.is_private and category.id not in (
-        p.category_id for p in user.permissions
+    if (
+        category.is_private
+        and category.id not in (p.category_id for p in user.permissions)
+        and not is_admin(user_id=user.id, db=db)
     ):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="Unauthorized"

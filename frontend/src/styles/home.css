@@ -1,7 +1,8 @@
 
 .home-container {
     display: flex;
-    padding: 7vh;
+    padding: 4%;
+    padding-top: 2%;
     height: 100%;
     flex: 1;
 }

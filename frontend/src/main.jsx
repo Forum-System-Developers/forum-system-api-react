@@ -9,9 +9,9 @@ const root = createRoot(document.getElementById("root"));
 root.render(
   <StrictMode>
     <Router>
-      {/* <ErrorBoundary> */}
-      <App />
-      {/* </ErrorBoundary> */}
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
     </Router>
   </StrictMode>
 );

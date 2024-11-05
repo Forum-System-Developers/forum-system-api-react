@@ -4,6 +4,20 @@ import Switch from "@mui/material/Switch";
 import { styled } from "@mui/material/styles";
 import axiosInstance from "../service/axiosInstance";
 import "../styles/home.css";
+import { alpha } from "@mui/material/styles";
+
+const GreenSwitch = styled(Switch)(({ theme }) => ({
+  "& .MuiSwitch-switchBase.Mui-checked": {
+    color: "#136966",
+    "&:hover": {
+      backgroundColor: alpha("#136966", theme.palette.action.hoverOpacity),
+    },
+  },
+  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+    backgroundColor: "#136966",
+  },
+}));
+const label = { inputProps: { "aria-label": "Color switch demo" } };
 
 function CreateCategory() {
   const navigate = useNavigate();
@@ -25,11 +39,12 @@ function CreateCategory() {
   };
 
   const handleCreateCategory = async (event) => {
+    event.preventDefault();
+
     if (!validateForm()) {
       return;
     }
 
-    event.preventDefault();
     setLoading(true);
     setError("");
 
@@ -44,11 +59,9 @@ function CreateCategory() {
     } catch (error) {
       console.error("Error creating category:", error);
       setError("An error ocurred");
-      setLoading(true);
-      redirect("/categories");
+      navigate("/categories");
     } finally {
       setLoading(false);
-      navigate(`/category/${newCategoryId}`);
     }
   };
 
@@ -70,52 +83,18 @@ function CreateCategory() {
           <div className="switches">
             <div className="form-group-category">
               <label htmlFor="is-private">Private</label>
-              <Switch
+              <GreenSwitch
                 {...label}
                 checked={isPrivate}
                 onChange={(e) => setIsPrivate(e.target.checked)}
-                sx={{
-                  "&.Mui-checked": {
-                    color: "#136966",
-                    "& .MuiSwitch-thumb": {
-                      backgroundColor: "#ffffff",
-                    },
-                    "& + .MuiSwitch-track": {
-                      backgroundColor: "#e0e0e0",
-                    },
-                  },
-                  "& .MuiSwitch-thumb": {
-                    backgroundColor: "#ffffff",
-                  },
-                  "& + .MuiSwitch-track": {
-                    backgroundColor: "#c0c0c0",
-                  },
-                }}
               />
             </div>
             <div className="form-group-category">
               <label htmlFor="is-locked">Locked</label>
-              <Switch
+              <GreenSwitch
                 {...label}
                 checked={isLocked}
                 onChange={(e) => setIsLocked(e.target.checked)}
-                sx={{
-                  "&.Mui-checked": {
-                    color: "#4CAF50",
-                    "& .MuiSwitch-thumb": {
-                      backgroundColor: "#ffffff",
-                    },
-                    "& + .MuiSwitch-track": {
-                      backgroundColor: "#e0e0e0",
-                    },
-                  },
-                  "& .MuiSwitch-thumb": {
-                    backgroundColor: "#ffffff",
-                  },
-                  "& + .MuiSwitch-track": {
-                    backgroundColor: "#c0c0c0",
-                  },
-                }}
               />
             </div>
           </div>

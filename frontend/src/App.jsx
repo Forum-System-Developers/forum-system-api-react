@@ -9,7 +9,7 @@ import {
 import React, { useEffect } from "react";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
-import TopicsForUser from "./components/Topics";
+import TopicsForUser from "./components/TopicsForUser";
 import Categories from "./components/Categories";
 import CategoryDetail from "./components/CategoryDetail";
 import CreateTopic from "./components/CreateTopic";
@@ -19,7 +19,7 @@ import TopicDetail from "./components/TopicDetail";
 import ConversationView from "./components/message/ConversationView";
 import "./App.css";
 import Register from "./components/Register";
-import PublicTopics from "./components/Home";
+import PublicTopics from "./components/PublicTopics";
 import { isAuthenticated } from "./service/auth";
 
 const App = () => {
@@ -27,7 +27,6 @@ const App = () => {
     <div className="app-container">
       <Header />
       <div className="app-content">
-        {/* <Sidebar /> */}
         <Routes>
           <Route path="/" element={<HomeElement />} exact />
           <Route path="/topics" element={<HomeElement />} />
@@ -40,7 +39,7 @@ const App = () => {
           <Route path="/topic/:topic_id" element={<TopicDetail />} />
           <Route
             path="/category/:category_id/topics/new"
-            element={<CreateTopic />}
+            element={<ProtectedTopicCreate />}
           />
         </Routes>
       </div>
@@ -50,7 +49,6 @@ const App = () => {
 
 const ProtectedLogin = () => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
     if (isAuthenticated()) {
@@ -66,3 +64,15 @@ const HomeElement = () => {
 };
 
 export default App;
+
+const ProtectedTopicCreate = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      navigate("/login", { replace: true });
+    }
+  }, [navigate]);
+
+  return isAuthenticated() ? <CreateTopic /> : null;
+};

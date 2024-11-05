@@ -7,30 +7,43 @@ import "../styles/home.css";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
+  const [error, setError] = useState("");
+
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8000/api/v1/categories/"
+      );
+      setCategories(response.data);
+    } catch (error) {
+      setError(`Error fetching categories: ${error.message}`);
+    }
+  };
+
+  if (error) {
+    return (
+      <div className="error-container">
+        <p className="error-message">{error}</p>;
+      </div>
+    );
+  }
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8000/api/v1/categories/")
-      .then((response) => {
-        setCategories(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching categories:", error);
-      });
+    fetchCategories();
   }, []);
 
   return (
     <div className="categories-container">
       <div className="button-header">
-        {isAdmin() ? (
-          <div className="button">
-            <Link to="/category/create" className="add-button">
-              <AddIcon sx={{ fontSize: 38 }} />
-              <span className="button-text">Create new</span>
-            </Link>
-          </div>
-        ) : (
-          <></>
+        {isAdmin() && (
+          <>
+            <div className="button">
+              <Link to="/category/create" className="add-button">
+                <AddIcon sx={{ fontSize: 38 }} />
+                <span className="button-text">Create new</span>
+              </Link>
+            </div>
+          </>
         )}
       </div>
       <div className="categories">

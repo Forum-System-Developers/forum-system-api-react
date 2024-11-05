@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { redirect, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../service/axiosInstance";
 import "../styles/topics.css";
 
@@ -17,16 +17,28 @@ function CreateTopic() {
       setError("Both title and content are required");
       return false;
     }
+
+    if (title.length > 50 || title.length < 5) {
+      setError("Title must be between 50 and 50 characters");
+      return false;
+    }
+
+    if (content.length > 999 || content.length < 5) {
+      setError("Content must be between 5 and 999 characters");
+      return false;
+    }
+
     setError("");
     return true;
   };
 
   const handleCreateTopic = async (event) => {
+    event.preventDefault();
+
     if (!validateForm()) {
       return;
     }
 
-    event.preventDefault();
     setLoading(true);
     setError("");
 
@@ -38,13 +50,16 @@ function CreateTopic() {
       const newTopicId = response.data.id;
       navigate(`/topic/${newTopicId}`);
     } catch (error) {
-      console.error("Error creating topic:", error);
-      setError("An error ocurred");
-      setLoading(true);
-      redirect(`/category/${category_id}`);
+      if (error.response && error.response.status === 409) {
+        setError("Topic with this title already exists");
+      } else if (error.response && error.response.status === 403) {
+        setError("You don't have permission to post in this category");
+      } else {
+        setError("An error ocurred");
+        setLoading(true);
+      }
     } finally {
       setLoading(false);
-      navigate(`/topic/${newTopicId}`);
     }
   };
 

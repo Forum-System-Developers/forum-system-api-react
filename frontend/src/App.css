@@ -18,26 +18,28 @@ a {
 }
 
 a:hover {
-  color: rgb(111, 111, 111);
+  color: #108b7b;
   text-decoration: underline;
 }
 
 .app-content {
   width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
   margin-top: 60px;
   flex-grow: 1;
   background-color: #dcdcdca1;
 }
 
 .app-container {
+  max-width: 100%;
+  overflow-x: hidden;
   display: flex;
   height: auto;
   flex-direction: column;
   background-color: #dcdcdca1;
 }
 
-.sidebar {
-  background-color: #888888;
-  width: 200px;
-  padding: 10px;
+button:focus {
+  outline: none;
 }

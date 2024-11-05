@@ -1,9 +1,9 @@
 import uvicorn
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 
 from forum_system_api.api.api_v1.api import api_router
 from forum_system_api.persistence.database import initialize_database
+from fastapi.middleware.cors import CORSMiddleware
 
 
 app = FastAPI()
@@ -15,7 +15,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 app.include_router(api_router)
 
