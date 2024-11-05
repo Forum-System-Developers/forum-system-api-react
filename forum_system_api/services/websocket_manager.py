@@ -23,17 +23,22 @@ class WebSocketManager:
             Sends a message to a specific user via their WebSocket connection.
     """
     def __init__(self) -> None:
-        self.active_connections: dict[UUID, WebSocket] = {}
+        self._active_connections: dict[UUID, WebSocket] = {}
 
-    def connect(self, websocket: WebSocket, user_id: UUID) -> None:
+    async def connect(self, websocket: WebSocket, user_id: UUID) -> None:
         """
-        Establish a connection for a given user.
+        Establish a WebSocket connection for a given user.
+
+        If the user is already connected, disconnects the existing connection before establishing a new one.
 
         Args:
-            websocket (WebSocket): The WebSocket connection instance.
+            websocket (WebSocket): The WebSocket connection to be established.
             user_id (UUID): The unique identifier of the user.
         """
-        self.active_connections[user_id] = websocket
+        if user_id in self._active_connections:
+            await self.disconnect(user_id)
+
+        self._active_connections[user_id] = websocket
 
     async def disconnect(self, user_id: UUID) -> None:
         """
@@ -46,19 +51,19 @@ class WebSocketManager:
             user_id (UUID): The unique identifier of the user whose WebSocket 
                             connection is to be disconnected.
         """
-        websocket = self.active_connections.pop(user_id, None)
+        websocket = self._active_connections.pop(user_id, None)
         if websocket is not None and websocket.client_state.name != 'DISCONNECTED':
             await websocket.close()
 
-    async def send_message_as_json(self, message_data: MessageResponse, receiver_id: UUID) -> None:
+    async def send_message_as_json(self, message: MessageResponse, receiver_id: UUID) -> None:
         """
         Sends a message to a specified receiver if they are connected.
 
         Args:
-            message_data (MessageResponse): The message to be sent.
+            message (MessageResponse): The message to be sent.
             receiver_id (UUID): The unique identifier of the receiver.
         """
-        serialized_message = message_data.model_dump_json()
+        serialized_message = message.model_dump_json()
         await self.send_message(message=serialized_message, receiver_id=receiver_id)
 
     async def send_message(self, message: str, receiver_id: UUID) -> None:
@@ -69,7 +74,7 @@ class WebSocketManager:
             message (str): The message to be sent.
             receiver_id (UUID): The unique identifier of the receiver.
         """
-        receiver = self.active_connections.get(receiver_id)
+        receiver = self._active_connections.get(receiver_id)
         if receiver is not None:
             try:    
                 await receiver.send_text(message)
