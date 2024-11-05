@@ -15,17 +15,18 @@ async def websocket_connect(
     db: Session = Depends(get_db)
 ) -> None:
     await websocket.accept()
-    data = await websocket.receive_json()
-    user_id = auth_service.authenticate_websocket_user(data=data, db=db)
-    
-    if user_id is None:
-        await websocket.close()
-        return
-    
-    websocket_manager.connect(websocket=websocket, user_id=user_id)
-    
+    user_id = None
     try:
+        data = await websocket.receive_json()
+        user_id = auth_service.authenticate_websocket_user(data=data, db=db)
+        
+        if user_id is None:
+            await websocket.close()
+            return
+        
+        websocket_manager.connect(websocket=websocket, user_id=user_id)
+    
         while True:
             await websocket.receive_text()
     except (WebSocketDisconnect, RuntimeError):
-        await websocket_manager.disconnect(user_id)
+        websocket_manager.disconnect(user_id)

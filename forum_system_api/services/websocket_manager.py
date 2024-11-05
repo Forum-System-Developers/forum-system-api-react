@@ -25,7 +25,7 @@ class WebSocketManager:
     def __init__(self) -> None:
         self._active_connections: dict[UUID, WebSocket] = {}
 
-    async def connect(self, websocket: WebSocket, user_id: UUID) -> None:
+    def connect(self, websocket: WebSocket, user_id: UUID) -> None:
         """
         Establish a WebSocket connection for a given user.
 
@@ -36,11 +36,10 @@ class WebSocketManager:
             user_id (UUID): The unique identifier of the user.
         """
         if user_id in self._active_connections:
-            await self.disconnect(user_id)
-
+            self.disconnect(user_id)
         self._active_connections[user_id] = websocket
 
-    async def disconnect(self, user_id: UUID) -> None:
+    def disconnect(self, user_id: UUID) -> None:
         """
         Disconnects the WebSocket connection for the given user ID.
 
@@ -51,9 +50,7 @@ class WebSocketManager:
             user_id (UUID): The unique identifier of the user whose WebSocket 
                             connection is to be disconnected.
         """
-        websocket = self._active_connections.pop(user_id, None)
-        if websocket is not None and websocket.client_state.name != 'DISCONNECTED':
-            await websocket.close()
+        self._active_connections.pop(user_id, None)
 
     async def send_message_as_json(self, message: MessageResponse, receiver_id: UUID) -> None:
         """
