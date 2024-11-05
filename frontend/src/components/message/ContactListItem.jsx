@@ -7,10 +7,10 @@ import {
 } from '@mui/material';
 
 
-const ContactListItem = ({ key, user, handleClick }) => {
+const ContactListItem = ({ user, handleUserSelect }) => {
     return (
-        <ListItem key={key} disablePadding>
-            <ListItemButton onClick={() => handleClick(user)}>
+        <ListItem disablePadding>
+            <ListItemButton onClick={() => handleUserSelect(user)}>
                 <ListItemIcon>
                     <AccountCircleIcon />
                 </ListItemIcon>

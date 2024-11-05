@@ -5,7 +5,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import SendIcon from '@mui/icons-material/Send';
 
 
-const MessageInputField = ({ handleSendMessage }) => {
+const MessageInputField = ({ receiver, handleSendMessage }) => {
     const [message, setMessage] = useState('');
 
     const onSendMessage = () => {
@@ -24,8 +24,7 @@ const MessageInputField = ({ handleSendMessage }) => {
 
     return (
         <TextField 
-            label="Send a message" 
-            id="fullWidth" 
+            label={receiver ? `@${receiver}` : 'Select a contact'}
             fullWidth
             value={message}
             onChange={(e) => setMessage(e.target.value)}
