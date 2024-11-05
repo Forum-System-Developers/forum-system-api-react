@@ -1,5 +1,4 @@
 from uuid import UUID
-
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
@@ -8,6 +7,7 @@ from forum_system_api.persistence.models.user import User
 from forum_system_api.schemas.message import MessageCreate, MessageResponse
 from forum_system_api.services.message_service import send_message
 from forum_system_api.services.auth_service import get_current_user
+from forum_system_api.services.websocket_manager import websocket_manager
 from forum_system_api.services import user_service
 
 
@@ -20,12 +20,18 @@ message_router = APIRouter(prefix="/messages", tags=["messages"])
         status_code=201, 
         description="Send a message"
 )
-def create_message(
+async def create_message(
     message_data: MessageCreate, 
     user: User = Depends(get_current_user), 
     db: Session = Depends(get_db)
 ) -> MessageResponse:
-    return send_message(db, message_data, user)
+    message = send_message(db=db, message_data=message_data, user=user)
+    websocket_manager.send_message_as_json(
+        message=MessageResponse.model_validate(message), 
+        receiver_id=message_data.receiver_id
+    )
+
+    return message
 
 
 @message_router.get(
