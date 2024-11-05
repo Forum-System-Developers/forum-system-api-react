@@ -50,6 +50,7 @@ class UserPermissionsResponse(UserResponse):
         permissions: list[UserCategoryPermission]
     ) -> dict:
         return cls(
+            id=user.id,
             username=user.username,
             first_name=user.first_name,
             last_name=user.last_name,
