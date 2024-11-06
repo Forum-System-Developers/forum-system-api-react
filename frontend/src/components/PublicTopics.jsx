@@ -72,8 +72,6 @@ const PublicTopics = () => {
       </div>
 
       <div className="content-topics-sidebar">
-        <TopicList topics={topics} />
-
         <div className="sidebar">
           <label className="order-by">Order By:</label>
           <label className="order-label">
@@ -89,6 +87,7 @@ const PublicTopics = () => {
             </select>
           </label>
         </div>
+        <TopicList topics={topics} />
       </div>
 
       <div className="pagination-controls">

@@ -23,12 +23,17 @@
 }
 
 .category-box {
+    display: flex;
+    flex-direction: column;
+    min-height: fit-content;
     background-color: #f4f4f4;
     border: 1px solid #ddd;
     border-radius: 8px;
     height: 140px;
     padding: 2vh;
     text-align: center;
+    justify-content: center;
+    align-items: center ;
     transition: transform 0.3s;
 }
 
@@ -180,7 +185,13 @@ textarea:focus {
 .switches {
     display: flex;
     flex-direction: row;
+    margin-top: 1%;
     justify-content: center;
     gap: 10px;
     width: 25%;
+}
+
+.lock-switch label,
+.private-switch label {
+    color: #707070;
 }
