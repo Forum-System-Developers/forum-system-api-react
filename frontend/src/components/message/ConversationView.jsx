@@ -16,31 +16,42 @@ import "../../styles/conversation_view.css";
 
 export default function ConversationView() {
     const [contacts, setContacts] = useState([]);
-    const [messages, setMessages] = useState([]);
     const [receiver, setReceiver] = useState('');
+    const [messages, setMessages] = useState({});
+    const [pendingMessages, setPendingMessages] = useState({});
     const receiverRef = useRef(receiver);
     const chatEndRef = useRef(null);
     const socket = useRef(null);
     const drawerWidth = 240;
 
     useEffect(() => {
-        axiosInstance
-        .get("/conversations/contacts/")
-        .then((response) => {
-            setContacts(response.data);
-        })
-        .catch((error) => {
-            console.error("Error fetching conversations:", error);
-        });
+        fetchContacts();
     }, []);
-
     
+    useEffect(() => {
+        receiverRef.current = receiver;
+    }, [receiver]);
+    
+    useEffect(() => { 
+        chatEndRef.current?.scrollIntoView({ behavior: "auto" });
+    }, [messages, receiver]);
+
     useEffect(() => {
         socket.current = createWebSocket((message) => {
             const author_id = message.author_id;
             const receiver_id = receiverRef.current.id;
             if (author_id === receiver_id) {
-                setMessages((prevMessages) => [...prevMessages, message]);
+                setMessages((prevMessages) => {
+                    return {
+                        ...prevMessages,
+                        [author_id]: [...(prevMessages[author_id] || []), message],
+                    };
+                });
+            } else if (contacts.find((contact) => contact.id === id)) {
+                updatePendingMessages(author_id);
+            } else {
+                fetchContacts();
+                updatePendingMessages(author_id);
             }
         });
         
@@ -51,27 +62,30 @@ export default function ConversationView() {
         };
     }, []);
 
-    useEffect(() => {
-        receiverRef.current = receiver;
-    }, [receiver]);
-    
-    useEffect(() => { 
-        chatEndRef.current?.scrollIntoView({ behavior: "auto" });
-    }, [messages]);
+
+    const updatePendingMessages = (author_id) => {
+        setPendingMessages((prevPendingMessages) => {
+            return {
+                ...prevPendingMessages,
+                [author_id]: prevPendingMessages[author_id] ? prevPendingMessages[author_id] + 1 : 1,
+            };
+        });
+    };
     
     const handleUserSelect = (user) => {
         if (user.id === receiver.id) {
             return;
         }
-        axiosInstance
-            .get(`/messages/${user.id}/`)
-            .then((response) => {
-                setReceiver(user);
-                setMessages(response.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching conversations:", error);
-            });
+        setPendingMessages((prevPendingMessages) => {
+            return {
+                ...prevPendingMessages,
+                [user.id]: 0,
+            };
+        });
+        if (!messages[user.id] ||messages[user.id].length === 0) {
+            fetchMessages(user);
+        }
+        setReceiver(user);
     };
 
     const handleSendMessage = (message) => {
@@ -82,7 +96,12 @@ export default function ConversationView() {
         })
         .then((response) => {
             if (response.status === 201) {
-                setMessages([...messages, response.data]);
+                setMessages((prevMessages) => {
+                    return {
+                        ...prevMessages,
+                        [receiver.id]: [...(prevMessages[receiver.id] || []), response.data],
+                    };
+                });
             }
         })
         .catch((error) => {
@@ -90,11 +109,48 @@ export default function ConversationView() {
         }); 
     }
 
+    const fetchContacts = () => {
+        axiosInstance
+        .get("/conversations/contacts/")
+        .then((response) => {
+            setContacts(response.data);
+        })
+        .catch((error) => {
+            console.error("Error fetching conversations:", error);
+        });
+    };
+
+    const fetchMessages = (user) => {
+        axiosInstance
+            .get(`/messages/${user.id}/`)
+            .then((response) => {
+                setMessages((prevMessages) => {
+                    return {
+                        ...prevMessages,
+                        [user.id]: response.data,
+                    };
+                });
+            })
+            .catch((error) => {
+                console.error("Error fetching conversations:", error);
+            });
+    };
+
     const formatTime = (datetime) => {
         const date = new Date(datetime);
+        const now = new Date();
+        const isToday = date.toDateString() === now.toDateString();
+
         const hours = date.getHours().toString().padStart(2, '0');
         const minutes = date.getMinutes().toString().padStart(2, '0');
-        return `${hours}:${minutes}`;
+
+        if (isToday) {
+            return `${hours}:${minutes}`;
+        } else {
+            const month = date.toLocaleString('default', { month: 'short' });
+            const day = date.getDate().toString();
+            return `${month} ${day} ${hours}:${minutes}`;
+        }
     };
 
     return (
@@ -120,6 +176,7 @@ export default function ConversationView() {
                             key={index} 
                             user={user} 
                             handleUserSelect={handleUserSelect} 
+                            pendingMessages={pendingMessages[user.id] || 0}
                         />
                     ))}
                     </List>
@@ -131,10 +188,8 @@ export default function ConversationView() {
                         top: 0,
                         display: 'flex',
                         flexDirection: 'column',
-                        // height: '100vh',
-                        paddingBottom: 5,
+                        paddingBottom: 2,
                         bgcolor: 'background.default',
-                        // p: 3,
                     }}
                 >
                     <Box sx={{ 
@@ -143,7 +198,7 @@ export default function ConversationView() {
                         p: 1,
                         position: 'sticky', 
                     }}>
-                    {messages.map((message, index) => (
+                    {receiver && messages[receiver.id] && messages[receiver.id].map((message, index) => (
                         <Box 
                             key={index} 
                             sx={{ mb: 1 , '&:hover': {boxShadow: 6}}}
