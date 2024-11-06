@@ -16,9 +16,9 @@ import CreateTopic from "./components/CreateTopic";
 import CreateCategory from "./components/CreateCategory";
 import Login from "./components/login";
 import TopicDetail from "./components/TopicDetail";
-import ConversationView from "./components/message/ConversationView";
 import "./App.css";
 import Register from "./components/Register";
+import ConversationView from "./components/message/ConversationView";
 import PublicTopics from "./components/PublicTopics";
 import { isAuthenticated } from "./service/auth";
 
@@ -34,6 +34,7 @@ const App = () => {
           <Route path="/categories" element={<Categories />} />
           <Route path="/login" element={<ProtectedLogin />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/conversations" element={<ConversationView />} />
           <Route path="/category/create" element={<CreateCategory />} />
           <Route path="/category/:category_id" element={<CategoryDetail />} />
           <Route path="/topic/:topic_id" element={<TopicDetail />} />
