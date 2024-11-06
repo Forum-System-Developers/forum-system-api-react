@@ -24,9 +24,11 @@ async def websocket_connect(
             await websocket.close()
             return
         
-        websocket_manager.connect(websocket=websocket, user_id=user_id)
+        await websocket_manager.connect(websocket=websocket, user_id=user_id)
     
         while True:
             await websocket.receive_text()
     except (WebSocketDisconnect, RuntimeError):
-        websocket_manager.disconnect(user_id)
+        await websocket_manager.disconnect(user_id)
+    finally:
+        await websocket_manager.close_connection(websocket)
