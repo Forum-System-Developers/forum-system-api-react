@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { isAdmin } from "../service/auth";
 import AddIcon from "@mui/icons-material/Add";
+import RemoveCircleOutlineRoundedIcon from "@mui/icons-material/RemoveCircleOutlineRounded";
 import Switch from "@mui/material/Switch";
 import { styled, alpha } from "@mui/material/styles";
 import "../styles/home.css";
@@ -117,7 +118,10 @@ const Categories = () => {
             <Link to={`/category/${category.id}`}>
               <h2 className="category-name">{category.name}</h2>
             </Link>
-            <p>{category.topic_count} topics in this category</p>
+            <h3 className="category-content">
+              {category.topic_count} topics in this category
+            </h3>
+
             {isAdmin() && (
               <div className="switches">
                 <div className="private-switch">
@@ -131,6 +135,7 @@ const Categories = () => {
                     }}
                   />
                 </div>
+
                 <div className="lock-switch">
                   <label htmlFor="is-locked">Locked</label>
                   <GreenSwitch
@@ -140,6 +145,14 @@ const Categories = () => {
                       const newIsLocked = e.target.checked;
                       handleLockCategory(category.id, newIsLocked);
                     }}
+                  />
+                </div>
+
+                <div className="category-actions">
+                  <label htmlFor="category-access">Access</label>
+                  <RemoveCircleOutlineRoundedIcon
+                    className="category-access-icon"
+                    sx={{ fontSize: 28, color: "#707070", fontWeight: "500" }}
                   />
                 </div>
               </div>

@@ -80,7 +80,7 @@ function CreateCategory() {
             />
           </div>
           <div className="switches">
-            <div className="form-group-category">
+            <div className="form-group-category-switches">
               <label htmlFor="is-private">Private</label>
               <GreenSwitch
                 {...label}
@@ -88,7 +88,7 @@ function CreateCategory() {
                 onChange={(e) => setIsPrivate(e.target.checked)}
               />
             </div>
-            <div className="form-group-category">
+            <div className="form-group-category-switches">
               <label htmlFor="is-locked">Locked</label>
               <GreenSwitch
                 {...label}
