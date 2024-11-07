@@ -19,7 +19,7 @@ import "../../styles/conversation_view.css";
 export default function ConversationView() {
     const [contacts, setContacts] = useState([]);
     const [receiver, setReceiver] = useState('');
-    const [activeButton, setActiveButton] = useState(null);
+    const [activeSelection, setActiveSelection] = useState(null);
     const [messages, setMessages] = useState({});
     const [pendingMessages, setPendingMessages] = useState({});
     const receiverRef = useRef(receiver);
@@ -50,11 +50,11 @@ export default function ConversationView() {
                         [author_id]: [...(prevMessages[author_id] || []), message],
                     };
                 });
-            } else if (contacts.find((contact) => contact.id === id)) {
-                updatePendingMessages(author_id);
+            } else if (contacts.find((contact) => contact.id === receiver_id)) {
+                updatePendingMessages(message);
             } else {
                 fetchContacts();
-                updatePendingMessages(author_id);
+                updatePendingMessages(message);
             }
         });
         
@@ -66,11 +66,11 @@ export default function ConversationView() {
     }, []);
 
 
-    const updatePendingMessages = (author_id) => {
+    const updatePendingMessages = (message) => {
         setPendingMessages((prevPendingMessages) => {
             return {
                 ...prevPendingMessages,
-                [author_id]: prevPendingMessages[author_id] ? prevPendingMessages[author_id] + 1 : 1,
+                [message.author_id]: [...(prevPendingMessages[message.author_id] || []), message],
             };
         });
     };
@@ -79,17 +79,26 @@ export default function ConversationView() {
         if (user.id === receiver.id) {
             return;
         }
+        if (!messages[user.id] || messages[user.id].length === 0) {
+            fetchMessages(user);
+        } else if (pendingMessages[user.id]) {
+            setMessages((prevMessages) => {
+                return {
+                    ...prevMessages,
+                    [user.id]: [...(prevMessages[user.id] || []), ...pendingMessages[user.id]],
+                };
+            });
+        }
+
         setPendingMessages((prevPendingMessages) => {
             return {
                 ...prevPendingMessages,
-                [user.id]: 0,
+                [user.id]: [],
             };
         });
-        if (!messages[user.id] ||messages[user.id].length === 0) {
-            fetchMessages(user);
-        }
+        
         setReceiver(user);
-        setActiveButton(index);
+        setActiveSelection(index);
     };
 
     const handleSendMessage = (message) => {
@@ -190,8 +199,8 @@ export default function ConversationView() {
                                 index={index}
                                 user={user} 
                                 handleUserSelect={handleUserSelect} 
-                                pendingMessages={pendingMessages[user.id] || 0}
-                                style={{ backgroundColor: activeButton === index ? 'rgb(235, 235, 235)' : undefined }}
+                                pendingMessages={pendingMessages[user.id] ? pendingMessages[user.id].length : 0}
+                                style={{ backgroundColor: activeSelection === index ? 'rgb(235, 235, 235)' : undefined }}
                             />
                         </div>
                     ))}
