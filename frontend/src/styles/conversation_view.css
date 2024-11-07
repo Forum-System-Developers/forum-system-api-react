@@ -2,8 +2,35 @@
     flex-grow: 1;
     position: fixed;
     width: calc(100% - 340px);
+    min-width: 55%;
     bottom: 0px;
     padding: 0.5rem;
-    background-color: rgb(185, 210, 210);
+    border-radius: 0.5rem;
+    background-color: rgb(198, 219, 226);
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+}
+
+.user-message {
+    background-color: rgb(198, 219, 226);
+    margin: 0.5rem;
+    border-radius: 0.5rem;
+    border: 0.5px solid rgb(35, 35, 35);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+}
+
+.recipient-message {
+    background-color: rgb(235, 235, 235);
+    margin: 0.5rem;
+    border-radius: 0.5rem;
+    border: 0.5px solid rgb(35, 35, 35);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+}
+
+.user-message:hover,
+.recipient-message:hover {
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.4);
+}
+
+.new-conversation-btn {
+    margin: 0.65rem;
 }
