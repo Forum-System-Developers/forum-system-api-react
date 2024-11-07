@@ -7,14 +7,17 @@ import {
 } from '@mui/material';
 
 
-const ContactListItem = ({ user, handleUserSelect }) => {
+const ContactListItem = ({ user, index, style, handleUserSelect, pendingMessages }) => {
     return (
-        <ListItem disablePadding>
-            <ListItemButton onClick={() => handleUserSelect(user)}>
+        <ListItem disablePadding style={style}>
+            <ListItemButton onClick={() => handleUserSelect(user, index)}>
                 <ListItemIcon>
                     <AccountCircleIcon />
                 </ListItemIcon>
-                <ListItemText primary={user.username} />
+                <ListItemText 
+                    primary={user.username}
+                    style={{ color: pendingMessages > 0 ? 'rgb(67, 135, 160)' : 'inherit' }}  
+                />
             </ListItemButton>
         </ListItem>
     );

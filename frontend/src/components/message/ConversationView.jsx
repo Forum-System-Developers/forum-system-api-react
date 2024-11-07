@@ -4,11 +4,13 @@ import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
 import List from "@mui/material/List";
+import { Link } from 'react-router-dom'
 
 import axiosInstance from "../../service/axiosInstance";
 import MessageCard from "./MessageCard";
 import ContactListItem from "./ContactListItem";
 import MessageInputField from "./MessageInputField";
+import AddIcon from "@mui/icons-material/Add";
 
 import createWebSocket from "../../service/WebSocketManager";
 import "../../styles/conversation_view.css";
@@ -16,31 +18,43 @@ import "../../styles/conversation_view.css";
 
 export default function ConversationView() {
     const [contacts, setContacts] = useState([]);
-    const [messages, setMessages] = useState([]);
     const [receiver, setReceiver] = useState('');
+    const [activeSelection, setActiveSelection] = useState(null);
+    const [messages, setMessages] = useState({});
+    const [pendingMessages, setPendingMessages] = useState({});
     const receiverRef = useRef(receiver);
     const chatEndRef = useRef(null);
     const socket = useRef(null);
-    const drawerWidth = 240;
+    const drawerWidth = 240;;
 
     useEffect(() => {
-        axiosInstance
-        .get("/conversations/contacts/")
-        .then((response) => {
-            setContacts(response.data);
-        })
-        .catch((error) => {
-            console.error("Error fetching conversations:", error);
-        });
+        fetchContacts();
     }, []);
-
     
+    useEffect(() => {
+        receiverRef.current = receiver;
+    }, [receiver]);
+    
+    useEffect(() => { 
+        chatEndRef.current?.scrollIntoView({ behavior: "auto" });
+    }, [messages, receiver]);
+
     useEffect(() => {
         socket.current = createWebSocket((message) => {
             const author_id = message.author_id;
             const receiver_id = receiverRef.current.id;
             if (author_id === receiver_id) {
-                setMessages((prevMessages) => [...prevMessages, message]);
+                setMessages((prevMessages) => {
+                    return {
+                        ...prevMessages,
+                        [author_id]: [...(prevMessages[author_id] || []), message],
+                    };
+                });
+            } else if (contacts.find((contact) => contact.id === receiver_id)) {
+                updatePendingMessages(message);
+            } else {
+                fetchContacts();
+                updatePendingMessages(message);
             }
         });
         
@@ -51,50 +65,105 @@ export default function ConversationView() {
         };
     }, []);
 
-    useEffect(() => {
-        receiverRef.current = receiver;
-    }, [receiver]);
+
+    const updatePendingMessages = (message) => {
+        setPendingMessages((prevPendingMessages) => {
+            return {
+                ...prevPendingMessages,
+                [message.author_id]: [...(prevPendingMessages[message.author_id] || []), message],
+            };
+        });
+    };
     
-    useEffect(() => { 
-        chatEndRef.current?.scrollIntoView({ behavior: "auto" });
-    }, [messages]);
-    
-    const handleUserSelect = (user) => {
+    const handleUserSelect = (user, index) => {
         if (user.id === receiver.id) {
             return;
         }
+        if (!messages[user.id] || messages[user.id].length === 0) {
+            fetchMessages(user);
+        } else if (pendingMessages[user.id]) {
+            setMessages((prevMessages) => {
+                return {
+                    ...prevMessages,
+                    [user.id]: [...(prevMessages[user.id] || []), ...pendingMessages[user.id]],
+                };
+            });
+        }
+
+        setPendingMessages((prevPendingMessages) => {
+            return {
+                ...prevPendingMessages,
+                [user.id]: [],
+            };
+        });
+        
+        setReceiver(user);
+        setActiveSelection(index);
+    };
+
+    const handleSendMessage = (message) => {
         axiosInstance
-            .get(`/messages/${user.id}/`)
+            .post("/messages/", {
+                content: message,
+                receiver_id: receiver.id,
+            })
             .then((response) => {
-                setReceiver(user);
-                setMessages(response.data);
+                if (response.status === 201) {
+                    setMessages((prevMessages) => {
+                        return {
+                            ...prevMessages,
+                            [receiver.id]: [...(prevMessages[receiver.id] || []), response.data],
+                        };
+                    });
+                }
+            })
+            .catch((error) => {
+                console.error("Error sending message:", error);
+            }); 
+    }
+
+    const fetchContacts = () => {
+        axiosInstance
+            .get("/conversations/contacts/")
+            .then((response) => {
+                setContacts(response.data);
             })
             .catch((error) => {
                 console.error("Error fetching conversations:", error);
             });
     };
 
-    const handleSendMessage = (message) => {
+    const fetchMessages = (user) => {
         axiosInstance
-        .post("/messages/", {
-            content: message,
-            receiver_id: receiver.id,
-        })
-        .then((response) => {
-            if (response.status === 201) {
-                setMessages([...messages, response.data]);
-            }
-        })
-        .catch((error) => {
-            console.error("Error sending message:", error);
-        }); 
-    }
+            .get(`/messages/${user.id}/`)
+            .then((response) => {
+                setMessages((prevMessages) => {
+                    return {
+                        ...prevMessages,
+                        [user.id]: response.data,
+                    };
+                });
+            })
+            .catch((error) => {
+                console.error("Error fetching conversations:", error);
+            });
+    };
 
     const formatTime = (datetime) => {
         const date = new Date(datetime);
+        const now = new Date();
+        const isToday = date.toDateString() === now.toDateString();
+
         const hours = date.getHours().toString().padStart(2, '0');
         const minutes = date.getMinutes().toString().padStart(2, '0');
-        return `${hours}:${minutes}`;
+
+        if (isToday) {
+            return `${hours}:${minutes}`;
+        } else {
+            const month = date.toLocaleString('default', { month: 'short' });
+            const day = date.getDate().toString();
+            return `${month} ${day} ${hours}:${minutes}`;
+        }
     };
 
     return (
@@ -115,12 +184,25 @@ export default function ConversationView() {
                     anchor="left"
                 >
                     <List>
+                    <div className="button new-conversation-btn">
+                        <Link
+                            to={`/conversations/new`}
+                            className="add-button"
+                        >
+                            <AddIcon sx={{ fontSize: 30 }} />
+                            <span className="button-text">New Conversation</span>
+                        </Link >
+                     </div>
                     {contacts.map((user, index) => (
-                        <ContactListItem 
-                            key={index} 
-                            user={user} 
-                            handleUserSelect={handleUserSelect} 
-                        />
+                        <div className="add-button" key={index}>
+                            <ContactListItem 
+                                index={index}
+                                user={user} 
+                                handleUserSelect={handleUserSelect} 
+                                pendingMessages={pendingMessages[user.id] ? pendingMessages[user.id].length : 0}
+                                style={{ backgroundColor: activeSelection === index ? 'rgb(235, 235, 235)' : undefined }}
+                            />
+                        </div>
                     ))}
                     </List>
                 </Drawer>
@@ -131,10 +213,8 @@ export default function ConversationView() {
                         top: 0,
                         display: 'flex',
                         flexDirection: 'column',
-                        // height: '100vh',
-                        paddingBottom: 5,
+                        paddingBottom: 2,
                         bgcolor: 'background.default',
-                        // p: 3,
                     }}
                 >
                     <Box sx={{ 
@@ -143,12 +223,10 @@ export default function ConversationView() {
                         p: 1,
                         position: 'sticky', 
                     }}>
-                    {messages.map((message, index) => (
-                        <Box 
-                            key={index} 
-                            sx={{ mb: 1 , '&:hover': {boxShadow: 6}}}
-                        >
+                    {receiver && messages[receiver.id] && messages[receiver.id].map((message, index) => (
+                        <Box key={index} >
                             <MessageCard 
+                                className={message.author_id === receiver.id ? 'recipient-message' : 'user-message'}
                                 message={message.content} 
                                 author={message.author_id === receiver.id ? receiver.username : 'You'} 
                                 timestamp={formatTime(message.created_at)}
