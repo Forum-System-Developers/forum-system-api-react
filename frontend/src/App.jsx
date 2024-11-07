@@ -17,6 +17,7 @@ import CreateCategory from "./components/CreateCategory";
 import Login from "./components/login";
 import TopicDetail from "./components/TopicDetail";
 import ConversationView from "./components/message/ConversationView";
+import CreateMessage from "./components/message/CreateMessage";
 import "./App.css";
 import Register from "./components/Register";
 import PublicTopics from "./components/PublicTopics";
@@ -31,6 +32,7 @@ const App = () => {
           <Route path="/" element={<HomeElement />} exact />
           <Route path="/topics" element={<HomeElement />} />
           <Route path="/conversations" element={<ConversationView />} />
+          <Route path="/conversations/new" element={<CreateMessage />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/login" element={<ProtectedLogin />} />
           <Route path="/register" element={<Register />} />

@@ -14,8 +14,10 @@ const ContactListItem = ({ user, index, style, handleUserSelect, pendingMessages
                 <ListItemIcon>
                     <AccountCircleIcon />
                 </ListItemIcon>
-                <ListItemText primary={user.username} />
-                {pendingMessages > 0 && <ListItemText primary={pendingMessages} sx={{color: 'rgb(67, 135, 160)'}}/>}
+                <ListItemText 
+                    primary={user.username}
+                    style={{ color: pendingMessages > 0 ? 'rgb(67, 135, 160)' : 'inherit' }}  
+                />
             </ListItemButton>
         </ListItem>
     );
