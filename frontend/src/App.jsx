@@ -9,6 +9,7 @@ import {
 import React, { useEffect } from "react";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
+import CategoryAccess from "./components/CategoryAcess";
 import TopicsForUser from "./components/TopicsForUser";
 import Categories from "./components/Categories";
 import CategoryDetail from "./components/CategoryDetail";
@@ -38,6 +39,10 @@ const App = () => {
           <Route path="/category/create" element={<CreateCategory />} />
           <Route path="/category/:category_id" element={<CategoryDetail />} />
           <Route path="/topic/:topic_id" element={<TopicDetail />} />
+          <Route
+            path="/category/:category_id/access"
+            element={<CategoryAccess />}
+          />
           <Route
             path="/category/:category_id/topics/new"
             element={<ProtectedTopicCreate />}

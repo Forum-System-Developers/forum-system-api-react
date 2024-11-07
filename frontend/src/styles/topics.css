@@ -303,7 +303,9 @@ textarea:focus {
 .content-topics-sidebar {
     display: flex;
     flex-direction: row;
-    width: 100%;
+    width: 95%;
+    padding: 2%;
+    padding-top: 0;
     gap: 2%;
 }
 

@@ -20,7 +20,6 @@ const GreenSwitch = styled(Switch)(({ theme }) => ({
     backgroundColor: "#136966",
   },
 }));
-// const label = { inputProps: { "aria-label": "Color switch demo" } };
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -148,13 +147,21 @@ const Categories = () => {
                   />
                 </div>
 
-                <div className="category-actions">
-                  <label htmlFor="category-access">Access</label>
-                  <RemoveCircleOutlineRoundedIcon
-                    className="category-access-icon"
-                    sx={{ fontSize: 28, color: "#707070", fontWeight: "500" }}
-                  />
-                </div>
+                {categoryStates[category.id]?.isPrivate && (
+                  <div className="category-actions">
+                    <label htmlFor="category-access">Access</label>
+                    <Link to={`/category/${category.id}/access`}>
+                      <RemoveCircleOutlineRoundedIcon
+                        className="category-access-icon"
+                        sx={{
+                          fontSize: 28,
+                          color: "#707070",
+                          fontWeight: "500",
+                        }}
+                      />
+                    </Link>
+                  </div>
+                )}
               </div>
             )}
           </div>
