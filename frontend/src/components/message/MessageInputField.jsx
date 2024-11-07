@@ -34,7 +34,7 @@ const MessageInputField = ({ receiver, handleSendMessage }) => {
                     endAdornment: (
                         <InputAdornment position="end">
                             <IconButton 
-                                color="primary" 
+                                color="inherit" 
                                 aria-label="send" 
                                 onClick={onSendMessage}
                             >
