@@ -210,12 +210,17 @@ textarea:focus {
     color: #707070;
 }
 
+.category-access-icon {
+    transition: color 0.6 ease, background-color 0.6s ease, box-shadow 0.6s ease;
+}
+
 .category-access-icon:hover {
     cursor: pointer;
     color: #ffffff;
     background-color: #919191;
     border-radius: 50%;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
 }
 
 .category-actions {
@@ -236,4 +241,69 @@ textarea:focus {
     margin-top: 0;
     font-weight: 400;
     color: #818181;
+}
+
+
+.admin-panel {
+    width: 85%;
+    max-width: 100%;
+    overflow-x: hidden;
+    min-height: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #ffffff;
+    padding: 2%;
+    margin: 1%;
+    margin-top: 2%;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.users-title {
+    font-size: 1.2rem;
+    color: #7a7a7a;
+    margin-bottom: 0.8rem;
+    margin-left: 1rem;
+}
+
+.priviledged-users-list ul {
+    list-style: none;
+}
+
+.priviledged-users-list li {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fbfbfb88;
+    padding: 1% 1%;
+    height: fit-content;
+    border: solid 1px #f0f0f0bc;
+    transition: transform 0.2s, box-shadow 0.2s;
+    width: 70%;
+    margin: 1%;
+    max-width: 100%;
+}
+
+.admin-panel-header {
+    display: flex;
+    justify-content: flex-end;
+    height: fit-content;
+    align-items: baseline;
+}
+
+.username-list {
+    font-size: 14px;
+    min-width: 115px;
+    margin-right: 3%;
+    margin: 0;
+    font-weight: 400;
+    align-items: center;
+    color: #818181;
+    padding-left: 2%;
+    padding: 1%;
+}
+
+user-access-list-item {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
 }
