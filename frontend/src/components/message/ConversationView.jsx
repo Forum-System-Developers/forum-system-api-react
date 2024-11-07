@@ -4,11 +4,13 @@ import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
 import List from "@mui/material/List";
+import { Link } from 'react-router-dom'
 
 import axiosInstance from "../../service/axiosInstance";
 import MessageCard from "./MessageCard";
 import ContactListItem from "./ContactListItem";
 import MessageInputField from "./MessageInputField";
+import AddIcon from "@mui/icons-material/Add";
 
 import createWebSocket from "../../service/WebSocketManager";
 import "../../styles/conversation_view.css";
@@ -17,12 +19,13 @@ import "../../styles/conversation_view.css";
 export default function ConversationView() {
     const [contacts, setContacts] = useState([]);
     const [receiver, setReceiver] = useState('');
+    const [activeButton, setActiveButton] = useState(null);
     const [messages, setMessages] = useState({});
     const [pendingMessages, setPendingMessages] = useState({});
     const receiverRef = useRef(receiver);
     const chatEndRef = useRef(null);
     const socket = useRef(null);
-    const drawerWidth = 240;
+    const drawerWidth = 240;;
 
     useEffect(() => {
         fetchContacts();
@@ -72,7 +75,7 @@ export default function ConversationView() {
         });
     };
     
-    const handleUserSelect = (user) => {
+    const handleUserSelect = (user, index) => {
         if (user.id === receiver.id) {
             return;
         }
@@ -86,38 +89,39 @@ export default function ConversationView() {
             fetchMessages(user);
         }
         setReceiver(user);
+        setActiveButton(index);
     };
 
     const handleSendMessage = (message) => {
         axiosInstance
-        .post("/messages/", {
-            content: message,
-            receiver_id: receiver.id,
-        })
-        .then((response) => {
-            if (response.status === 201) {
-                setMessages((prevMessages) => {
-                    return {
-                        ...prevMessages,
-                        [receiver.id]: [...(prevMessages[receiver.id] || []), response.data],
-                    };
-                });
-            }
-        })
-        .catch((error) => {
-            console.error("Error sending message:", error);
-        }); 
+            .post("/messages/", {
+                content: message,
+                receiver_id: receiver.id,
+            })
+            .then((response) => {
+                if (response.status === 201) {
+                    setMessages((prevMessages) => {
+                        return {
+                            ...prevMessages,
+                            [receiver.id]: [...(prevMessages[receiver.id] || []), response.data],
+                        };
+                    });
+                }
+            })
+            .catch((error) => {
+                console.error("Error sending message:", error);
+            }); 
     }
 
     const fetchContacts = () => {
         axiosInstance
-        .get("/conversations/contacts/")
-        .then((response) => {
-            setContacts(response.data);
-        })
-        .catch((error) => {
-            console.error("Error fetching conversations:", error);
-        });
+            .get("/conversations/contacts/")
+            .then((response) => {
+                setContacts(response.data);
+            })
+            .catch((error) => {
+                console.error("Error fetching conversations:", error);
+            });
     };
 
     const fetchMessages = (user) => {
@@ -171,13 +175,25 @@ export default function ConversationView() {
                     anchor="left"
                 >
                     <List>
+                    <div className="button new-conversation-btn">
+                        <Link
+                            to={`/conversations/new`}
+                            className="add-button"
+                        >
+                            <AddIcon sx={{ fontSize: 30 }} />
+                            <span className="button-text">New Conversation</span>
+                        </Link >
+                     </div>
                     {contacts.map((user, index) => (
-                        <ContactListItem 
-                            key={index} 
-                            user={user} 
-                            handleUserSelect={handleUserSelect} 
-                            pendingMessages={pendingMessages[user.id] || 0}
-                        />
+                        <div className="add-button" key={index}>
+                            <ContactListItem 
+                                index={index}
+                                user={user} 
+                                handleUserSelect={handleUserSelect} 
+                                pendingMessages={pendingMessages[user.id] || 0}
+                                style={{ backgroundColor: activeButton === index ? 'rgb(235, 235, 235)' : undefined }}
+                            />
+                        </div>
                     ))}
                     </List>
                 </Drawer>
@@ -199,11 +215,9 @@ export default function ConversationView() {
                         position: 'sticky', 
                     }}>
                     {receiver && messages[receiver.id] && messages[receiver.id].map((message, index) => (
-                        <Box 
-                            key={index} 
-                            sx={{ mb: 1 , '&:hover': {boxShadow: 6}}}
-                        >
+                        <Box key={index} >
                             <MessageCard 
+                                className={message.author_id === receiver.id ? 'recipient-message' : 'user-message'}
                                 message={message.content} 
                                 author={message.author_id === receiver.id ? receiver.username : 'You'} 
                                 timestamp={formatTime(message.created_at)}
