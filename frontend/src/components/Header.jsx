@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import UserDropdown from "./UserDropdown";
-import Search from "./Search";
+import SearchBarCategories from "./SearchBarCategories";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+import ViewModuleRoundedIcon from "@mui/icons-material/ViewModuleRounded";
 import ReorderRoundedIcon from "@mui/icons-material/ReorderRounded";
 import { Link } from "react-router-dom";
 import "../styles/Header.css";
@@ -24,12 +25,12 @@ const Header = () => {
         </li>
         <li>
           <Link to="/categories" className="categories-button">
-            <ReorderRoundedIcon sx={{ fontSize: 38 }} />
+            <ViewModuleRoundedIcon sx={{ fontSize: 38 }} />
             <span className="tooltip-text-category">Categories</span>
           </Link>
         </li>
       </ul>
-      <Search />
+      <SearchBarCategories />
       <UserDropdown />
     </header>
   );

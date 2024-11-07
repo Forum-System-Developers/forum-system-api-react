@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { redirect, useNavigate, useParams } from "react-router-dom";
 import Switch from "@mui/material/Switch";
-import { styled } from "@mui/material/styles";
+import { styled, alpha } from "@mui/material/styles";
 import axiosInstance from "../service/axiosInstance";
 import "../styles/home.css";
-import { alpha } from "@mui/material/styles";
 
 const GreenSwitch = styled(Switch)(({ theme }) => ({
   "& .MuiSwitch-switchBase.Mui-checked": {
@@ -17,7 +16,7 @@ const GreenSwitch = styled(Switch)(({ theme }) => ({
     backgroundColor: "#136966",
   },
 }));
-const label = { inputProps: { "aria-label": "Color switch demo" } };
+// const label = { inputProps: { "aria-label": "Color switch demo" } };
 
 function CreateCategory() {
   const navigate = useNavigate();
@@ -27,6 +26,7 @@ function CreateCategory() {
   const [isLocked, setIsLocked] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
   const label = { inputProps: { "aria-label": "Switch" } };
 
   const validateForm = () => {
@@ -57,8 +57,7 @@ function CreateCategory() {
       const newCategoryId = response.data.id;
       navigate(`/category/${newCategoryId}`);
     } catch (error) {
-      console.error("Error creating category:", error);
-      setError("An error ocurred");
+      setError(`An error ocurred: ${error.message}`);
       navigate("/categories");
     } finally {
       setLoading(false);
@@ -81,7 +80,7 @@ function CreateCategory() {
             />
           </div>
           <div className="switches">
-            <div className="form-group-category">
+            <div className="form-group-category-switches">
               <label htmlFor="is-private">Private</label>
               <GreenSwitch
                 {...label}
@@ -89,7 +88,7 @@ function CreateCategory() {
                 onChange={(e) => setIsPrivate(e.target.checked)}
               />
             </div>
-            <div className="form-group-category">
+            <div className="form-group-category-switches">
               <label htmlFor="is-locked">Locked</label>
               <GreenSwitch
                 {...label}

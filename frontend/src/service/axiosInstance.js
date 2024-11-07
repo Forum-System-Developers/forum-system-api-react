@@ -36,11 +36,12 @@ axiosInstance.interceptors.response.use(
           
         } catch (refreshError) {
           console.error("Token refresh failed:", refreshError);
+          
+          localStorage.removeItem("token");
+          localStorage.removeItem("refresh_token");
         }
       }
 
-      localStorage.removeItem("token");
-      localStorage.removeItem("refresh_token");
     }
 
     return Promise.reject(error);

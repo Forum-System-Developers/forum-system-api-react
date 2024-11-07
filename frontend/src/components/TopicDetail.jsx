@@ -3,9 +3,8 @@ import axiosInstance from "../service/axiosInstance";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
 import StarBorderRoundedIcon from "@mui/icons-material/StarBorderRounded";
-import MapsUgcRoundedIcon from "@mui/icons-material/MapsUgcRounded";
+import AuthorDropdown from "./AuthorDropdown";
 import HttpsRoundedIcon from "@mui/icons-material/HttpsRounded";
-import Face5RoundedIcon from "@mui/icons-material/Face5Rounded";
 import { useParams, useNavigate } from "react-router-dom";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import { currentUser, isAdmin } from "../service/auth";
@@ -18,9 +17,6 @@ const TopicDetail = () => {
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
-  const [userDropdown, setUserDropdown] = useState(false);
-
-  const dropdownRef = useRef(null);
 
   const navigate = useNavigate();
 
@@ -47,19 +43,19 @@ const TopicDetail = () => {
     fetchTopicDetails();
   }, [topic_id]);
 
-  const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setUserDropdown(false);
-    }
-  };
+  // const handleClickOutside = (event) => {
+  //   if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+  //     setUserDropdown(false);
+  //   }
+  // };
 
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+  // useEffect(() => {
+  //   document.addEventListener("mousedown", handleClickOutside);
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, []);
 
   const selectBestReply = async (replyId) => {
     try {
@@ -76,10 +72,6 @@ const TopicDetail = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const toggleDropdown = () => {
-    setUserDropdown((prev) => !prev);
   };
 
   const validateForm = () => {
@@ -133,6 +125,7 @@ const TopicDetail = () => {
   };
 
   const handleLockTopic = async () => {
+    setIsOpen(false);
     const isLocked = !topic.is_locked;
 
     try {
@@ -203,37 +196,20 @@ const TopicDetail = () => {
       <div className="topic-detail-container">
         <div className="topic-container">
           <div className="author-container">
-            <Face5RoundedIcon
-              sx={{
-                fontSize: 24,
-              }}
-              onClick={toggleDropdown}
-              className="user-icon-button"
-            />
-
-            <div className="user-dropdown-x" ref={dropdownRef}>
-              {userDropdown && (
-                <div className="user-dropdown-menu">
-                  <button className="message-button">
-                    <span>Message</span>
-                    <MapsUgcRoundedIcon sx={{ fontSize: 18 }} />
-                    <span className="tooltip-text">Message User</span>
-                  </button>
-                </div>
-              )}
+            <div className="author">
+              <AuthorDropdown />
+              <span className="author-name">{topic.author}</span>
             </div>
-
-            <span className="author-name">{topic.author}</span>
-          </div>
-          <div className="topic-main">
-            <h2 className="topic-title">{topic.title}</h2>
-            <h3 className="topic-content">{topic.content}</h3>
             <h4 className="post-description">
               Posted{" "}
               {formatDistanceToNow(parseISO(topic.created_at), {
                 addSuffix: true,
               })}
             </h4>
+          </div>
+          <div className="topic-main">
+            <h2 className="topic-title">{topic.title}</h2>
+            <h3 className="topic-content">{topic.content}</h3>
           </div>
         </div>
 
@@ -287,44 +263,52 @@ const TopicDetail = () => {
                 key={reply.id}
                 className={`reply-item ${reply.id === topic.best_reply_id ? "best-reply-item" : ""}`}
               >
-                <div className="reply-with-votes">
-                  {reply.content}
-                  <div className="votes">
-                    <span
-                      className="upvotes"
-                      onClick={() => handleVote(reply.id, true)}
-                    >
-                      <ThumbUpOutlinedIcon sx={{ fontSize: 18 }} />
-                      <span className="vote-count">{reply.upvotes}</span>
-                    </span>
-                    <span
-                      className="downvotes"
-                      onClick={() => handleVote(reply.id, false)}
-                    >
-                      <ThumbDownOutlinedIcon sx={{ fontSize: 18 }} />{" "}
-                      <span className="vote-count">{reply.downvotes}</span>
-                    </span>
-                  </div>
-                </div>
-                <div className="description-star">
-                  <h4 className="post-description">
-                    Posted{" "}
-                    {formatDistanceToNow(parseISO(topic.created_at), {
-                      addSuffix: true,
-                    })}
-                  </h4>
-                  {currentUser() === topic.author_id && (
-                    <div
-                      className="best-reply-star"
-                      onClick={() => selectBestReply(reply.id)}
-                    >
-                      <StarBorderRoundedIcon
-                        className={`best-reply-star ${reply.id === topic.best_reply_id ? "gold-star" : ""}`}
-                        sx={{ fontSize: 24 }}
-                      />
-                      <span className="tooltip">Select Best Reply</span>
+                <div className="author-reply-container">
+                  <div className="author-container">
+                    <div className="author">
+                      <AuthorDropdown />
+                      <span className="author-name">{reply.author}</span>
                     </div>
-                  )}
+                    <div className="description-star">
+                      <h4 className="post-description">
+                        Posted{" "}
+                        {formatDistanceToNow(parseISO(topic.created_at), {
+                          addSuffix: true,
+                        })}
+                      </h4>
+                      {currentUser() === topic.author_id && (
+                        <div
+                          className="best-reply-star"
+                          onClick={() => selectBestReply(reply.id)}
+                        >
+                          <StarBorderRoundedIcon
+                            className={`best-reply-star ${reply.id === topic.best_reply_id ? "gold-star" : ""}`}
+                            sx={{ fontSize: 24 }}
+                          />
+                          <span className="tooltip">Select Best Reply</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="reply-with-votes">
+                    {reply.content}
+                    <div className="votes">
+                      <span
+                        className="upvotes"
+                        onClick={() => handleVote(reply.id, true)}
+                      >
+                        <ThumbUpOutlinedIcon sx={{ fontSize: 18 }} />
+                        <span className="vote-count">{reply.upvotes}</span>
+                      </span>
+                      <span
+                        className="downvotes"
+                        onClick={() => handleVote(reply.id, false)}
+                      >
+                        <ThumbDownOutlinedIcon sx={{ fontSize: 18 }} />{" "}
+                        <span className="vote-count">{reply.downvotes}</span>
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </li>
             ))}
