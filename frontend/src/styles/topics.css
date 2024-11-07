@@ -391,7 +391,7 @@ textarea:focus {
     background-color: #ffffff96;
     display: flex;
     flex-direction: column;
-    width: 97%;
+    max-width: 97vw;
     overflow-x: hidden;
     padding: 2%;
     border-radius: 10px;
