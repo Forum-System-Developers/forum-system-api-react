@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import UserDropdown from "./UserDropdown";
-import Search from "./Search";
+import SearchBarCategories from "./SearchBarCategories";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ViewModuleRoundedIcon from "@mui/icons-material/ViewModuleRounded";
 import ReorderRoundedIcon from "@mui/icons-material/ReorderRounded";
@@ -30,7 +30,7 @@ const Header = () => {
           </Link>
         </li>
       </ul>
-      <Search />
+      <SearchBarCategories />
       <UserDropdown />
     </header>
   );
