@@ -29,16 +29,6 @@ const CategoryAccess = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      await fetchPrivilegedUsers();
-      await fetchUsers();
-      setLoading(false);
-    };
-    fetchData();
-  }, [category_id]);
-
   const fetchPrivilegedUsers = async () => {
     try {
       const response = await axiosInstance.get(
@@ -56,6 +46,14 @@ const CategoryAccess = () => {
       setError(`Error fetching privileged users: ${error.message}`);
     }
   };
+
+  useEffect(() => {
+    fetchPrivilegedUsers();
+  }, [category_id]);
+
+  useEffect(() => {
+    fetchUsers();
+  }, [privilegedUsers]);
 
   const grantUserReadAccess = async (userId) => {
     try {
