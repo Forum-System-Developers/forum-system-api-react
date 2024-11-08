@@ -32,12 +32,11 @@ const App = () => {
         <Routes>
           <Route path="/" element={<HomeElement />} exact />
           <Route path="/topics" element={<HomeElement />} />
-          <Route path="/conversations" element={<ConversationView />} />
-          <Route path="/conversations/new" element={<CreateMessage />} />
+          <Route path="/conversations" element={<ProtectedConversationView />} />
+          <Route path="/conversations/new" element={<ProtectedCreateMessage />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/login" element={<ProtectedLogin />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/conversations" element={<ConversationView />} />
           <Route path="/category/create" element={<CreateCategory />} />
           <Route path="/category/:category_id" element={<CategoryDetail />} />
           <Route path="/topic/:topic_id" element={<TopicDetail />} />
@@ -71,11 +70,9 @@ const HomeElement = () => {
   return !isAuthenticated() ? <PublicTopics /> : <TopicsForUser />;
 };
 
-export default App;
-
 const ProtectedTopicCreate = () => {
   const navigate = useNavigate();
-
+  
   useEffect(() => {
     if (!isAuthenticated()) {
       navigate("/login", { replace: true });
@@ -84,3 +81,29 @@ const ProtectedTopicCreate = () => {
 
   return isAuthenticated() ? <CreateTopic /> : null;
 };
+
+const ProtectedConversationView = () => {
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      navigate("/login", { replace: true });
+    }
+  }, [navigate]);
+  
+  return isAuthenticated() ? <ConversationView /> : null;
+} 
+
+const ProtectedCreateMessage = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      navigate("/login", { replace: true });
+    }
+  }, [navigate]);
+  
+  return isAuthenticated() ? <CreateMessage /> : null;
+}
+
+export default App;
