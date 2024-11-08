@@ -1,4 +1,3 @@
-import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
 import "./styles/index.css";
@@ -7,11 +6,9 @@ import ErrorBoundary from "./components/common/ErrorBoundary";
 
 const root = createRoot(document.getElementById("root"));
 root.render(
-  <StrictMode>
-    <Router>
-      <ErrorBoundary>
-        <App />
-      </ErrorBoundary>
-    </Router>
-  </StrictMode>
+  <Router>
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
+  </Router>
 );
