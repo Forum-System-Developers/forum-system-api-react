@@ -213,7 +213,7 @@ export default function ConversationView() {
                         top: 0,
                         display: 'flex',
                         flexDirection: 'column',
-                        paddingBottom: 2,
+                        paddingBottom: 6,
                         bgcolor: 'background.default',
                     }}
                 >

@@ -1,7 +1,7 @@
 .footer {
     flex-grow: 1;
     position: fixed;
-    width: calc(100% - 340px);
+    width: calc(100% - 265px);
     min-width: 55%;
     bottom: 0px;
     padding: 0.5rem;
