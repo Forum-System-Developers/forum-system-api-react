@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../../service/axiosInstance";
 import PaginationOptions from "../common/Pagination";
 import TopicList from "./TopicsList";
 import "../../styles/topics.css";
@@ -16,17 +16,14 @@ const PublicTopics = () => {
   const fetchTopics = async (page = 1) => {
     try {
       const offset = (page - 1) * limit;
-      const response = await axios.get(
-        "http://localhost:8000/api/v1/topics/public",
-        {
-          params: {
-            order,
-            order_by: orderBy,
-            limit,
-            offset,
-          },
-        }
-      );
+      const response = await axiosInstance.get("/topics/public", {
+        params: {
+          order,
+          order_by: orderBy,
+          limit,
+          offset,
+        },
+      });
       const fetchedTopics = response.data;
       setTopics(fetchedTopics);
       setHasMore(fetchedTopics.length === limit);

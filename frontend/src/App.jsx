@@ -27,7 +27,7 @@ const App = () => {
       <Header />
       <div className="app-content">
         <Routes>
-          <Route path="/" element={<HomeElement />} exact />
+          <Route path="/" element={<HomeElement />} />
           <Route path="/topics" element={<HomeElement />} />
           <Route path="/conversations" element={<ConversationView />} />
           <Route path="/conversations/new" element={<CreateMessage />} />
