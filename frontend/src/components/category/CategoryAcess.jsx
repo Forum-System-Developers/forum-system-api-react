@@ -10,7 +10,6 @@ const CategoryAccess = () => {
   const [users, setUsers] = useState([]);
   const [privilegedUsers, setPrivilegedUsers] = useState([]);
   const [writeAccessDisabled, setWriteAccessDisabled] = useState({});
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   const fetchUsers = async () => {

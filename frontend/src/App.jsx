@@ -25,12 +25,18 @@ const App = () => {
   return (
     <div className="app-container">
       <Header />
-      <div className="app-content">
+      <main className="app-content">
         <Routes>
           <Route path="/" element={<HomeElement />} />
           <Route path="/topics" element={<HomeElement />} />
-          <Route path="/conversations" element={<ProtectedConversationView />} />
-          <Route path="/conversations/new" element={<ProtectedCreateMessage />} />
+          <Route
+            path="/conversations"
+            element={<ProtectedConversationView />}
+          />
+          <Route
+            path="/conversations/new"
+            element={<ProtectedCreateMessage />}
+          />
           <Route path="/categories" element={<Categories />} />
           <Route path="/login" element={<ProtectedLogin />} />
           <Route path="/register" element={<Register />} />
@@ -46,7 +52,7 @@ const App = () => {
             element={<ProtectedTopicCreate />}
           />
         </Routes>
-      </div>
+      </main>
     </div>
   );
 };
@@ -69,7 +75,7 @@ const HomeElement = () => {
 
 const ProtectedTopicCreate = () => {
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     if (!isAuthenticated()) {
       navigate("/login", { replace: true });
@@ -81,15 +87,15 @@ const ProtectedTopicCreate = () => {
 
 const ProtectedConversationView = () => {
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     if (!isAuthenticated()) {
       navigate("/login", { replace: true });
     }
   }, [navigate]);
-  
+
   return isAuthenticated() ? <ConversationView /> : null;
-} 
+};
 
 const ProtectedCreateMessage = () => {
   const navigate = useNavigate();
@@ -99,8 +105,8 @@ const ProtectedCreateMessage = () => {
       navigate("/login", { replace: true });
     }
   }, [navigate]);
-  
+
   return isAuthenticated() ? <CreateMessage /> : null;
-}
+};
 
 export default App;

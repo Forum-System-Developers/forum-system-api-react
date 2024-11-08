@@ -5,6 +5,7 @@ import App from "./App.jsx";
 import ErrorBoundary from "./components/common/ErrorBoundary";
 
 const root = createRoot(document.getElementById("root"));
+
 root.render(
   <Router>
     <ErrorBoundary>

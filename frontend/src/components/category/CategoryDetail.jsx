@@ -12,6 +12,7 @@ const CategoryDetail = () => {
 
   const fetchTopics = async () => {
     try {
+      setError("");
       const response = await axiosInstance.get(
         `/categories/${category_id}/topics`
       );

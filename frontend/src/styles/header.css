@@ -1,18 +1,12 @@
 
 .header {
-    display: flex;
-    align-items: center;
-    position: fixed;
+    /* align-items: center; */
     top: 0;
-    width: 98%;
-    z-index: 1000;
-    justify-content: space-between;
+    bottom: 0;
     padding: 10px 20px;
     background: linear-gradient(to right, #a28a08, #108b7b, #0a4f4d); 
-    height: 60px;
-    box-shadow: 0 4px 8px rgba(228, 228, 228, 0.222), inset;
+    box-shadow: 0 4px 8px rgba(228, 228, 228, 0.222);
     backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
     border-radius: 2px;
     border-bottom: 2px solid rgba(222, 222, 222, 0.2);
 }

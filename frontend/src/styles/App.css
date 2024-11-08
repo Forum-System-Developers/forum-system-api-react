@@ -1,44 +1,49 @@
-html,
-body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+/* :root {
+  font-family: "Gill Sans", sans-serif;
+  line-height: 1.5;
+  font-weight: 300;
+  color-scheme: dark light;
+  color: #dcdcdca1;
   background-color: #dcdcdca1;
-}
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+} */
 
-#root {
-  width: 100vw;
-  height: 100vh; 
-  background-color: #dcdcdca1;
-}
 
+
+
+
+/* 
 a {
   color: grey; 
   text-decoration: none; 
-}
+} */
 
-a:hover {
+/* a:hover {
   color: #108b7b;
   text-decoration: underline;
-}
+} */
 
 .app-content {
   width: 100%;
   max-width: 100%;
-  overflow-x: hidden;
-  margin-top: 60px;
+  display: flex;
+  /* overflow-x: hidden; */
   flex-grow: 1;
   background-color: #dcdcdca1;
 }
 
-.app-container {
+/* main {
+  margin-top: 60px;
   max-width: 100%;
   overflow-x: hidden;
   display: flex;
   height: auto;
   flex-direction: column;
   background-color: #dcdcdca1;
-}
+} */
 
 button:focus {
   outline: none;

@@ -7,7 +7,6 @@ import "../../styles/header.css";
 
 const SearchBarCategories = () => {
   const navigate = useNavigate();
-  const [value, setValue] = useState(null);
   const [error, setError] = useState(null);
   const [categories, setCategories] = useState([]);
 
@@ -28,7 +27,7 @@ const SearchBarCategories = () => {
 
   return (
     <>
-      {error && <p className="error">{error}</p>}
+      {/* {error && <p className="error">{error}</p>} */}
       <SearchAutocomplete
         options={categories}
         label="Search categories"

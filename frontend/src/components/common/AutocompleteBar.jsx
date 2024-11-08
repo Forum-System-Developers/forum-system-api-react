@@ -1,7 +1,6 @@
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-import { useState } from "react";
-// import ".../styles/autocomplete.css";
+import { useState, useEffect } from "react";
 
 export default function SearchAutocomplete({
   options = [],
@@ -13,7 +12,21 @@ export default function SearchAutocomplete({
   textColour = "",
 }) {
   const [value, setValue] = useState(null);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  const handleOptionSelect = (selectedOption) => {
+    // setLoading(true);
+    setError("");
+    if (onOptionSelect) {
+      onOptionSelect(selectedOption);
+    } else {
+      setError("Unknown error occurred.");
+    }
+    // setLoading(false);
+  };
+
+  // if (loading) return <div>Loading...</div>;
 
   return (
     <Autocomplete
@@ -24,17 +37,16 @@ export default function SearchAutocomplete({
           typeof newValue !== "string" &&
           newValue[optionValuePath]
         ) {
-          if (onOptionSelect) {
-            onOptionSelect(newValue);
-          } else {
-            setError("Unknown error occurred.");
-          }
+          setValue(newValue);
+          handleOptionSelect(newValue);
         }
         setValue(null);
       }}
       freeSolo={false}
       selectOnFocus
       clearOnBlur
+      clearOnEscape
+      autoHighlight
       handleHomeEndKeys
       id="reusable-autocomplete"
       options={options}
