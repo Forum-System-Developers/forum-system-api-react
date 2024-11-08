@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { redirect, useNavigate, useParams } from "react-router-dom";
 import Switch from "@mui/material/Switch";
 import { styled, alpha } from "@mui/material/styles";
-import axiosInstance from "../service/axiosInstance";
-import "../styles/home.css";
+import axiosInstance from "../../service/axiosInstance";
+import "../../styles/home.css";
 
 const GreenSwitch = styled(Switch)(({ theme }) => ({
   "& .MuiSwitch-switchBase.Mui-checked": {

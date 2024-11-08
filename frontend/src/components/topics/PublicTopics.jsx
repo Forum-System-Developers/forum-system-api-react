@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import TopicList from "./TopicsList";
-import "../styles/topics.css";
+import "../../styles/topics.css";
 
 const PublicTopics = () => {
   const [topics, setTopics] = useState([]);

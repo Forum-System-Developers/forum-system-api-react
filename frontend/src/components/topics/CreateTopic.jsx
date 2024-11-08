@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axiosInstance from "../service/axiosInstance";
-import "../styles/topics.css";
+import axiosInstance from "../../service/axiosInstance";
+import "../../styles/topics.css";
 
 function CreateTopic() {
   const { category_id } = useParams();

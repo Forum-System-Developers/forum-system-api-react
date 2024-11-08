@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { isAdmin } from "../service/auth";
+import { isAdmin } from "../../service/auth";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveCircleOutlineRoundedIcon from "@mui/icons-material/RemoveCircleOutlineRounded";
 import Switch from "@mui/material/Switch";
 import { styled, alpha } from "@mui/material/styles";
-import "../styles/home.css";
-import axiosInstance from "../service/axiosInstance";
+import "../../styles/home.css";
+import axiosInstance from "../../service/axiosInstance";
 
 const GreenSwitch = styled(Switch)(({ theme }) => ({
   "& .MuiSwitch-switchBase.Mui-checked": {

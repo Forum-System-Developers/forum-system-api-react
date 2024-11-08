@@ -1,9 +1,9 @@
 import * as React from "react";
-import SearchAutocomplete from "./AutocompleteBar";
+import SearchAutocomplete from "../common/AutocompleteBar";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/header.css";
+import "../../styles/header.css";
 
 const SearchBarCategories = () => {
   const navigate = useNavigate();

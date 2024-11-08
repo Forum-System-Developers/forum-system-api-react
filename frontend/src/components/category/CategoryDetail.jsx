@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import axiosInstance from "../service/axiosInstance";
-import "../styles/topics.css";
+import axiosInstance from "../../service/axiosInstance";
+import "../../styles/topics.css";
 import AddIcon from "@mui/icons-material/Add";
-import TopicList from "./TopicsList";
+import TopicList from "../topics/TopicsList";
 
 const CategoryDetail = () => {
   const { category_id } = useParams();

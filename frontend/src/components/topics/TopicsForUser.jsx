@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import "../styles/topics.css";
+import "../../styles/topics.css";
 import TopicList from "./TopicsList";
-import axiosInstance from "../service/axiosInstance";
+import axiosInstance from "../../service/axiosInstance";
 
 const TopicsForUser = () => {
   const [topics, setTopics] = useState([]);

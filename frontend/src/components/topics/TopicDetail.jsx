@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import axiosInstance from "../service/axiosInstance";
+import axiosInstance from "../../service/axiosInstance";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
 import StarBorderRoundedIcon from "@mui/icons-material/StarBorderRounded";
@@ -7,7 +7,7 @@ import AuthorDropdown from "./AuthorDropdown";
 import HttpsRoundedIcon from "@mui/icons-material/HttpsRounded";
 import { useParams, useNavigate } from "react-router-dom";
 import { formatDistanceToNow, parseISO } from "date-fns";
-import { currentUser, isAdmin } from "../service/auth";
+import { currentUser, isAdmin } from "../../service/auth";
 
 const TopicDetail = () => {
   const { topic_id } = useParams();
