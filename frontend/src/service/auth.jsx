@@ -14,7 +14,7 @@ export const isAdmin = () => {
 };
 
 export const isAuthenticated = () => {
-  return localStorage.getItem("token") !== null;
+  return localStorage.getItem("token") != null;
 };
 
 export const currentUser = () => {

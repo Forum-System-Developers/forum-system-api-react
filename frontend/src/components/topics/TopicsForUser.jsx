@@ -81,7 +81,6 @@ const TopicsForUser = () => {
             </select>
           </label>
           <label className="order-label">
-            {/* Order: */}
             <select value={order} onChange={handleOrderChange}>
               <option value="asc">Ascending</option>
               <option value="desc">Descending</option>
