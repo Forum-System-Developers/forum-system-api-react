@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import PaginationOptions from "../common/Pagination";
 import TopicList from "./TopicsList";
 import "../../styles/topics.css";
 
@@ -50,16 +51,6 @@ const PublicTopics = () => {
     }
   };
 
-  const handleOrderChange = (event) => {
-    setOrder(event.target.value);
-    setCurrentPage(1);
-  };
-
-  const handleOrderByChange = (event) => {
-    setOrderBy(event.target.value);
-    setCurrentPage(1);
-  };
-
   if (error) {
     return (
       <div className="error-container">
@@ -75,21 +66,13 @@ const PublicTopics = () => {
       </div>
 
       <div className="content-topics-sidebar">
-        <div className="sidebar">
-          <label className="order-by">Order By:</label>
-          <label className="order-label">
-            <select value={orderBy} onChange={handleOrderByChange}>
-              <option value="title">Title</option>
-              <option value="created_at">Created At</option>
-            </select>
-          </label>
-          <label className="order-label">
-            <select value={order} onChange={handleOrderChange}>
-              <option value="asc">Ascending</option>
-              <option value="desc">Descending</option>
-            </select>
-          </label>
-        </div>
+        <PaginationOptions
+          order={order}
+          setOrder={setOrder}
+          orderBy={orderBy}
+          setOrderBy={setOrderBy}
+          setCurrentPage={setCurrentPage}
+        />
         <TopicList topics={topics} />
       </div>
 
