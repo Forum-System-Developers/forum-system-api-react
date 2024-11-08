@@ -1,9 +1,7 @@
-// import * as React from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "../styles/header.css";
+// import ".../styles/autocomplete.css";
 
 export default function SearchAutocomplete({
   options = [],

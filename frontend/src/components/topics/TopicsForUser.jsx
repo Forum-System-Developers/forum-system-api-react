@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import "../../styles/topics.css";
 import TopicList from "./TopicsList";
-import "../styles/topics.css";
+import axiosInstance from "../../service/axiosInstance";
 
-const PublicTopics = () => {
+const TopicsForUser = () => {
   const [topics, setTopics] = useState([]);
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -15,17 +15,14 @@ const PublicTopics = () => {
   const fetchTopics = async (page = 1) => {
     try {
       const offset = (page - 1) * limit;
-      const response = await axios.get(
-        "http://localhost:8000/api/v1/topics/public",
-        {
-          params: {
-            order,
-            order_by: orderBy,
-            limit,
-            offset,
-          },
-        }
-      );
+      const response = await axiosInstance.get("/topics/", {
+        params: {
+          order,
+          order_by: orderBy,
+          limit,
+          offset,
+        },
+      });
       const fetchedTopics = response.data;
       setTopics(fetchedTopics);
       setHasMore(fetchedTopics.length === limit);
@@ -35,8 +32,8 @@ const PublicTopics = () => {
   };
 
   useEffect(() => {
-    fetchTopics();
-  }, []);
+    fetchTopics(currentPage);
+  }, [currentPage, order, orderBy]);
 
   const handleNextPage = () => {
     if (hasMore) {
@@ -60,13 +57,16 @@ const PublicTopics = () => {
     setCurrentPage(1);
   };
 
+  if (error) {
+    return (
+      <div className="error-container">
+        <p className="error-message">{error}</p>;
+      </div>
+    );
+  }
+
   return (
     <div className="home-container">
-      {/* {error && (
-        <div className="error-container">
-          <p className="error-message">{error}</p>
-        </div>
-      )} */}
       <div className="category-header">
         <h2 className="description">Latest posts</h2>
       </div>
@@ -110,4 +110,4 @@ const PublicTopics = () => {
   );
 };
 
-export default PublicTopics;
+export default TopicsForUser;

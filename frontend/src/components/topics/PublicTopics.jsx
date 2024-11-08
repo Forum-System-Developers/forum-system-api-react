@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import "../styles/topics.css";
+import axios from "axios";
 import TopicList from "./TopicsList";
-import axiosInstance from "../service/axiosInstance";
+import "../../styles/topics.css";
 
-const TopicsForUser = () => {
+const PublicTopics = () => {
   const [topics, setTopics] = useState([]);
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -15,14 +15,17 @@ const TopicsForUser = () => {
   const fetchTopics = async (page = 1) => {
     try {
       const offset = (page - 1) * limit;
-      const response = await axiosInstance.get("/topics/", {
-        params: {
-          order,
-          order_by: orderBy,
-          limit,
-          offset,
-        },
-      });
+      const response = await axios.get(
+        "http://localhost:8000/api/v1/topics/public",
+        {
+          params: {
+            order,
+            order_by: orderBy,
+            limit,
+            offset,
+          },
+        }
+      );
       const fetchedTopics = response.data;
       setTopics(fetchedTopics);
       setHasMore(fetchedTopics.length === limit);
@@ -81,7 +84,6 @@ const TopicsForUser = () => {
             </select>
           </label>
           <label className="order-label">
-            {/* Order: */}
             <select value={order} onChange={handleOrderChange}>
               <option value="asc">Ascending</option>
               <option value="desc">Descending</option>
@@ -111,4 +113,4 @@ const TopicsForUser = () => {
   );
 };
 
-export default TopicsForUser;
+export default PublicTopics;

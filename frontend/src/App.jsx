@@ -2,26 +2,23 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  useLocation,
   useNavigate,
-  Navigate,
 } from "react-router-dom";
 import React, { useEffect } from "react";
-import Header from "./components/Header";
-import Sidebar from "./components/Sidebar";
-import CategoryAccess from "./components/CategoryAcess";
-import TopicsForUser from "./components/TopicsForUser";
-import Categories from "./components/Categories";
-import CategoryDetail from "./components/CategoryDetail";
-import CreateTopic from "./components/CreateTopic";
-import CreateCategory from "./components/CreateCategory";
-import Login from "./components/login";
-import TopicDetail from "./components/TopicDetail";
+import Header from "./components/header/Header";
+import CategoryAccess from "./components/category/CategoryAcess";
+import TopicsForUser from "./components/topics/TopicsForUser";
+import Categories from "./components/category/Categories";
+import CategoryDetail from "./components/category/CategoryDetail";
+import CreateTopic from "./components/topics/CreateTopic";
+import CreateCategory from "./components/category/CreateCategory";
+import Login from "./components/auth/Login";
+import TopicDetail from "./components/topics/TopicDetail";
 import CreateMessage from "./components/message/CreateMessage";
-import "./App.css";
-import Register from "./components/Register";
+import "./styles/App.css";
+import Register from "./components/auth/Register";
 import ConversationView from "./components/message/ConversationView";
-import PublicTopics from "./components/PublicTopics";
+import PublicTopics from "./components/topics/PublicTopics";
 import { isAuthenticated } from "./service/auth";
 
 const App = () => {

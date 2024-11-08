@@ -1,11 +1,7 @@
 import React, { useState, useRef } from "react";
 import MapsUgcRoundedIcon from "@mui/icons-material/MapsUgcRounded";
 import Face5RoundedIcon from "@mui/icons-material/Face5Rounded";
-import PermIdentityRoundedIcon from "@mui/icons-material/PermIdentityRounded";
-import AppRegistrationRoundedIcon from "@mui/icons-material/AppRegistrationRounded";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from "../service/axiosInstance";
-import { nativeSelectClasses } from "@mui/material";
 
 const AuthorDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);

@@ -3,9 +3,8 @@ import UserDropdown from "./UserDropdown";
 import SearchBarCategories from "./SearchBarCategories";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ViewModuleRoundedIcon from "@mui/icons-material/ViewModuleRounded";
-import ReorderRoundedIcon from "@mui/icons-material/ReorderRounded";
 import { Link } from "react-router-dom";
-import "../styles/Header.css";
+import "../../styles/Header.css";
 
 const Header = () => {
   const [searchTerm, setSearchTerm] = useState("");

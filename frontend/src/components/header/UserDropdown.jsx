@@ -5,7 +5,7 @@ import LoginIcon from "@mui/icons-material/Login";
 import PermIdentityRoundedIcon from "@mui/icons-material/PermIdentityRounded";
 import AppRegistrationRoundedIcon from "@mui/icons-material/AppRegistrationRounded";
 import { useNavigate } from "react-router-dom";
-import axiosInstance from "../service/axiosInstance";
+import axiosInstance from "../../service/axiosInstance";
 
 const UserDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -90,8 +90,8 @@ const UserDropdown = () => {
             </>
           ) : (
             <>
-              <button 
-                className="dropdown-item" 
+              <button
+                className="dropdown-item"
                 title="Messages"
                 onClick={() => navigate("/conversations")}
               >
