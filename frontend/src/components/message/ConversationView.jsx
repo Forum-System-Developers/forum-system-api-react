@@ -1,9 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 
-import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import axiosInstance from "../../service/axiosInstance";
 import MessageCard from "./MessageCard";
@@ -23,6 +22,7 @@ export default function ConversationView() {
   const receiverRef = useRef(receiver);
   const chatEndRef = useRef(null);
   const socket = useRef(null);
+  const navigate = useNavigate();
   const drawerWidth = 240;
 
   useEffect(() => {
@@ -182,116 +182,82 @@ export default function ConversationView() {
     scrollToBottom();
   }, [messages]);
 
+  const openNewConversation = () => {
+    navigate("/conversations/new");
+  };
+
   return (
     <div className="conversation-view">
-      <Box sx={{ display: "flex", width: "100%", height: "100%" }}>
-        <Drawer
-          id="sidebar"
-          sx={{
-            width: drawerWidth,
-            flexShrink: 0,
-            position: "fixed",
-            "& .MuiDrawer-paper": {
-              width: drawerWidth,
-              boxSizing: "border-box",
-              top: "80px",
-              zIndex: "1000",
-            },
+      <div className="conversations-drawer">
+        <div
+          style={{
+            margin: "10px",
           }}
-          variant="permanent"
-          anchor="left"
         >
-          <List>
-            <div className="button new-conversation-btn">
-              <Link to={`/conversations/new`} className="add-button">
-                <AddIcon sx={{ fontSize: 30 }} />
-                <span className="button-text">New Conversation</span>
-              </Link>
-            </div>
-            {contacts.map((user, index) => (
-              <div className="add-button" key={index}>
-                <ContactListItem
-                  index={index}
-                  user={user}
-                  handleUserSelect={handleUserSelect}
-                  pendingMessages={
-                    pendingMessages[user.id]
-                      ? pendingMessages[user.id].length
-                      : 0
-                  }
-                  style={{
-                    backgroundColor:
-                      activeSelection === index
-                        ? "rgb(235, 235, 235)"
-                        : undefined,
-                  }}
-                />
-              </div>
-            ))}
-          </List>
-        </Drawer>
+          <button className="button" onClick={openNewConversation}>
+            <AddIcon sx={{ fontSize: 30 }} />
+            <span className="button-text">New Conversation</span>
+          </button>
+        </div>
 
-        <Box
-          id="conversation-view"
-          sx={{
-            maxWidth: "70%",
-            flexGrow: 1,
-            position: "static",
-            top: 0,
-            height: "100%",
-            display: "flex",
-            flexDirection: "column-reverse",
-            paddingBottom: "1%",
-            bgcolor: "background.default",
-          }}
-        >
-          <Box
-            sx={{
-              flexGrow: 1,
-              bgcolor: "background.default",
-              p: 1,
-              position: "sticky",
-            }}
-          >
-            {receiver &&
-              messages[receiver.id] &&
-              messages[receiver.id].map((message, index) => (
-                <Box
-                  key={index}
-                  className={
-                    message.author_id === receiver.id
-                      ? "message-container left"
-                      : "message-container right"
-                  }
-                >
-                  <MessageCard
-                    className={
-                      message.author_id === receiver.id
-                        ? "recipient-message"
-                        : "user-message"
-                    }
-                    message={message.content}
-                    author={
-                      message.author_id === receiver.id
-                        ? receiver.username
-                        : "You"
-                    }
-                    timestamp={formatTime(message.created_at)}
-                  />
-                </Box>
-              ))}
-            <div ref={chatEndRef} />
-          </Box>
-          {receiver && (
-            <Box className="footer">
-              <MessageInputField
-                receiver={receiver.username}
-                handleSendMessage={handleSendMessage}
+        <ul className="users-list">
+          {contacts.map((user, index) => (
+            <div className="add-button" key={index}>
+              <ContactListItem
+                index={index}
+                user={user}
+                handleUserSelect={handleUserSelect}
+                pendingMessages={
+                  pendingMessages[user.id] ? pendingMessages[user.id].length : 0
+                }
+                style={{
+                  backgroundColor:
+                    activeSelection === index
+                      ? "rgb(235, 235, 235)"
+                      : undefined,
+                }}
               />
-            </Box>
-          )}
-        </Box>
-      </Box>
+            </div>
+          ))}
+        </ul>
+      </div>
+
+      <div className="conversation-view">
+        {receiver &&
+          messages[receiver.id] &&
+          messages[receiver.id].map((message, index) => (
+            <div
+              key={index}
+              className={
+                message.author_id === receiver.id
+                  ? "message-container left"
+                  : "message-container right"
+              }
+            >
+              <MessageCard
+                className={
+                  message.author_id === receiver.id
+                    ? "recipient-message"
+                    : "user-message"
+                }
+                message={message.content}
+                author={
+                  message.author_id === receiver.id ? receiver.username : "You"
+                }
+                timestamp={formatTime(message.created_at)}
+              />
+            </div>
+          ))}
+        <div ref={chatEndRef} />
+      </div>
+      {receiver && (
+        <div className="footer">
+          <MessageInputField
+            receiver={receiver.username}
+            handleSendMessage={handleSendMessage}
+          />
+        </div>
+      )}
     </div>
   );
 }

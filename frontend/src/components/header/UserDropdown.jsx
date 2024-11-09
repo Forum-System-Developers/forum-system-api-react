@@ -7,6 +7,7 @@ import AppRegistrationRoundedIcon from "@mui/icons-material/AppRegistrationRound
 import { useNavigate } from "react-router-dom";
 
 import axiosInstance from "../../service/axiosInstance";
+import { set } from "date-fns";
 
 const UserDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -46,16 +47,23 @@ const UserDropdown = () => {
 
   const handleLoginRedirect = () => {
     navigate("/login");
+    setIsOpen(false);
   };
 
   const handleRegisterRedirect = () => {
     navigate("/register");
+    setIsOpen(false);
   };
 
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setIsOpen(false);
     }
+  };
+
+  const handleMessgaeRedirect = () => {
+    navigate("/conversations");
+    setIsOpen(false);
   };
 
   useEffect(() => {
@@ -118,7 +126,7 @@ const UserDropdown = () => {
               <button
                 className="dropdown-item"
                 title="Messages"
-                onClick={() => navigate("/conversations")}
+                onClick={handleMessgaeRedirect}
               >
                 <MailOutlineIcon fontSize="small" />
                 <span>Messages</span>
