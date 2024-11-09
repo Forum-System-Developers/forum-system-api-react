@@ -187,7 +187,7 @@ export default function ConversationView() {
   };
 
   return (
-    <div className="conversation-view">
+    <div className="conversation-page">
       <div className="conversations-drawer">
         <div
           style={{
@@ -200,62 +200,72 @@ export default function ConversationView() {
           </button>
         </div>
 
-        <ul className="users-list">
-          {contacts.map((user, index) => (
-            <div className="add-button" key={index}>
-              <ContactListItem
-                index={index}
-                user={user}
-                handleUserSelect={handleUserSelect}
-                pendingMessages={
-                  pendingMessages[user.id] ? pendingMessages[user.id].length : 0
-                }
-                style={{
-                  backgroundColor:
-                    activeSelection === index
-                      ? "rgb(235, 235, 235)"
-                      : undefined,
-                }}
-              />
-            </div>
-          ))}
-        </ul>
-      </div>
-
-      <div className="conversation-view">
-        {receiver &&
-          messages[receiver.id] &&
-          messages[receiver.id].map((message, index) => (
-            <div
-              key={index}
-              className={
-                message.author_id === receiver.id
-                  ? "message-container left"
-                  : "message-container right"
-              }
-            >
-              <MessageCard
-                className={
-                  message.author_id === receiver.id
-                    ? "recipient-message"
-                    : "user-message"
-                }
-                message={message.content}
-                author={
-                  message.author_id === receiver.id ? receiver.username : "You"
-                }
-                timestamp={formatTime(message.created_at)}
-              />
-            </div>
-          ))}
-        <div ref={chatEndRef} />
+        <div className="users-list">
+          <ul>
+            {contacts.map((user, index) => (
+              <li className="user-button" key={index}>
+                <ContactListItem
+                  index={index}
+                  user={user}
+                  handleUserSelect={handleUserSelect}
+                  pendingMessages={
+                    pendingMessages[user.id]
+                      ? pendingMessages[user.id].length
+                      : 0
+                  }
+                  style={{
+                    backgroundColor:
+                      activeSelection === index
+                        ? "rgb(235, 235, 235)"
+                        : undefined,
+                  }}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
       {receiver && (
-        <div className="footer">
-          <MessageInputField
-            receiver={receiver.username}
-            handleSendMessage={handleSendMessage}
-          />
+        <div className="conversation-view">
+          <div className="message-container-main">
+            <ul className="messages">
+              {messages[receiver.id] &&
+                messages[receiver.id].map((message, index) => (
+                  <li
+                    key={index}
+                    className={
+                      message.author_id === receiver.id
+                        ? "message-container left"
+                        : "message-container right"
+                    }
+                  >
+                    <MessageCard
+                      className={
+                        message.author_id === receiver.id
+                          ? "recipient-message"
+                          : "user-message"
+                      }
+                      message={message.content}
+                      author={
+                        message.author_id === receiver.id
+                          ? receiver.username
+                          : "You"
+                      }
+                      timestamp={formatTime(message.created_at)}
+                    />
+                  </li>
+                ))}
+
+              <div ref={chatEndRef} />
+            </ul>
+          </div>
+
+          <div className="footer">
+            <MessageInputField
+              receiver={receiver.username}
+              handleSendMessage={handleSendMessage}
+            />
+          </div>
         </div>
       )}
     </div>

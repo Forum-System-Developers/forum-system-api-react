@@ -136,3 +136,22 @@ input:focus {
     border-radius: 5px;
 } 
 
+.register-button,
+.login-button {
+    width: 100px;
+    padding: 3%;
+    border: none;
+    border-radius: 8px;
+    background: #fffffff1;
+    color: #043345;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s, box-shadow 0.3s;
+}
+
+.register-button:hover,
+.login-button:hover {
+    background-color: #c0ffe9b7;
+    box-shadow: 0 3px 15px rgba(46, 46, 46, 0.3);
+}

@@ -69,7 +69,7 @@ main {
     rgba(255, 251, 202, 0.608) 0%,
     rgba(194, 255, 255, 0.344) 100%
     );
-  min-height: calc(100vh - 80px);
+    min-height: calc(100vh - 80px);
 }
 
 textarea {
@@ -139,7 +139,7 @@ select option {
 }
 
 
-@media (prefers-color-scheme: light) {
+/* @media (prefers-color-scheme: light) {
     :root {
         color: #213547;
         background-color: #dcdcdca1;
@@ -152,4 +152,4 @@ select option {
     button {
         background-color: #f9f9f9;
     }
-}
+} */

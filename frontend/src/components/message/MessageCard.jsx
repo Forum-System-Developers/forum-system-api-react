@@ -9,7 +9,7 @@ const MessageCard = ({ className, message, author, timestamp }) => {
           sx={{
             color: "text.secondary",
             fontSize: 12,
-            left: "720px",
+            // left: "720px",
             padding: "1%",
           }}
         >
