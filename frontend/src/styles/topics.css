@@ -269,7 +269,7 @@ textarea:focus {
 
 .content-topics-sidebar {
     display: flex;
-    background-color: #ffffff37;
+    background-color: #ffffff17;
     flex-direction: row;
     width: 95%;
     padding: 1%;
@@ -353,7 +353,7 @@ textarea:focus {
     overflow-x: hidden;
     padding: 2%;
     height: calc(100vh - 80px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); */
 }
 
 .replies-title {
