@@ -115,7 +115,6 @@ const UserDropdown = () => {
                 Hi, {username}
               </span>
 
-              {/* <span className="logged-user">Hello, {username}</span> */}
               <button
                 className="dropdown-item"
                 title="Messages"
