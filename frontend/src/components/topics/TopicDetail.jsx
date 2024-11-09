@@ -107,6 +107,8 @@ const TopicDetail = () => {
           isLocked={isLocked}
           setTopic={setTopic}
           fetchTopicDetails={fetchTopicDetails}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
         />
       </div>
     </>

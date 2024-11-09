@@ -90,7 +90,8 @@
     z-index: 1000;
 }
 
-.dropdown-item {
+.dropdown-item,
+.logged-user {
     display: flex;
     align-items: center;
     gap: 6px;
@@ -101,6 +102,18 @@
     border-radius: 4px;
     transition: background-color 0.2s;
     position: relative;
+}
+
+.logged-user {
+    font-size: 15px;
+    color: #1c775e;
+    cursor: default;
+    align-self: center;
+    font-weight: 600;
+    word-break: normal;
+    margin-bottom: 2%;
+    background-color: #f0f0f000;
+    display: inline-block;
 }
 
 .dropdown-item:hover {

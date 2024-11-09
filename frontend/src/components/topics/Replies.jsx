@@ -8,12 +8,18 @@ import { useParams } from "react-router-dom";
 import AuthorDropdown from "./AuthorDropdown";
 import { formatDistanceToNow, parseISO } from "date-fns";
 
-const Replies = ({ topic, isLocked, setTopic, fetchTopicDetails }) => {
+const Replies = ({
+  topic,
+  isLocked,
+  setTopic,
+  fetchTopicDetails,
+  isOpen,
+  setIsOpen,
+}) => {
   const { topic_id } = useParams();
   const [replyError, setReplyError] = useState("");
   const [fetchError, setFetchError] = useState("");
   const [content, setContent] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const openTextField = () => {

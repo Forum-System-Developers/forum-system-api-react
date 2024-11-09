@@ -10,6 +10,7 @@ import axiosInstance from "../../service/axiosInstance";
 const UserDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [error, setError] = useState("");
+  const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
 
   const dropdownRef = useRef(null);
@@ -19,6 +20,9 @@ const UserDropdown = () => {
 
   const toggleDropdown = () => {
     setIsOpen((prev) => !prev);
+    if (isLoggedIn) {
+      getCurrentUser();
+    }
   };
 
   const handleLogout = async () => {
@@ -61,6 +65,15 @@ const UserDropdown = () => {
     };
   }, []);
 
+  const getCurrentUser = async () => {
+    try {
+      const response = await axiosInstance.get(`/users/me`);
+      setUsername(response.data.username);
+    } catch (error) {
+      setError(`Error fetching current user: ${error.response}`);
+    }
+  };
+
   return (
     <div className="user-dropdown" ref={dropdownRef}>
       <button onClick={toggleDropdown} className="user-button">
@@ -79,6 +92,7 @@ const UserDropdown = () => {
                 <LoginIcon fontSize="small" />
                 <span>Login</span>
               </button>
+
               <button
                 onClick={handleRegisterRedirect}
                 title="Sign Up"
@@ -90,6 +104,7 @@ const UserDropdown = () => {
             </>
           ) : (
             <>
+              <span className="logged-user">Hello, {username}</span>
               <button
                 className="dropdown-item"
                 title="Messages"

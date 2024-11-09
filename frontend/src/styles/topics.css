@@ -61,6 +61,16 @@
     border-radius: 10px;
 }
 
+.category-topics {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1% 4%;
+    padding-top: 0;
+    max-width: 100%;
+}
+
 .topic-link {
     font-size: 1.3rem;
     color: #4b4b4b;
@@ -82,7 +92,6 @@
     border: solid 1px #d6d6d67c;
     border-radius: 8px;
     transition: transform 0.2s, box-shadow 0.2s;
-    width: 97%;
     max-width: 100%;
 }
 
@@ -101,7 +110,6 @@
 .post-description {
     font-size: 13px;
     min-width: 115px;
-    margin-right: 3%;
     font-weight: 300;
     align-items: center;
     color: #b9b9b9;
@@ -160,11 +168,11 @@
 
 
 .topic-create-container{
-    background-color: #ffffff96;
+    background-color: #ffffffec;
     min-height: fit-content;
     min-width: fit-content;
     width: 50vw;
-    max-height: 90vh;
+    max-height: calc(90vh - 80px);
     padding: 3%;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -181,7 +189,7 @@
     color: #136966;
     margin-top: 1%;
     font-size: 24px;
-    text-align: start;
+    text-align: center;
     position: relative;
     margin-bottom: 3%;
     width: 100%;
@@ -191,9 +199,9 @@
 .create-topic-title::after {
     content: "";
     position: absolute;
-    left: 14%;
+    left: 50%;
     bottom: -5px;
-    width: 28%;
+    width: 30%;
     height: 2px;
     background-color: #136966;
     transform: translateX(-50%);
@@ -218,7 +226,7 @@
 }
 
 textarea#content {
-    height: 200px;
+    height: 150px;
 }
 
 textarea#title {
@@ -233,7 +241,7 @@ textarea:focus {
     outline: none;
     background: rgb(234, 234, 234);
     box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-} */
+}
 
 .create-topic-button {
     border: none;
@@ -241,7 +249,7 @@ textarea:focus {
     padding: 10px 12px;
     font-size: 17px;
     font-weight: bold;
-    color: #ffffffe9;
+    color: #fffffff3;
     background-color: #136966;
     cursor: pointer;
     transition: background-color 0.3s, box-shadow 0.3s;
