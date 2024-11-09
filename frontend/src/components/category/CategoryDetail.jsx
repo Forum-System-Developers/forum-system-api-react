@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axiosInstance from "../../service/axiosInstance";
 import "../../styles/topics.css";
 import AddIcon from "@mui/icons-material/Add";
@@ -9,6 +9,7 @@ const CategoryDetail = () => {
   const { category_id } = useParams();
   const [topics, setTopics] = useState([]);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const fetchTopics = async () => {
     try {
@@ -34,6 +35,10 @@ const CategoryDetail = () => {
     fetchTopics();
   }, [category_id]);
 
+  const openCreateTopic = () => {
+    navigate(`/category/${category_id}/topics/new`);
+  };
+
   if (error) {
     return (
       <div className="error-container">
@@ -43,7 +48,7 @@ const CategoryDetail = () => {
   }
 
   return (
-    <div className="home-container">
+    <>
       <div className="category-header">
         {topics.length === 0 ? (
           <h2 className="description">
@@ -52,18 +57,15 @@ const CategoryDetail = () => {
         ) : (
           <h2 className="description">Topics in this category</h2>
         )}
-        <div className="button">
-          <Link
-            to={`/category/${category_id}/topics/new`}
-            className="add-button"
-          >
-            <AddIcon sx={{ fontSize: 38 }} />
-            <span className="button-text">Create new</span>
-          </Link>
-        </div>
+        <button className="button" onClick={openCreateTopic}>
+          <AddIcon sx={{ fontSize: 38 }} />
+          <span className="button-text">Create new</span>
+        </button>
       </div>
-      <TopicList topics={topics} />
-    </div>
+      <div className="category-topics">
+        <TopicList topics={topics} />
+      </div>
+    </>
   );
 };
 

@@ -57,7 +57,7 @@ const TopicsForUser = () => {
   }
 
   return (
-    <div className="home-container">
+    <>
       <div className="category-header">
         <h2 className="description">Latest posts</h2>
       </div>
@@ -89,7 +89,7 @@ const TopicsForUser = () => {
           Next
         </button>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -1,9 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import axiosInstance from "../../service/axiosInstance";
 import MessageCard from "./MessageCard";
@@ -23,6 +19,7 @@ export default function ConversationView() {
   const receiverRef = useRef(receiver);
   const chatEndRef = useRef(null);
   const socket = useRef(null);
+  const navigate = useNavigate();
   const drawerWidth = 240;
 
   useEffect(() => {
@@ -141,7 +138,7 @@ export default function ConversationView() {
 
   const fetchMessages = (user) => {
     axiosInstance
-      .get(`/messages/${user.id}/`)
+      .get(`/conversations/${user.id}/`)
       .then((response) => {
         setMessages((prevMessages) => {
           return {
@@ -172,32 +169,38 @@ export default function ConversationView() {
     }
   };
 
+  const scrollToBottom = () => {
+    if (chatEndRef.current) {
+      chatEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const openNewConversation = () => {
+    navigate("/conversations/new");
+  };
+
   return (
-    <div className="home-container">
-      <Box sx={{ display: "flex" }}>
-        <Drawer
-          sx={{
-            width: drawerWidth,
-            flexShrink: 0,
-            "& .MuiDrawer-paper": {
-              width: drawerWidth,
-              boxSizing: "border-box",
-              top: "80px",
-              zIndex: 0,
-            },
+    <div className="conversation-page">
+      <div className="conversations-drawer">
+        <div
+          style={{
+            margin: "10px",
           }}
-          variant="permanent"
-          anchor="left"
         >
-          <List>
-            <div className="button new-conversation-btn">
-              <Link to={`/conversations/new`} className="add-button">
-                <AddIcon sx={{ fontSize: 30 }} />
-                <span className="button-text">New Conversation</span>
-              </Link>
-            </div>
+          <button className="button" onClick={openNewConversation}>
+            <AddIcon sx={{ fontSize: 30 }} />
+            <span className="button-text">New Conversation</span>
+          </button>
+        </div>
+
+        <div className="users-list">
+          <div>
             {contacts.map((user, index) => (
-              <div className="add-button" key={index}>
+              <div className="user-button" key={index}>
                 <ContactListItem
                   index={index}
                   user={user}
@@ -216,60 +219,51 @@ export default function ConversationView() {
                 />
               </div>
             ))}
-          </List>
-        </Drawer>
-
-        <Box
-          sx={{
-            flexGrow: 1,
-            position: "static",
-            top: 0,
-            display: "flex",
-            flexDirection: "column",
-            paddingBottom: 6,
-            bgcolor: "background.default",
-          }}
-        >
-          <Box
-            sx={{
-              flexGrow: 1,
-              bgcolor: "background.default",
-              p: 1,
-              position: "sticky",
-            }}
-          >
-            {receiver &&
-              messages[receiver.id] &&
-              messages[receiver.id].map((message, index) => (
-                <Box key={index}>
-                  <MessageCard
+          </div>
+        </div>
+      </div>
+      {receiver && (
+        <div className="conversation-view">
+          <div className="message-container-main">
+            <div className="messages">
+              {messages[receiver.id] &&
+                messages[receiver.id].map((message, index) => (
+                  <div
+                    key={index}
                     className={
                       message.author_id === receiver.id
-                        ? "recipient-message"
-                        : "user-message"
+                        ? "message-container left"
+                        : "message-container right"
                     }
-                    message={message.content}
-                    author={
-                      message.author_id === receiver.id
-                        ? receiver.username
-                        : "You"
-                    }
-                    timestamp={formatTime(message.created_at)}
-                  />
-                </Box>
-              ))}
-          </Box>
-          {receiver && (
-            <Box className="footer">
-              <MessageInputField
-                receiver={receiver.username}
-                handleSendMessage={handleSendMessage}
-              />
-            </Box>
-          )}
-          <div ref={chatEndRef} />
-        </Box>
-      </Box>
+                  >
+                    <MessageCard
+                      className={
+                        message.author_id === receiver.id
+                          ? "recipient-message"
+                          : "user-message"
+                      }
+                      message={message.content}
+                      author={
+                        message.author_id === receiver.id
+                          ? receiver.username
+                          : "You"
+                      }
+                      timestamp={formatTime(message.created_at)}
+                    />
+                  </div>
+                ))}
+
+              <div ref={chatEndRef} />
+            </div>
+          </div>
+        </div>
+      )}
+      <div className="footer">
+        <MessageInputField
+          receiver={receiver.username}
+          handleSendMessage={handleSendMessage}
+        />
+      </div>
     </div>
   );
 }

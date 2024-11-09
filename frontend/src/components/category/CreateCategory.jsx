@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { redirect, useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Switch from "@mui/material/Switch";
 import { styled, alpha } from "@mui/material/styles";
 import axiosInstance from "../../service/axiosInstance";
-import "../../styles/home.css";
+import "../../styles/categories.css";
 
 const GreenSwitch = styled(Switch)(({ theme }) => ({
   "& .MuiSwitch-switchBase.Mui-checked": {
@@ -16,7 +16,6 @@ const GreenSwitch = styled(Switch)(({ theme }) => ({
     backgroundColor: "#136966",
   },
 }));
-// const label = { inputProps: { "aria-label": "Color switch demo" } };
 
 function CreateCategory() {
   const navigate = useNavigate();

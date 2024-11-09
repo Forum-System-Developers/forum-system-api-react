@@ -5,11 +5,14 @@ import LoginIcon from "@mui/icons-material/Login";
 import PermIdentityRoundedIcon from "@mui/icons-material/PermIdentityRounded";
 import AppRegistrationRoundedIcon from "@mui/icons-material/AppRegistrationRounded";
 import { useNavigate } from "react-router-dom";
+
 import axiosInstance from "../../service/axiosInstance";
+import { set } from "date-fns";
 
 const UserDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [error, setError] = useState("");
+  const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
 
   const dropdownRef = useRef(null);
@@ -19,6 +22,9 @@ const UserDropdown = () => {
 
   const toggleDropdown = () => {
     setIsOpen((prev) => !prev);
+    if (isLoggedIn) {
+      getCurrentUser();
+    }
   };
 
   const handleLogout = async () => {
@@ -41,16 +47,23 @@ const UserDropdown = () => {
 
   const handleLoginRedirect = () => {
     navigate("/login");
+    setIsOpen(false);
   };
 
   const handleRegisterRedirect = () => {
     navigate("/register");
+    setIsOpen(false);
   };
 
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setIsOpen(false);
     }
+  };
+
+  const handleMessgaeRedirect = () => {
+    navigate("/conversations");
+    setIsOpen(false);
   };
 
   useEffect(() => {
@@ -60,6 +73,15 @@ const UserDropdown = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const getCurrentUser = async () => {
+    try {
+      const response = await axiosInstance.get(`/users/me`);
+      setUsername(response.data.username);
+    } catch (error) {
+      setError(`Error fetching current user: ${error.response}`);
+    }
+  };
 
   return (
     <div className="user-dropdown" ref={dropdownRef}>
@@ -79,6 +101,7 @@ const UserDropdown = () => {
                 <LoginIcon fontSize="small" />
                 <span>Login</span>
               </button>
+
               <button
                 onClick={handleRegisterRedirect}
                 title="Sign Up"
@@ -90,10 +113,20 @@ const UserDropdown = () => {
             </>
           ) : (
             <>
+              <span className="logged-user">
+                <img
+                  src="../../public/icon.png"
+                  alt="User Icon"
+                  className="user-icon"
+                  style={{ width: "20px", height: "20px" }}
+                />{" "}
+                Hi, {username}
+              </span>
+
               <button
                 className="dropdown-item"
                 title="Messages"
-                onClick={() => navigate("/conversations")}
+                onClick={handleMessgaeRedirect}
               >
                 <MailOutlineIcon fontSize="small" />
                 <span>Messages</span>
