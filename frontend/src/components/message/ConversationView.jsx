@@ -141,7 +141,7 @@ export default function ConversationView() {
 
   const fetchMessages = (user) => {
     axiosInstance
-      .get(`/messages/${user.id}/`)
+      .get(`/conversations/${user.id}/`)
       .then((response) => {
         setMessages((prevMessages) => {
           return {
@@ -172,18 +172,30 @@ export default function ConversationView() {
     }
   };
 
+  const scrollToBottom = () => {
+    if (chatEndRef.current) {
+      chatEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   return (
-    <div className="home-container">
-      <Box sx={{ display: "flex" }}>
+    <div className="conversation-view">
+      <Box sx={{ display: "flex", width: "100%", height: "100%" }}>
         <Drawer
+          id="sidebar"
           sx={{
             width: drawerWidth,
             flexShrink: 0,
+            position: "fixed",
             "& .MuiDrawer-paper": {
               width: drawerWidth,
               boxSizing: "border-box",
               top: "80px",
-              zIndex: 0,
+              zIndex: "1000",
             },
           }}
           variant="permanent"
@@ -220,13 +232,16 @@ export default function ConversationView() {
         </Drawer>
 
         <Box
+          id="conversation-view"
           sx={{
+            maxWidth: "70%",
             flexGrow: 1,
             position: "static",
             top: 0,
+            height: "100%",
             display: "flex",
-            flexDirection: "column",
-            paddingBottom: 6,
+            flexDirection: "column-reverse",
+            paddingBottom: "1%",
             bgcolor: "background.default",
           }}
         >
@@ -241,7 +256,14 @@ export default function ConversationView() {
             {receiver &&
               messages[receiver.id] &&
               messages[receiver.id].map((message, index) => (
-                <Box key={index}>
+                <Box
+                  key={index}
+                  className={
+                    message.author_id === receiver.id
+                      ? "message-container left"
+                      : "message-container right"
+                  }
+                >
                   <MessageCard
                     className={
                       message.author_id === receiver.id
@@ -258,6 +280,7 @@ export default function ConversationView() {
                   />
                 </Box>
               ))}
+            <div ref={chatEndRef} />
           </Box>
           {receiver && (
             <Box className="footer">
@@ -267,7 +290,6 @@ export default function ConversationView() {
               />
             </Box>
           )}
-          <div ref={chatEndRef} />
         </Box>
       </Box>
     </div>

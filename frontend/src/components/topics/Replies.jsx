@@ -4,15 +4,17 @@ import StarBorderRoundedIcon from "@mui/icons-material/StarBorderRounded";
 import { currentUser } from "../../service/auth";
 import React, { useState } from "react";
 import axiosInstance from "../../service/axiosInstance";
+import { useParams } from "react-router-dom";
 import AuthorDropdown from "./AuthorDropdown";
 import { formatDistanceToNow, parseISO } from "date-fns";
 
-const Replies = ({ topic, isLocked }) => {
+const Replies = ({ topic, isLocked, setTopic, fetchTopicDetails }) => {
+  const { topic_id } = useParams();
   const [replyError, setReplyError] = useState("");
   const [fetchError, setFetchError] = useState("");
   const [content, setContent] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const openTextField = () => {
     setIsOpen((prev) => !prev);
@@ -51,8 +53,8 @@ const Replies = ({ topic, isLocked }) => {
         ...prevTopic,
         replies: [...prevTopic.replies, response.data],
       }));
-      setLoading(true);
       setContent("");
+      setLoading(true);
       setIsOpen(false);
     } catch (error) {
       if (error.response && error.response.status === 403) {
@@ -65,6 +67,10 @@ const Replies = ({ topic, isLocked }) => {
       setIsOpen(false);
     }
   };
+
+  useState(() => {
+    fetchTopicDetails();
+  }, [topic_id, createReply]);
 
   const handleVote = async (replyId, isUpvote) => {
     try {
@@ -103,6 +109,9 @@ const Replies = ({ topic, isLocked }) => {
       setLoading(true);
     } catch (error) {
       setFetchError(`Error fetching best reply: ${error.message}`);
+      if (error.response && error.response.status === 403) {
+        setReplyError("Topic has been locked");
+      }
     } finally {
       setLoading(false);
     }
@@ -120,7 +129,6 @@ const Replies = ({ topic, isLocked }) => {
             {isOpen ? "Cancel" : "Add reply"}
           </button>
         )}
-
         {isOpen && (
           <button
             className="submit-reply-button"

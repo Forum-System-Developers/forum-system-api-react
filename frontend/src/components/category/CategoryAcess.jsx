@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import "../../styles/home.css";
+import "../../styles/categories.css";
 import SearchAutocomplete from "../common/AutocompleteBar";
 import axiosInstance from "../../service/axiosInstance";
 import Checkbox from "@mui/material/Checkbox";

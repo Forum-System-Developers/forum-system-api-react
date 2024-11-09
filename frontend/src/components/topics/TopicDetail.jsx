@@ -4,7 +4,7 @@ import Replies from "./Replies";
 import HttpsRoundedIcon from "@mui/icons-material/HttpsRounded";
 import axiosInstance from "../../service/axiosInstance";
 import { useParams } from "react-router-dom";
-import { formatDistanceToNow, parseISO } from "date-fns";
+import { formatDistanceToNow, parseISO, set } from "date-fns";
 import { isAdmin } from "../../service/auth";
 
 const TopicDetail = () => {
@@ -71,13 +71,15 @@ const TopicDetail = () => {
     );
 
   return (
-    <div className="home-container">
+    <>
       {isAdmin() && (
-        <div className="lock-topic">
-          <span className="lock-icon" onClick={handleLockTopic}>
-            <HttpsRoundedIcon sx={{ fontSize: 24 }} />
-          </span>
-          <span>{topic.is_locked ? "Unlock Topic" : "Lock Topic"}</span>
+        <div className="admin-header">
+          <button onClick={handleLockTopic} className="button">
+            <span className="lock-icon">
+              <HttpsRoundedIcon sx={{ fontSize: 24 }} />
+            </span>
+            <span>{topic.is_locked ? "Unlock Topic" : "Lock Topic"}</span>
+          </button>
         </div>
       )}
 
@@ -100,9 +102,14 @@ const TopicDetail = () => {
             <h3 className="topic-content">{topic.content}</h3>
           </div>
         </div>
-        <Replies topic={topic} isLocked={isLocked} />
+        <Replies
+          topic={topic}
+          isLocked={isLocked}
+          setTopic={setTopic}
+          fetchTopicDetails={fetchTopicDetails}
+        />
       </div>
-    </div>
+    </>
   );
 };
 

@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import { isAdmin } from "../../service/auth";
-import AddIcon from "@mui/icons-material/Add";
+
 import RemoveCircleOutlineRoundedIcon from "@mui/icons-material/RemoveCircleOutlineRounded";
-import Switch from "@mui/material/Switch";
 import { styled, alpha } from "@mui/material/styles";
-import "../../styles/home.css";
+import AddIcon from "@mui/icons-material/Add";
+import Switch from "@mui/material/Switch";
+
 import axiosInstance from "../../service/axiosInstance";
+import { isAdmin } from "../../service/auth";
+import "../../styles/categories.css";
 
 const GreenSwitch = styled(Switch)(({ theme }) => ({
   "& .MuiSwitch-switchBase.Mui-checked": {
@@ -27,6 +29,7 @@ const Categories = () => {
   const [categoryStates, setCategoryStates] = useState({});
 
   const label = { inputProps: { "aria-label": "Switch" } };
+  const navigate = useNavigate();
 
   const fetchCategories = async () => {
     try {
@@ -89,6 +92,10 @@ const Categories = () => {
     }
   };
 
+  const openCreateCategory = () => {
+    navigate("/category/create");
+  };
+
   if (error) {
     return (
       <div className="error-container">
@@ -99,18 +106,14 @@ const Categories = () => {
 
   return (
     <div className="categories-container">
-      <div className="button-header">
-        {isAdmin() && (
-          <>
-            <div className="button">
-              <Link to="/category/create" className="add-button">
-                <AddIcon sx={{ fontSize: 38 }} />
-                <span className="button-text">Create new</span>
-              </Link>
-            </div>
-          </>
-        )}
-      </div>
+      {isAdmin() && (
+        <div className="admin-header">
+          <button className="button" onClick={openCreateCategory}>
+            <AddIcon sx={{ fontSize: 34, padding: "0" }} />
+            <span className="button-text">Create new</span>
+          </button>
+        </div>
+      )}
       <div className="categories">
         {categories.map((category) => (
           <div key={category.id} className="category-box">

@@ -4,9 +4,6 @@ import Face5RoundedIcon from "@mui/icons-material/Face5Rounded";
 import { useNavigate } from "react-router-dom";
 
 const AuthorDropdown = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
   const [userDropdown, setUserDropdown] = useState(false);
 
   const dropdownRef = useRef(null);
