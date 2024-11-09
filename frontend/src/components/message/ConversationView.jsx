@@ -1,7 +1,4 @@
 import { useEffect, useState, useRef } from "react";
-
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
 import { useNavigate } from "react-router-dom";
 
 import axiosInstance from "../../service/axiosInstance";
@@ -201,9 +198,9 @@ export default function ConversationView() {
         </div>
 
         <div className="users-list">
-          <ul>
+          <div>
             {contacts.map((user, index) => (
-              <li className="user-button" key={index}>
+              <div className="user-button" key={index}>
                 <ContactListItem
                   index={index}
                   user={user}
@@ -220,15 +217,15 @@ export default function ConversationView() {
                         : undefined,
                   }}
                 />
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       </div>
       {receiver && (
         <div className="conversation-view">
           <div className="message-container-main">
-            <ul className="messages">
+            <div className="messages">
               {messages[receiver.id] &&
                 messages[receiver.id].map((message, index) => (
                   <div
@@ -257,17 +254,16 @@ export default function ConversationView() {
                 ))}
 
               <div ref={chatEndRef} />
-            </ul>
-          </div>
-
-          <div className="footer">
-            <MessageInputField
-              receiver={receiver.username}
-              handleSendMessage={handleSendMessage}
-            />
+            </div>
           </div>
         </div>
       )}
+      <div className="footer">
+        <MessageInputField
+          receiver={receiver.username}
+          handleSendMessage={handleSendMessage}
+        />
+      </div>
     </div>
   );
 }

@@ -1,13 +1,13 @@
 .main-content {
     display: flex;
-    padding: 2vh;
+    padding: 2%;
     width: auto;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    height: 100vh;
+    max-height: 100%;
     flex: 1;
-    background-color: #e3e3e3cb;
+    background-color: #e3e3e3f5;
 }
 
 
@@ -16,12 +16,10 @@
     width: 30%;
     min-width: fit-content;
     height: 50%;
-    min-height: fit-content;
+    min-height: 23vw;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 7vh;
-    margin-bottom: 20%;
     opacity: 0.7;
     padding: 5vh 7vh;
     background: linear-gradient(to right, #a28b08, #108b7b, #0a4f4d);
@@ -38,12 +36,10 @@
     min-width: fit-content;
     height: 70%;
     min-height: fit-content;
-    max-height: 60vh;
+    max-height: fit-content;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 1vh;
-    margin-bottom: 7vh;
     opacity: 0.7;
     padding: 4vw 6vh;
     padding-top: 5vh;

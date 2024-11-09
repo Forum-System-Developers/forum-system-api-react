@@ -14,6 +14,10 @@ const AuthorDropdown = () => {
     setUserDropdown((prev) => !prev);
   };
 
+  const handleCreateConversation = () => {
+    navigate("/conversations/new");
+  };
+
   return (
     <>
       <Face5RoundedIcon
@@ -29,7 +33,7 @@ const AuthorDropdown = () => {
           <div className="user-dropdown-menu">
             <button
               className="message-button"
-              onClick={() => navigate("/conversations")}
+              onClick={handleCreateConversation}
             >
               <span>Message</span>
               <MapsUgcRoundedIcon sx={{ fontSize: 18 }} />

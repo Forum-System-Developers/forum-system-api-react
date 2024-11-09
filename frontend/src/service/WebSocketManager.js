@@ -1,6 +1,7 @@
 const createWebSocket = (onMessageHandler) => {
     const socket = new WebSocket('ws://localhost:8000/api/v1/ws/connect');
 
+
     socket.onopen = () => {
         const token = localStorage.getItem("token");
         if (!token) {
@@ -18,7 +19,7 @@ const createWebSocket = (onMessageHandler) => {
     };
 
     socket.onerror = (error) => {
-        console.error('WebSocket error:', error);
+        console.error('WebSocket error:', error.message);
     };
 
     return socket;
