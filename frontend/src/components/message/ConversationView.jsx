@@ -231,7 +231,7 @@ export default function ConversationView() {
             <ul className="messages">
               {messages[receiver.id] &&
                 messages[receiver.id].map((message, index) => (
-                  <li
+                  <div
                     key={index}
                     className={
                       message.author_id === receiver.id
@@ -253,7 +253,7 @@ export default function ConversationView() {
                       }
                       timestamp={formatTime(message.created_at)}
                     />
-                  </li>
+                  </div>
                 ))}
 
               <div ref={chatEndRef} />
