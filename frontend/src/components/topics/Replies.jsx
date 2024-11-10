@@ -181,7 +181,7 @@ const Replies = ({
                   <div className="description-star">
                     <h4 className="post-description">
                       Posted{" "}
-                      {formatDistanceToNow(parseISO(topic.created_at), {
+                      {formatDistanceToNow(parseISO(reply.created_at), {
                         addSuffix: true,
                       })}
                     </h4>
