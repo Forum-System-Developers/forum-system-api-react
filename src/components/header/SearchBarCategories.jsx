@@ -13,7 +13,7 @@ const SearchBarCategories = () => {
   const fetchCategories = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/v1/categories/"
+        "https://project-ham-backend-0189ae61f169.herokuapp.com/api/v1/categories/"
       );
       setCategories(response.data);
     } catch (error) {
