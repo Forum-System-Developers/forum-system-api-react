@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8000/api/v1"
+  baseURL: "https://project-ham-backend-0189ae61f169.herokuapp.com/api/v1"
 });
 
 axiosInstance.interceptors.request.use(
@@ -24,7 +24,7 @@ axiosInstance.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       if (refreshToken) {
         try {
-          const response = await axios.post("http://localhost:8000/api/v1/auth/refresh", 
+          const response = await axios.post("https://project-ham-backend-0189ae61f169.herokuapp.com/api/v1/auth/refresh", 
             { refresh_token: refreshToken }
           );
 
