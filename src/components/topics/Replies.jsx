@@ -32,7 +32,7 @@ const Replies = ({
       setReplyError("Content is required");
       return false;
     }
-    if (content.length > 20) {
+    if (content.length > 100) {
       setReplyError("Reply cannot be longer than 20 characters");
       return false;
     }
