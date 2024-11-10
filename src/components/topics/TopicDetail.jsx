@@ -87,7 +87,7 @@ const TopicDetail = () => {
         <div className="topic-container">
           <div className="author-container">
             <div className="author">
-              <AuthorDropdown />
+              <AuthorDropdown author={topic.author} />
               <span className="author-name">{topic.author}</span>
             </div>
             <h4 className="post-description">

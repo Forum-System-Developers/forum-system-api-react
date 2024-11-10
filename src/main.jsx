@@ -2,7 +2,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
 import "./styles/app.css";
 import App from "./App.jsx";
-import ErrorBoundary from "./components/common/ErrorBoundary";
+import ErrorBoundary from "./components/common/ErrorBoundary.jsx";
 
 const root = createRoot(document.getElementById("root"));
 
