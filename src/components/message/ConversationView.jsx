@@ -127,7 +127,7 @@ export default function ConversationView() {
 
   const fetchContacts = () => {
     axiosInstance
-      .get("/conversations/contacts/")
+      .get("/conversations/contacts")
       .then((response) => {
         setContacts(response.data);
       })
@@ -138,7 +138,7 @@ export default function ConversationView() {
 
   const fetchMessages = (user) => {
     axiosInstance
-      .get(`/conversations/${user.id}/`)
+      .get(`/conversations/${user.id}`)
       .then((response) => {
         setMessages((prevMessages) => {
           return {
