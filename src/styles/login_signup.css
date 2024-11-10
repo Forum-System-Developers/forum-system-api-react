@@ -134,7 +134,8 @@ input:focus {
 
 .register-button,
 .login-button {
-    width: 100px;
+    min-width: 100px;
+    max-width: fit-content;
     padding: 3%;
     border: none;
     border-radius: 8px;
