@@ -34,7 +34,7 @@ const Categories = () => {
   const fetchCategories = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/v1/categories/"
+        "https://project-ham-backend-0189ae61f169.herokuapp.com/api/v1/categories/"
       );
       const initialStates = response.data.reduce((acc, category) => {
         acc[category.id] = {
