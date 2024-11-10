@@ -1,5 +1,5 @@
 const createWebSocket = (onMessageHandler) => {
-    const socket = new WebSocket('ws://localhost:8000/api/v1/ws/connect');
+    const socket = new WebSocket('wss://project-ham-backend-0189ae61f169.herokuapp.com/api/v1/ws/connect');
 
 
     socket.onopen = () => {
