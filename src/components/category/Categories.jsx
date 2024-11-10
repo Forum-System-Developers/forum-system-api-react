@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import SERVER_URL from "../../service/server";
 
 import RemoveCircleOutlineRoundedIcon from "@mui/icons-material/RemoveCircleOutlineRounded";
 import { styled, alpha } from "@mui/material/styles";
@@ -33,9 +34,7 @@ const Categories = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get(
-        "https://project-ham-backend-0189ae61f169.herokuapp.com/api/v1/categories/"
-      );
+      const response = await axios.get(`https://${SERVER_URL}/categories/`);
       const initialStates = response.data.reduce((acc, category) => {
         acc[category.id] = {
           isPrivate: category.is_private,
