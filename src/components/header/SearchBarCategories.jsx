@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../styles/header.css";
+import SERVER_URL from "../../service/server";
 
 const SearchBarCategories = () => {
   const navigate = useNavigate();
@@ -12,9 +13,7 @@ const SearchBarCategories = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get(
-        "https://project-ham-backend-0189ae61f169.herokuapp.com/api/v1/categories/"
-      );
+      const response = await axios.get(`https://${SERVER_URL}/categories/`);
       setCategories(response.data);
     } catch (error) {
       setError(`Error fetching categories: ${error.message}`);

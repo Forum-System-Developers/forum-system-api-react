@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import axiosInstance from "../../service/axiosInstance";
+import axios from "axios";
 import PaginationOptions from "../common/Pagination";
 import TopicList from "./TopicsList";
 import "../../styles/topics.css";
+import SERVER_URL from "../../service/server";
 
 const PublicTopics = () => {
   const [topics, setTopics] = useState([]);
@@ -16,7 +17,7 @@ const PublicTopics = () => {
   const fetchTopics = async (page = 1) => {
     try {
       const offset = (page - 1) * limit;
-      const response = await axiosInstance.get("/topics/public", {
+      const response = await axios.get(`https://${SERVER_URL}/topics/public`, {
         params: {
           order,
           order_by: orderBy,
