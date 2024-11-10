@@ -1,7 +1,7 @@
 import SERVER_URL from "./server";
 
 const createWebSocket = (onMessageHandler) => {
-    const socket = new WebSocket(`wss://${SERVER_URL}ws/connect`);
+    const socket = new WebSocket(`wss://${SERVER_URL}/ws/connect`);
 
 
     socket.onopen = () => {
