@@ -7,7 +7,6 @@ import AppRegistrationRoundedIcon from "@mui/icons-material/AppRegistrationRound
 import { useNavigate } from "react-router-dom";
 
 import axiosInstance from "../../service/axiosInstance";
-import { set } from "date-fns";
 
 const UserDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
