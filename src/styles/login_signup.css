@@ -32,8 +32,8 @@
 
 .register-container {
     display: flex;
-    width: 30wh;
-    min-width: fit-content;
+    width: 30vw;
+    min-width: min-content;
     height: 70%;
     min-height: fit-content;
     max-height: fit-content;
