@@ -70,8 +70,11 @@ function Register() {
       });
       navigate("/login");
     } catch (error) {
-      console.error("Registration error:", error);
-      setError("Failed to register. Please try again.");
+      if (error.response && error.response.status === 409) {
+        setError("Username or email already exists");
+      } else {
+        setError("Failed to register. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
