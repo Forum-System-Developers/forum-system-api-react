@@ -724,6 +724,7 @@ textarea#reply {
     width: fit-content;
     position: relative;
     font-weight: 400;
+    color: #333;
 }
 
 .author-reply-container {
