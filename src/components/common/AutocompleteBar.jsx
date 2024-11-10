@@ -13,20 +13,15 @@ export default function SearchAutocomplete({
 }) {
   const [value, setValue] = useState(null);
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(true);
 
   const handleOptionSelect = (selectedOption) => {
-    // setLoading(true);
     setError("");
     if (onOptionSelect) {
       onOptionSelect(selectedOption);
     } else {
       setError("Unknown error occurred.");
     }
-    // setLoading(false);
   };
-
-  // if (loading) return <div>Loading...</div>;
 
   return (
     <Autocomplete

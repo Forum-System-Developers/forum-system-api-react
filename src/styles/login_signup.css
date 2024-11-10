@@ -14,7 +14,7 @@
 .login-container {
     display: flex;
     width: 30%;
-    min-width: fit-content;
+    min-width: min-content;
     height: 50%;
     min-height: 23vw;
     flex-direction: column;

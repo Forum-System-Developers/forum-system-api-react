@@ -7,8 +7,6 @@ import { Link } from "react-router-dom";
 import "../../styles/Header.css";
 
 const Header = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-
   return (
     <header className="header">
       <ul>

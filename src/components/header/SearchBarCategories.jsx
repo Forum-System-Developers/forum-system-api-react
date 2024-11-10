@@ -25,13 +25,16 @@ const SearchBarCategories = () => {
     fetchCategories();
   }, []);
 
+  const redirectCategory = (option) => {
+    navigate(`/category/${option.id}`);
+  };
+
   return (
     <>
-      {/* {error && <p className="error">{error}</p>} */}
       <SearchAutocomplete
         options={categories}
         label="Search categories"
-        onOptionSelect={(option) => navigate(`/category/${option.id}`)}
+        onOptionSelect={(option) => redirectCategory(option)}
         sx={{
           width: "300px",
           height: "40px",
