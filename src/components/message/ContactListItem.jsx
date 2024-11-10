@@ -14,7 +14,7 @@ const ContactListItem = ({
   pendingMessages,
 }) => {
   return (
-    <li>
+    <li style={style}>
       <ListItemButton onClick={() => handleUserSelect(user, index)}>
         <ListItemIcon>
           <AccountCircleIcon />
