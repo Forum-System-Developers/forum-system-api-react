@@ -115,7 +115,7 @@ const UserDropdown = () => {
             <>
               <span className="logged-user">
                 <img
-                  src="../../public/icon.png"
+                  src="/icon.png"
                   alt="User Icon"
                   className="user-icon"
                   style={{ width: "20px", height: "20px" }}

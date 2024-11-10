@@ -175,7 +175,7 @@ const Replies = ({
               <div className="author-reply-container">
                 <div className="author-container">
                   <div className="author">
-                    <AuthorDropdown />
+                    <AuthorDropdown author={reply.author} />
                     <span className="author-name">{reply.author}</span>
                   </div>
                   <div className="description-star">

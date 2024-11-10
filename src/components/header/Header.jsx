@@ -9,10 +9,6 @@ import "../../styles/Header.css";
 const Header = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
   return (
     <header className="header">
       <ul>

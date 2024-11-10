@@ -628,7 +628,8 @@ textarea#reply {
     color: gold;
 }
 
-.tooltip {
+.tooltip,
+.tooltip-message-user {
     visibility: hidden;
     background-color: #333;
     color: #fff;
@@ -636,9 +637,6 @@ textarea#reply {
     padding: 5px;
     border-radius: 5px;
     position: absolute;
-    top: -30px;
-    left: 50%;
-    transform: translateX(-50%) translateX(-10px);
     font-size: 12px;
     white-space: nowrap;
     z-index: 1;
@@ -646,7 +644,22 @@ textarea#reply {
     transition: opacity 0.3s;
 }
 
-.best-reply-star:hover .tooltip {
+.tooltip {
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%) translateX(-10px);
+}
+
+.tooltip-message-user {
+    top: 30px;
+    left: 100%;
+    transform: translateX(-50%) translateX(30px);
+
+}
+
+
+.best-reply-star:hover .tooltip,
+.user-icon-button:hover .tooltip-message-user {
     visibility: visible;
     opacity: 1;
 }
