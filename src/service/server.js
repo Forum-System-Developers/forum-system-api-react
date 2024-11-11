@@ -1,3 +1,3 @@
-const SERVER_URL = 'project-ham-backend-0435b691f8ad.herokuapp.com/api/v1';
+const SERVER_URL = 'project-ham-backend-34d74fc3b996.herokuapp.com/api/v1';
 
 export default SERVER_URL;
