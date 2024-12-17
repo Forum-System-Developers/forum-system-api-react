@@ -3,7 +3,7 @@ import SearchAutocomplete from "../common/AutocompleteBar";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../styles/Header.css";
+import "../../styles/header.css";
 import SERVER_URL from "../../service/server";
 
 const SearchBarCategories = () => {

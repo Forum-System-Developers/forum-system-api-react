@@ -4,7 +4,7 @@ import SearchBarCategories from "./SearchBarCategories";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ViewModuleRoundedIcon from "@mui/icons-material/ViewModuleRounded";
 import { Link } from "react-router-dom";
-import "../../styles/Header.css";
+import "../../styles/header.css";
 
 const Header = () => {
   return (
